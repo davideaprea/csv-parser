@@ -51,6 +51,10 @@ public class CSVRowParserTest {
                                 " ",
                                 " Just text"
                         )
+                ),
+                new RowParsingTest(
+                        "Name,\"Address \"\"\"",
+                        List.of("Name", "Address \"")
                 )
         );
 
