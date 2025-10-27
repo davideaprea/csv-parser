@@ -43,10 +43,6 @@ public class CSVRowParser {
             } else if ((currChar == '\n' || currChar == '\r') && parsingState != ParsingState.IN_QUOTES) {
                 throw new UnexpectedCharacterException(i, currChar);
             } else if (Character.isWhitespace(currChar)) {
-                if (parsingState == ParsingState.ESCAPING) {
-                    throw new UnexpectedCharacterException(i, currChar);
-                }
-
                 stringBuilder.append(currChar);
             } else {
                 switch (parsingState) {
@@ -64,6 +60,8 @@ public class CSVRowParser {
         if (!stringBuilder.isEmpty()) {
             values.add(stringBuilder.toString());
         }
+
+        parsingState = ParsingState.COLUMN_START;
 
         return values;
     }
