@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVRowParser {
-    private ParsingState parsingState = ParsingState.COLUMN_START;
-
     private final CSVColumnSeparator separator;
 
     public CSVRowParser(CSVColumnSeparator separator) {
@@ -13,6 +11,8 @@ public class CSVRowParser {
     }
 
     public List<String> parse(final String row) {
+        ParsingState parsingState = ParsingState.COLUMN_START;
+
         final List<String> values = new ArrayList<>();
         final StringBuilder stringBuilder = new StringBuilder();
 
@@ -60,8 +60,6 @@ public class CSVRowParser {
         if (!stringBuilder.isEmpty()) {
             values.add(stringBuilder.toString());
         }
-
-        parsingState = ParsingState.COLUMN_START;
 
         return values;
     }
