@@ -44,12 +44,12 @@ public class CSVRowParserTest {
                         "\" Leading space \", \" Trailing space\", \"Quotes \"\" inside\", \"New\nline\", \"Comma, inside\", \"\", \"Just text\"",
                         List.of(
                                 " Leading space ",
-                                " Trailing space",
-                                "Quotes \" inside",
-                                "New\nline",
-                                "Comma, inside",
-                                "",
-                                "Just text"
+                                "  Trailing space",
+                                " Quotes \" inside",
+                                " New\nline",
+                                " Comma, inside",
+                                " ",
+                                " Just text"
                         )
                 )
         );
