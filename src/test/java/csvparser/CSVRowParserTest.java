@@ -1,6 +1,9 @@
 package csvparser;
 
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.UnexpectedCharacterException;
+import csvparser.exception.UnexpectedEndOfRow;
+import dto.InvalidRowParsingTest;
 import dto.RowParsingTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -73,6 +76,27 @@ public class CSVRowParserTest {
                 Assertions.assertEquals(test.expectedColumns(), columns);
             } catch (Throwable e) {
                 throw new AssertionError("Test n. " + (i + 1) + " failed. Actual: " + columns + "; Expected: " + test.expectedColumns() + ";");
+            }
+        }
+    }
+
+    @Test
+    void testInvalidRows() {
+        List<InvalidRowParsingTest> testCases = List.of(
+                new InvalidRowParsingTest("John\nDoe,30,New York", UnexpectedCharacterException.class),
+                new InvalidRowParsingTest("Anna\rSmith,25,London", UnexpectedCharacterException.class),
+                new InvalidRowParsingTest("\"John,Doe,30,New York", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("\"Anna\",\"Smith,25,London", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("John\"Doe,30,New York", UnexpectedCharacterException.class)
+        );
+
+        for(int i = 0; i < testCases.size(); i++) {
+            final InvalidRowParsingTest test = testCases.get(i);
+
+            try {
+                Assertions.assertThrows(test.exception(), () -> parser.parse(test.row()));
+            } catch (Throwable e) {
+                throw new AssertionError("Test n. " + (i + 1) + " failed with input " + test.row(), e);
             }
         }
     }
