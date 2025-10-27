@@ -1,5 +1,6 @@
 package csvparser;
 
+import csvparser.enumeration.CSVColumnSeparator;
 import dto.RowParsingTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

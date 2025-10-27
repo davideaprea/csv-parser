@@ -1,4 +1,4 @@
-package csvparser;
+package csvparser.exception;
 
 public class UnexpectedCharacterException extends RuntimeException {
     public final long position;

@@ -1,5 +1,10 @@
 package csvparser;
 
+import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.enumeration.ParsingState;
+import csvparser.exception.UnexpectedCharacterException;
+import csvparser.exception.UnexpectedEndOfRow;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +60,10 @@ public class CSVRowParser {
                     case ESCAPING -> throw new UnexpectedCharacterException(i, currChar);
                 }
             }
+        }
+
+        if(parsingState == ParsingState.IN_QUOTES) {
+            throw new UnexpectedEndOfRow("Found an unclosed quoted field.");
         }
 
         if (!stringBuilder.isEmpty()) {

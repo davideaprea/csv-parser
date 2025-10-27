@@ -1,4 +1,4 @@
-package csvparser;
+package csvparser.enumeration;
 
 public enum CSVColumnSeparator {
     COMMA(','),
