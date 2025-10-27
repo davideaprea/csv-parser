@@ -1,11 +1,12 @@
 package csvparser;
 
+import dto.RowParsingTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ParserTest {
+public class CSVRowParserTest {
     private final CSVRowParser parser = new CSVRowParser(CSVColumnSeparator.COMMA);
 
     @Test

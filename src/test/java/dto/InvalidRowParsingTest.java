@@ -1,4 +1,4 @@
-package csvparser;
+package dto;
 
 public record InvalidRowParsingTest(
         String row,
