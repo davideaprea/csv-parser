@@ -22,7 +22,7 @@ public class CSVRowParserTest {
                 new RowParsingTest("John,,30,New York", List.of("John", "", "30", "New York")),
                 new RowParsingTest(",Anna,,London", List.of("", "Anna", "", "London")),
                 new RowParsingTest("\" John \",\" Doe \",30,\" New York \"", List.of(" John ", " Doe ", "30", " New York ")),
-                new RowParsingTest("\"Anna\",\t\"Smith\t\",25,\"London\"", List.of("Anna", "\tSmith\t", "25", "London")),
+                new RowParsingTest("\"Anna\",\t\"Smith\t\",25,\"London\"", List.of("Anna", "Smith\t", "25", "London")),
                 new RowParsingTest("\"He said \"\"Hello\"\"\",Doe,30,\"New York\"", List.of("He said \"Hello\"", "Doe", "30", "New York")),
                 new RowParsingTest(
                         "\"Quote \"\"inside\"\" field\",\"Another \"\"quoted\"\" field\",42,\"City\"",
@@ -36,7 +36,7 @@ public class CSVRowParserTest {
                 ),
                 new RowParsingTest(
                         "\"Mark\" , \"Smith\" , 28 , \"London\"",
-                        List.of("Mark ", " Smith ", " 28 ", " London")
+                        List.of("Mark", "Smith", " 28 ", "London")
                 ),
                 new RowParsingTest("123,456,78.9,\"$100.00\"", List.of("123", "456", "78.9", "$100.00")),
                 new RowParsingTest(
@@ -47,12 +47,12 @@ public class CSVRowParserTest {
                         "\" Leading space \", \" Trailing space\", \"Quotes \"\" inside\", \"New\nline\", \"Comma, inside\", \"\", \"Just text\"",
                         List.of(
                                 " Leading space ",
-                                "  Trailing space",
-                                " Quotes \" inside",
-                                " New\nline",
-                                " Comma, inside",
-                                " ",
-                                " Just text"
+                                " Trailing space",
+                                "Quotes \" inside",
+                                "New\nline",
+                                "Comma, inside",
+                                "",
+                                "Just text"
                         )
                 ),
                 new RowParsingTest(
