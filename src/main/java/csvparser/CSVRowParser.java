@@ -26,14 +26,18 @@ public class CSVRowParser {
 
             if (currChar == '"') {
                 switch (parsingState) {
-                    case COLUMN_START -> parsingState = ParsingState.IN_QUOTES;
+                    case COLUMN_START -> {
+                        stringBuilder.delete(0, stringBuilder.length());
+
+                        parsingState = ParsingState.IN_QUOTES;
+                    }
                     case ESCAPING -> {
                         stringBuilder.append('"');
 
                         parsingState = ParsingState.IN_QUOTES;
                     }
                     case IN_QUOTES -> parsingState = ParsingState.ESCAPING;
-                    case OUT_QUOTES -> throw new UnexpectedCharacterException(i, currChar);
+                    case OUT_QUOTES, COLUMN_END -> throw new UnexpectedCharacterException(i, currChar);
                 }
             } else if (currChar == separator.symbol) {
                 if (parsingState == ParsingState.IN_QUOTES) {
@@ -48,7 +52,10 @@ public class CSVRowParser {
             } else if ((currChar == '\n' || currChar == '\r') && parsingState != ParsingState.IN_QUOTES) {
                 throw new UnexpectedCharacterException(i, currChar);
             } else if (Character.isWhitespace(currChar)) {
-                stringBuilder.append(currChar);
+                switch (parsingState) {
+                    case ESCAPING -> parsingState = ParsingState.COLUMN_END;
+                    case OUT_QUOTES, COLUMN_START, IN_QUOTES -> stringBuilder.append(currChar);
+                }
             } else {
                 switch (parsingState) {
                     case COLUMN_START -> {
@@ -57,7 +64,7 @@ public class CSVRowParser {
                         stringBuilder.append(currChar);
                     }
                     case IN_QUOTES, OUT_QUOTES -> stringBuilder.append(currChar);
-                    case ESCAPING -> throw new UnexpectedCharacterException(i, currChar);
+                    case ESCAPING, COLUMN_END -> throw new UnexpectedCharacterException(i, currChar);
                 }
             }
         }

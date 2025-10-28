@@ -4,5 +4,6 @@ public enum ParsingState {
     IN_QUOTES,
     ESCAPING,
     OUT_QUOTES,
-    COLUMN_START
+    COLUMN_START,
+    COLUMN_END
 }
