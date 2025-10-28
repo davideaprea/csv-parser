@@ -27,7 +27,7 @@ public class CSVRowParser {
             if (currChar == '"') {
                 switch (parsingState) {
                     case COLUMN_START -> {
-                        stringBuilder.delete(0, stringBuilder.length());
+                        emptyStringBuilder(stringBuilder);
 
                         parsingState = ParsingState.IN_QUOTES;
                     }
@@ -47,7 +47,7 @@ public class CSVRowParser {
 
                     values.add(stringBuilder.toString());
 
-                    stringBuilder.delete(0, stringBuilder.length());
+                    emptyStringBuilder(stringBuilder);
                 }
             } else if ((currChar == '\n' || currChar == '\r') && parsingState != ParsingState.IN_QUOTES) {
                 throw new UnexpectedCharacterException(i, currChar);
@@ -78,5 +78,9 @@ public class CSVRowParser {
         }
 
         return values;
+    }
+
+    private void emptyStringBuilder(final StringBuilder stringBuilder) {
+        stringBuilder.delete(0, stringBuilder.length());
     }
 }
