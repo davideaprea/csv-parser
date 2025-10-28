@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class CSVRowParserTest {
-    private final CSVRowParser parser = new CSVRowParser(CSVColumnSeparator.COMMA);
+    private final CSVRowParser parser = new CSVRowParser(new CSVRowBuilder(CSVColumnSeparator.COMMA));
 
     @Test
     void testValidRows() {
