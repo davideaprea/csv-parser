@@ -58,6 +58,10 @@ public class CSVRowParserTest {
                 new RowParsingTest(
                         "Name,\"Address \"\"\"",
                         List.of("Name", "Address \"")
+                ),
+                new RowParsingTest(
+                        "\"Double quotes are so written: \"\"\" ,hello",
+                        List.of("Double quotes are so written: \"", "hello")
                 )
         );
 
@@ -87,7 +91,8 @@ public class CSVRowParserTest {
                 new InvalidRowParsingTest("Anna\rSmith,25,London", UnexpectedCharacterException.class),
                 new InvalidRowParsingTest("\"John,Doe,30,New York", UnexpectedEndOfRow.class),
                 new InvalidRowParsingTest("\"Anna\",\"Smith,25,London", UnexpectedEndOfRow.class),
-                new InvalidRowParsingTest("John\"Doe,30,New York", UnexpectedCharacterException.class)
+                new InvalidRowParsingTest("John\"Doe,30,New York", UnexpectedCharacterException.class),
+                new InvalidRowParsingTest("\"Double quotes are so written: \" \"\" ,hello", UnexpectedCharacterException.class)
         );
 
         for(int i = 0; i < testCases.size(); i++) {
