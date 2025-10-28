@@ -69,12 +69,14 @@ public class CSVRowParser {
             }
         }
 
-        if(parsingState == ParsingState.IN_QUOTES) {
+        if (parsingState == ParsingState.IN_QUOTES) {
             throw new UnexpectedEndOfRow("Found an unclosed quoted field.");
         }
 
         if (!stringBuilder.isEmpty()) {
             values.add(stringBuilder.toString());
+        } else if (parsingState == ParsingState.COLUMN_START) {
+            values.add("");
         }
 
         return values;
