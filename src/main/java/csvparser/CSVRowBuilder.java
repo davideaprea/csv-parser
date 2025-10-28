@@ -9,18 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVRowBuilder {
-    private ParsingState parsingState = ParsingState.COLUMN_START;
-    private long index = 0;
-    private List<String> columnValues = new ArrayList<>();
+    private ParsingState parsingState;
+    private List<String> columnValues;
+    private long index;
+    private char character;
 
     private final StringBuilder stringBuilder = new StringBuilder();
     private final CSVColumnSeparator separator;
 
     public CSVRowBuilder(CSVColumnSeparator separator) {
         this.separator = separator;
+
+        resetState();
     }
 
     public void evaluate(char character) {
+        index++;
+        this.character = character;
+
         if (character == '"') {
             switch (parsingState) {
                 case COLUMN_START -> {
@@ -34,7 +40,7 @@ public class CSVRowBuilder {
                     parsingState = ParsingState.IN_QUOTES;
                 }
                 case IN_QUOTES -> parsingState = ParsingState.ESCAPING;
-                case OUT_QUOTES, COLUMN_END -> throw new UnexpectedCharacterException(index, character);
+                case OUT_QUOTES, COLUMN_END -> throwUnexpectedCharacter();
             }
         } else if (character == separator.symbol) {
             if (parsingState == ParsingState.IN_QUOTES) {
@@ -47,7 +53,7 @@ public class CSVRowBuilder {
                 emptyStringBuilder();
             }
         } else if ((character == '\n' || character == '\r') && parsingState != ParsingState.IN_QUOTES) {
-            throw new UnexpectedCharacterException(index, character);
+            throwUnexpectedCharacter();
         } else if (Character.isWhitespace(character)) {
             switch (parsingState) {
                 case ESCAPING -> parsingState = ParsingState.COLUMN_END;
@@ -61,15 +67,15 @@ public class CSVRowBuilder {
                     stringBuilder.append(character);
                 }
                 case IN_QUOTES, OUT_QUOTES -> stringBuilder.append(character);
-                case ESCAPING, COLUMN_END -> throw new UnexpectedCharacterException(index, character);
+                case ESCAPING, COLUMN_END -> throwUnexpectedCharacter();
             }
         }
-
-        index++;
     }
 
     public List<String> build() {
         if (parsingState == ParsingState.IN_QUOTES) {
+            resetState();
+
             throw new UnexpectedEndOfRow("Found an unclosed quoted field.");
         }
 
@@ -81,12 +87,24 @@ public class CSVRowBuilder {
 
         List<String> finalColumnValues = columnValues;
 
+        resetState();
+
+        return finalColumnValues;
+    }
+
+    private void throwUnexpectedCharacter() {
+        final UnexpectedCharacterException e = new UnexpectedCharacterException(index, character);
+
+        resetState();
+
+        throw e;
+    }
+
+    private void resetState() {
         emptyStringBuilder();
         parsingState = ParsingState.COLUMN_START;
         index = 0;
         columnValues = new ArrayList<>();
-
-        return finalColumnValues;
     }
 
     private void emptyStringBuilder() {
