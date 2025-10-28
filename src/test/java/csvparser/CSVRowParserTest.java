@@ -94,7 +94,10 @@ public class CSVRowParserTest {
                 new InvalidRowParsingTest("\"Anna\",\"Smith,25,London", UnexpectedEndOfRow.class),
                 new InvalidRowParsingTest("John\"Doe,30,New York", UnexpectedCharacterException.class),
                 new InvalidRowParsingTest("\"Double quotes are so written: \" \"\" ,hello", UnexpectedCharacterException.class),
-                new InvalidRowParsingTest("First,\"", UnexpectedEndOfRow.class)
+                new InvalidRowParsingTest("First,\"", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("\"First\"  \", second", UnexpectedCharacterException.class),
+                new InvalidRowParsingTest("\"First \"\", second", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("\"First \"a\"\", second", UnexpectedCharacterException.class)
         );
 
         for(int i = 0; i < testCases.size(); i++) {
