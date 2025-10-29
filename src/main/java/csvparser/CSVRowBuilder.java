@@ -30,7 +30,10 @@ public class CSVRowBuilder {
         if (character == '"') {
             switch (parsingState) {
                 case COLUMN_START -> {
-                    stringBuilder = new StringBuilder();
+                    if(!stringBuilder.isEmpty()) {
+                        stringBuilder = new StringBuilder();
+                    }
+
                     parsingState = ParsingState.IN_QUOTES;
                 }
                 case ESCAPING -> {
