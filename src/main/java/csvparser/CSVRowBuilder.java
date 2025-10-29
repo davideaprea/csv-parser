@@ -13,8 +13,8 @@ public class CSVRowBuilder {
     private List<String> columnValues;
     private long index;
     private char character;
+    private StringBuilder stringBuilder = new StringBuilder();
 
-    private final StringBuilder stringBuilder = new StringBuilder();
     private final CSVColumnSeparator separator;
 
     public CSVRowBuilder(CSVColumnSeparator separator) {
@@ -30,8 +30,7 @@ public class CSVRowBuilder {
         if (character == '"') {
             switch (parsingState) {
                 case COLUMN_START -> {
-                    emptyStringBuilder();
-
+                    stringBuilder = new StringBuilder();
                     parsingState = ParsingState.IN_QUOTES;
                 }
                 case ESCAPING -> {
@@ -50,7 +49,7 @@ public class CSVRowBuilder {
 
                 columnValues.add(stringBuilder.toString());
 
-                emptyStringBuilder();
+                stringBuilder = new StringBuilder();
             }
         } else if ((character == '\n' || character == '\r') && parsingState != ParsingState.IN_QUOTES) {
             throwUnexpectedCharacter();
@@ -101,13 +100,9 @@ public class CSVRowBuilder {
     }
 
     private void resetState() {
-        emptyStringBuilder();
+        stringBuilder = new StringBuilder();
         parsingState = ParsingState.COLUMN_START;
         index = 0;
         columnValues = new ArrayList<>();
-    }
-
-    private void emptyStringBuilder() {
-        stringBuilder.delete(0, stringBuilder.length());
     }
 }
