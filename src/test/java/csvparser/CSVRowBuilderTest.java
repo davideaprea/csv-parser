@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class CSVRowParserTest {
-    private final CSVRowParser parser = new CSVRowParser(new CSVRowBuilder(CSVColumnSeparator.COMMA));
+public class CSVRowBuilderTest {
+    private final CSVRowBuilder parser = new CSVRowBuilder(new CSVColumnBuilder(CSVColumnSeparator.COMMA));
 
     @Test
     void testValidRows() {
