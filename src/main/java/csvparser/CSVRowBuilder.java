@@ -13,7 +13,7 @@ public class CSVRowBuilder {
     private List<String> columnValues;
     private long index;
     private char character;
-    private StringBuilder stringBuilder = new StringBuilder();
+    private StringBuilder stringBuilder;
 
     private final CSVColumnSeparator separator;
 
@@ -103,5 +103,6 @@ public class CSVRowBuilder {
         parsingState = ParsingState.COLUMN_START;
         index = 0;
         columnValues = new ArrayList<>();
+        character = '\0';
     }
 }
