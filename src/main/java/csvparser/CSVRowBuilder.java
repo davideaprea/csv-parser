@@ -78,11 +78,7 @@ public class CSVRowBuilder {
             throw new UnexpectedEndOfRow("Found an unclosed quoted field.");
         }
 
-        if (!stringBuilder.isEmpty()) {
-            columnValues.add(stringBuilder.toString());
-        } else if (parsingState == ParsingState.COLUMN_START) {
-            columnValues.add("");
-        }
+        columnValues.add(stringBuilder.toString());
 
         List<String> finalColumnValues = columnValues;
 
