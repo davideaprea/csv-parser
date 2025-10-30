@@ -67,8 +67,7 @@ public class CSVColumnBuilder {
         return parsingState == ParsingState.COLUMN_END;
     }
 
-    @Override
-    public String toString() {
+    public String build() {
         if (parsingState == ParsingState.IN_QUOTED_COLUMN) {
             throw new UnexpectedEndOfColumn("Found an unclosed quoted field.");
         }

@@ -14,14 +14,14 @@ public class CSVRowBuilder {
 
     public void evaluate(char character) {
         if (columnBuilder.isClosed()) {
-            columnValues.add(columnBuilder.toString());
+            columnValues.add(columnBuilder.build());
         }
 
         columnBuilder.append(character);
     }
 
     public List<String> build() {
-        columnValues.add(columnBuilder.toString());
+        columnValues.add(columnBuilder.build());
 
         List<String> finalColumnValues = columnValues;
         columnValues = new ArrayList<>();
