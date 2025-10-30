@@ -1,9 +1,10 @@
 package csvparser;
 
+import csvparser.builder.CSVColumnBuilder;
+import csvparser.builder.CSVRowBuilder;
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 import csvparser.exception.UnexpectedEndOfColumn;
-import csvparser.exception.UnexpectedEndOfRow;
 import dto.InvalidRowParsingTest;
 import dto.RowParsingTest;
 import org.junit.jupiter.api.Assertions;
