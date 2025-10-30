@@ -21,49 +21,49 @@ public class Temp {
     public void append(char character) {
         this.character = character;
 
-        if(parsingState == ParsingState.COLUMN_END) {
+        if (parsingState == ParsingState.COLUMN_END) {
             throwUnexpectedCharacter();
         }
 
         if (character == '"') {
             switch (parsingState) {
                 case COLUMN_START -> {
-                    if(!stringBuilder.isEmpty()) {
+                    if (!stringBuilder.isEmpty()) {
                         stringBuilder = new StringBuilder();
                     }
 
-                    parsingState = ParsingState.IN_QUOTES;
+                    parsingState = ParsingState.IN_QUOTED_COLUMN;
                 }
                 case ESCAPING -> {
                     stringBuilder.append('"');
 
-                    parsingState = ParsingState.IN_QUOTES;
+                    parsingState = ParsingState.IN_QUOTED_COLUMN;
                 }
-                case IN_QUOTES -> parsingState = ParsingState.ESCAPING;
-                case OUT_QUOTES, COLUMN_END -> throwUnexpectedCharacter();
+                case IN_QUOTED_COLUMN -> parsingState = ParsingState.ESCAPING;
+                case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throwUnexpectedCharacter();
             }
         } else if (character == separator.symbol) {
-            if (parsingState == ParsingState.IN_QUOTES) {
+            if (parsingState == ParsingState.IN_QUOTED_COLUMN) {
                 stringBuilder.append(separator.symbol);
             } else {
                 parsingState = ParsingState.COLUMN_END;
             }
-        } else if ((character == '\n' || character == '\r') && parsingState != ParsingState.IN_QUOTES) {
+        } else if ((character == '\n' || character == '\r') && parsingState != ParsingState.IN_QUOTED_COLUMN) {
             throwUnexpectedCharacter();
         } else if (Character.isWhitespace(character)) {
             switch (parsingState) {
-                case ESCAPING -> parsingState = ParsingState.COLUMN_END;
-                case OUT_QUOTES, COLUMN_START, IN_QUOTES -> stringBuilder.append(character);
+                case ESCAPING -> parsingState = ParsingState.OUT_QUOTED_COLUMN;
+                case IN_NORMAL_COLUMN, COLUMN_START, IN_QUOTED_COLUMN -> stringBuilder.append(character);
             }
         } else {
             switch (parsingState) {
                 case COLUMN_START -> {
-                    parsingState = ParsingState.OUT_QUOTES;
+                    parsingState = ParsingState.IN_NORMAL_COLUMN;
 
                     stringBuilder.append(character);
                 }
-                case IN_QUOTES, OUT_QUOTES -> stringBuilder.append(character);
-                case ESCAPING, COLUMN_END -> throwUnexpectedCharacter();
+                case IN_QUOTED_COLUMN, IN_NORMAL_COLUMN -> stringBuilder.append(character);
+                case ESCAPING, COLUMN_END, OUT_QUOTED_COLUMN -> throwUnexpectedCharacter();
             }
         }
     }
@@ -78,7 +78,7 @@ public class Temp {
 
         resetState();
 
-        if (parsingState == ParsingState.IN_QUOTES) {
+        if (parsingState == ParsingState.IN_QUOTED_COLUMN) {
             throw new UnexpectedEndOfRow("Found an unclosed quoted field.");
         }
 
