@@ -1,6 +1,5 @@
-package csvparser;
+package csvparser.builder;
 
-import csvparser.builder.CSVColumnBuilder;
 import csvparser.enumeration.CSVColumnSeparator;
 import dto.ValidColumnParsingTest;
 import org.junit.jupiter.api.Assertions;
