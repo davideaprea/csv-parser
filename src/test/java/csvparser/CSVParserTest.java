@@ -2,6 +2,7 @@ package csvparser;
 
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
+import csvparser.exception.UnexpectedEndOfColumn;
 import csvparser.exception.UnexpectedEndOfRow;
 import dto.InvalidRowParsingTest;
 import dto.RowParsingTest;
@@ -10,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class CSVRowBuilderTest {
-    private final CSVRowBuilder parser = new CSVRowBuilder(new CSVColumnBuilder(CSVColumnSeparator.COMMA));
-
+public class CSVParserTest {
     @Test
     void testValidRows() {
+        final CSVParser parser = new CSVParser(new CSVRowBuilder(new CSVColumnBuilder(CSVColumnSeparator.COMMA)));
+
         List<RowParsingTest> validRows = List.of(
                 new RowParsingTest("John,Doe,30,New York", List.of("John", "Doe", "30", "New York")),
                 new RowParsingTest("Anna,Smith,25,London", List.of("Anna", "Smith", "25", "London")),
@@ -90,23 +91,24 @@ public class CSVRowBuilderTest {
         List<InvalidRowParsingTest> testCases = List.of(
                 new InvalidRowParsingTest("John\nDoe,30,New York", UnexpectedCharacterException.class),
                 new InvalidRowParsingTest("Anna\rSmith,25,London", UnexpectedCharacterException.class),
-                new InvalidRowParsingTest("\"John,Doe,30,New York", UnexpectedEndOfRow.class),
-                new InvalidRowParsingTest("\"Anna\",\"Smith,25,London", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("\"John,Doe,30,New York", UnexpectedEndOfColumn.class),
+                new InvalidRowParsingTest("\"Anna\",\"Smith,25,London", UnexpectedEndOfColumn.class),
                 new InvalidRowParsingTest("John\"Doe,30,New York", UnexpectedCharacterException.class),
                 new InvalidRowParsingTest("\"Double quotes are so written: \" \"\" ,hello", UnexpectedCharacterException.class),
-                new InvalidRowParsingTest("First,\"", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("First,\"", UnexpectedEndOfColumn.class),
                 new InvalidRowParsingTest("\"First\"  \", second", UnexpectedCharacterException.class),
-                new InvalidRowParsingTest("\"First \"\", second", UnexpectedEndOfRow.class),
+                new InvalidRowParsingTest("\"First \"\", second", UnexpectedEndOfColumn.class),
                 new InvalidRowParsingTest("\"First \"a\"\", second", UnexpectedCharacterException.class)
         );
 
         for(int i = 0; i < testCases.size(); i++) {
+            final CSVParser parser = new CSVParser(new CSVRowBuilder(new CSVColumnBuilder(CSVColumnSeparator.COMMA)));
             final InvalidRowParsingTest test = testCases.get(i);
 
             try {
                 Assertions.assertThrows(test.exception(), () -> parser.parse(test.row()));
             } catch (Throwable e) {
-                throw new AssertionError("Test n. " + (i + 1) + " failed with input " + test.row(), e);
+                throw new AssertionError("Test n. " + (i + 1) + " failed with input <" + test.row() + ">", e);
             }
         }
     }

@@ -1,19 +1,31 @@
 package csvparser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVRowBuilder {
-    private final CSVColumnBuilder rowBuilder;
+    private List<String> columnValues = new ArrayList<>();
 
-    public CSVRowBuilder(CSVColumnBuilder rowBuilder) {
-        this.rowBuilder = rowBuilder;
+    private final CSVColumnBuilder columnBuilder;
+
+    public CSVRowBuilder(CSVColumnBuilder columnBuilder) {
+        this.columnBuilder = columnBuilder;
     }
 
-    public List<String> parse(final String row) {
-        for (int i = 0; i < row.length(); i++) {
-            rowBuilder.evaluate(row.charAt(i));
+    public void evaluate(char character) {
+        if (columnBuilder.isClosed()) {
+            columnValues.add(columnBuilder.toString());
         }
 
-        return rowBuilder.build();
+        columnBuilder.append(character);
+    }
+
+    public List<String> build() {
+        columnValues.add(columnBuilder.toString());
+
+        List<String> finalColumnValues = columnValues;
+        columnValues = new ArrayList<>();
+
+        return finalColumnValues;
     }
 }
