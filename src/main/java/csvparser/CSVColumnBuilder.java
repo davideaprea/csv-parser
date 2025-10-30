@@ -15,9 +15,9 @@ public class CSVColumnBuilder {
         this.separator = separator;
     }
 
-    public void append(char character) {
+    public CSVColumnBuilder append(char character) {
         if (parsingState == ParsingState.COLUMN_END) {
-            return;
+            return this;
         }
 
         if (character == '"') {
@@ -61,6 +61,8 @@ public class CSVColumnBuilder {
                 case ESCAPING, COLUMN_END, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character);
             }
         }
+
+        return this;
     }
 
     public boolean isClosed() {
