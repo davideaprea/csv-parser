@@ -17,7 +17,9 @@ public class CSVColumnBuilderTest {
                 new ValidColumnParsingTest("\"John Doe, NYC\"", "John Doe, NYC"),
                 new ValidColumnParsingTest("   John Doe\t", "   John Doe\t"),
                 new ValidColumnParsingTest("\",\nJohn Doe, \rNYC,\"", ",\nJohn Doe, \rNYC,"),
-                new ValidColumnParsingTest("\t\"John Doe\"    ", "John Doe")
+                new ValidColumnParsingTest("\t\"John Doe\"    ", "John Doe"),
+                new ValidColumnParsingTest(",", ""),
+                new ValidColumnParsingTest("    \"John \"\"Doe\"\"\"    ", "John \"Doe\"")
         ).forEach(test -> {
             final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
 
