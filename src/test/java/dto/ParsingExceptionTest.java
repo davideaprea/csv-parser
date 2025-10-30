@@ -1,7 +1,7 @@
 package dto;
 
-public record InvalidRowParsingTest(
-        String row,
+public record ParsingExceptionTest(
+        String input,
         Class<? extends Throwable> exception
 ) {
 }
