@@ -17,7 +17,7 @@ public class CSVRowBuilder {
             columnValues.add(columnBuilder.build());
         }
 
-        columnBuilder.evaluate(character);
+        columnBuilder.append(character);
     }
 
     public List<String> build() {

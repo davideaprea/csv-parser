@@ -15,54 +15,72 @@ public class CSVColumnBuilder {
         this.separator = separator;
     }
 
-    public CSVColumnBuilder evaluate(char character) {
+    public CSVColumnBuilder append(char character) {
         if (parsingState == ParsingState.COLUMN_END) {
             return this;
         }
 
         if (character == '"') {
-            switch (parsingState) {
-                case COLUMN_START -> {
-                    if (!stringBuilder.isEmpty()) {
-                        stringBuilder = new StringBuilder();
-                    }
-
-                    parsingState = ParsingState.IN_QUOTED_COLUMN;
-                }
-                case ESCAPING -> {
-                    stringBuilder.append('"');
-
-                    parsingState = ParsingState.IN_QUOTED_COLUMN;
-                }
-                case IN_QUOTED_COLUMN -> parsingState = ParsingState.ESCAPING;
-                case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character);
-            }
+            evalQuotes();
         } else if (character == separator.symbol) {
-            if (parsingState == ParsingState.IN_QUOTED_COLUMN) {
-                stringBuilder.append(separator.symbol);
-            } else {
-                parsingState = ParsingState.COLUMN_END;
-            }
-        } else if ((character == '\n' || character == '\r') && parsingState != ParsingState.IN_QUOTED_COLUMN) {
-            throw new UnexpectedCharacterException(character);
+            evalSeparator();
         } else if (Character.isWhitespace(character)) {
-            switch (parsingState) {
-                case ESCAPING -> parsingState = ParsingState.OUT_QUOTED_COLUMN;
-                case IN_NORMAL_COLUMN, COLUMN_START, IN_QUOTED_COLUMN -> stringBuilder.append(character);
-            }
+            evalWhiteSpace(character);
         } else {
-            switch (parsingState) {
-                case COLUMN_START -> {
-                    parsingState = ParsingState.IN_NORMAL_COLUMN;
-
-                    stringBuilder.append(character);
-                }
-                case IN_QUOTED_COLUMN, IN_NORMAL_COLUMN -> stringBuilder.append(character);
-                case ESCAPING, COLUMN_END, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character);
-            }
+            evalNormalCharacter(character);
         }
 
         return this;
+    }
+
+    private void evalQuotes() {
+        switch (parsingState) {
+            case COLUMN_START -> {
+                if (!stringBuilder.isEmpty()) {
+                    stringBuilder = new StringBuilder();
+                }
+
+                parsingState = ParsingState.IN_QUOTED_COLUMN;
+            }
+            case ESCAPING -> {
+                stringBuilder.append('"');
+
+                parsingState = ParsingState.IN_QUOTED_COLUMN;
+            }
+            case IN_QUOTED_COLUMN -> parsingState = ParsingState.ESCAPING;
+            case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException('"');
+        }
+    }
+
+    private void evalSeparator() {
+        if (parsingState == ParsingState.IN_QUOTED_COLUMN) {
+            stringBuilder.append(separator.symbol);
+        } else {
+            parsingState = ParsingState.COLUMN_END;
+        }
+    }
+
+    private void evalWhiteSpace(final char whiteSpaceChar) {
+        if ((whiteSpaceChar == '\n' || whiteSpaceChar == '\r') && parsingState != ParsingState.IN_QUOTED_COLUMN) {
+            throw new UnexpectedCharacterException(whiteSpaceChar);
+        }
+
+        switch (parsingState) {
+            case ESCAPING -> parsingState = ParsingState.OUT_QUOTED_COLUMN;
+            case IN_NORMAL_COLUMN, COLUMN_START, IN_QUOTED_COLUMN -> stringBuilder.append(whiteSpaceChar);
+        }
+    }
+
+    private void evalNormalCharacter(final char character) {
+        switch (parsingState) {
+            case COLUMN_START -> {
+                parsingState = ParsingState.IN_NORMAL_COLUMN;
+
+                stringBuilder.append(character);
+            }
+            case IN_QUOTED_COLUMN, IN_NORMAL_COLUMN -> stringBuilder.append(character);
+            case ESCAPING, COLUMN_END, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character);
+        }
     }
 
     public boolean isClosed() {
