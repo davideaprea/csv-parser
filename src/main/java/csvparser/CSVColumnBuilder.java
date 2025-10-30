@@ -17,7 +17,7 @@ public class CSVColumnBuilder {
 
     public void append(char character) {
         if (parsingState == ParsingState.COLUMN_END) {
-            throw new UnexpectedCharacterException(character);
+            return;
         }
 
         if (character == '"') {
