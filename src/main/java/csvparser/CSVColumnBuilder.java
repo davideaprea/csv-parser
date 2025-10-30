@@ -15,7 +15,7 @@ public class CSVColumnBuilder {
         this.separator = separator;
     }
 
-    public CSVColumnBuilder append(char character) {
+    public CSVColumnBuilder evaluate(char character) {
         if (parsingState == ParsingState.COLUMN_END) {
             return this;
         }
