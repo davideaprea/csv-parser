@@ -1,17 +1,12 @@
 package csvparser.exception;
 
 public class UnexpectedCharacterException extends RuntimeException {
-    public long position;
-    public char unexpectedCharacter;
+    public final char unexpectedCharacter;
+    public final String cause;
 
-    public UnexpectedCharacterException(long position, char unexpectedCharacter) {
-        super("Unexpected character " + unexpectedCharacter + " at position " + position);
-        this.position = position;
+    public UnexpectedCharacterException(char unexpectedCharacter, String cause) {
+        super("Unexpected character " + unexpectedCharacter + "; Cause: " + cause);
         this.unexpectedCharacter = unexpectedCharacter;
-    }
-
-    public UnexpectedCharacterException(char unexpectedCharacter) {
-        super("Unexpected character " + unexpectedCharacter);
-        this.unexpectedCharacter = unexpectedCharacter;
+        this.cause = cause;
     }
 }

@@ -13,6 +13,8 @@ import java.util.List;
 public class CSVColumnBuilderTest {
     @Test
     void testValidColumns() {
+        final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
+
         List.of(
                 new ValidColumnParsingTest("John", "John"),
                 new ValidColumnParsingTest("John Doe", "John Doe"),
@@ -23,8 +25,6 @@ public class CSVColumnBuilderTest {
                 new ValidColumnParsingTest(",", ""),
                 new ValidColumnParsingTest("    \"John \"\"Doe\"\"\"    ", "John \"Doe\"")
         ).forEach(test -> {
-            final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
-
             for (int i = 0; i < test.input().length(); i++) {
                 columnBuilder.append(test.input().charAt(i));
             }

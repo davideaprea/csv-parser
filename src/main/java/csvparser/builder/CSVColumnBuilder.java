@@ -48,7 +48,10 @@ public class CSVColumnBuilder {
                 parsingState = ParsingState.IN_QUOTED_COLUMN;
             }
             case IN_QUOTED_COLUMN -> parsingState = ParsingState.ESCAPING;
-            case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException('"');
+            case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(
+                    '"',
+                    "Double quotes can only be be used to wrap a column field or escaping another double quotes character"
+            );
         }
     }
 
@@ -62,7 +65,7 @@ public class CSVColumnBuilder {
 
     private void evalWhiteSpace(final char whiteSpaceChar) {
         if ((whiteSpaceChar == '\n' || whiteSpaceChar == '\r') && parsingState != ParsingState.IN_QUOTED_COLUMN) {
-            throw new UnexpectedCharacterException(whiteSpaceChar);
+            throw new UnexpectedCharacterException(whiteSpaceChar, "Found special character in a non quoted field");
         }
 
         switch (parsingState) {
@@ -79,7 +82,8 @@ public class CSVColumnBuilder {
                 stringBuilder.append(character);
             }
             case IN_QUOTED_COLUMN, IN_NORMAL_COLUMN -> stringBuilder.append(character);
-            case ESCAPING, COLUMN_END, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character);
+            case ESCAPING -> throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
+            case OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
     }
 
