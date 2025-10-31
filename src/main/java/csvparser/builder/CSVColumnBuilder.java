@@ -96,10 +96,13 @@ public class CSVColumnBuilder {
             throw new UnexpectedEndOfColumn("Found an unclosed quoted field.");
         }
 
-        final String columnValue = stringBuilder.toString();
+        return stringBuilder.toString();
+    }
+
+    public CSVColumnBuilder reset() {
         stringBuilder = new StringBuilder();
         parsingState = ParsingState.COLUMN_START;
 
-        return columnValue;
+        return this;
     }
 }

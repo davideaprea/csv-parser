@@ -30,6 +30,8 @@ public class CSVColumnBuilderTest {
             }
 
             Assertions.assertEquals(test.expectedOutput(), columnBuilder.build());
+
+            columnBuilder.reset();
         });
     }
 
