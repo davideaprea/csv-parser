@@ -1,6 +1,6 @@
 package csvparser.enumeration;
 
-public enum ParsingState {
+public enum ColumnParsingState {
     IN_QUOTED_COLUMN,
     ESCAPING,
     IN_NORMAL_COLUMN,
