@@ -1,10 +1,10 @@
 package csvparser.enumeration;
 
 public enum ColumnParsingState {
-    IN_QUOTED_COLUMN,
+    IN_QUOTED,
     ESCAPING,
-    IN_NORMAL_COLUMN,
-    COLUMN_START,
-    COLUMN_END,
-    OUT_QUOTED_COLUMN
+    IN_NORMAL,
+    START,
+    END,
+    OUT_QUOTED
 }

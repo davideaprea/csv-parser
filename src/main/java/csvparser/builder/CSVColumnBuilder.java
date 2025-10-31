@@ -6,7 +6,7 @@ import csvparser.exception.UnexpectedCharacterException;
 import csvparser.exception.UnexpectedEndOfColumn;
 
 public class CSVColumnBuilder {
-    private ColumnParsingState parsingState = ColumnParsingState.COLUMN_START;
+    private ColumnParsingState parsingState = ColumnParsingState.START;
     private StringBuilder stringBuilder = new StringBuilder();
 
     private final CSVColumnSeparator separator;
@@ -16,7 +16,7 @@ public class CSVColumnBuilder {
     }
 
     public CSVColumnBuilder append(char character) {
-        if (parsingState == ColumnParsingState.COLUMN_END) {
+        if (parsingState == ColumnParsingState.END) {
             return this;
         }
 
@@ -35,20 +35,20 @@ public class CSVColumnBuilder {
 
     private void evalQuotes() {
         switch (parsingState) {
-            case COLUMN_START -> {
+            case START -> {
                 if (!stringBuilder.isEmpty()) {
                     stringBuilder = new StringBuilder();
                 }
 
-                parsingState = ColumnParsingState.IN_QUOTED_COLUMN;
+                parsingState = ColumnParsingState.IN_QUOTED;
             }
             case ESCAPING -> {
                 stringBuilder.append('"');
 
-                parsingState = ColumnParsingState.IN_QUOTED_COLUMN;
+                parsingState = ColumnParsingState.IN_QUOTED;
             }
-            case IN_QUOTED_COLUMN -> parsingState = ColumnParsingState.ESCAPING;
-            case IN_NORMAL_COLUMN, OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(
+            case IN_QUOTED -> parsingState = ColumnParsingState.ESCAPING;
+            case IN_NORMAL, OUT_QUOTED -> throw new UnexpectedCharacterException(
                     '"',
                     "Double quotes can only be be used to wrap a column field or escaping another double quotes character"
             );
@@ -56,43 +56,43 @@ public class CSVColumnBuilder {
     }
 
     private void evalSeparator() {
-        if (parsingState == ColumnParsingState.IN_QUOTED_COLUMN) {
+        if (parsingState == ColumnParsingState.IN_QUOTED) {
             stringBuilder.append(separator.symbol);
         } else {
-            parsingState = ColumnParsingState.COLUMN_END;
+            parsingState = ColumnParsingState.END;
         }
     }
 
     private void evalWhiteSpace(final char whiteSpaceChar) {
-        if ((whiteSpaceChar == '\n' || whiteSpaceChar == '\r') && parsingState != ColumnParsingState.IN_QUOTED_COLUMN) {
+        if ((whiteSpaceChar == '\n' || whiteSpaceChar == '\r') && parsingState != ColumnParsingState.IN_QUOTED) {
             throw new UnexpectedCharacterException(whiteSpaceChar, "Found special character in a non quoted field");
         }
 
         switch (parsingState) {
-            case ESCAPING -> parsingState = ColumnParsingState.OUT_QUOTED_COLUMN;
-            case IN_NORMAL_COLUMN, COLUMN_START, IN_QUOTED_COLUMN -> stringBuilder.append(whiteSpaceChar);
+            case ESCAPING -> parsingState = ColumnParsingState.OUT_QUOTED;
+            case IN_NORMAL, START, IN_QUOTED -> stringBuilder.append(whiteSpaceChar);
         }
     }
 
     private void evalNormalCharacter(final char character) {
         switch (parsingState) {
-            case COLUMN_START -> {
-                parsingState = ColumnParsingState.IN_NORMAL_COLUMN;
+            case START -> {
+                parsingState = ColumnParsingState.IN_NORMAL;
 
                 stringBuilder.append(character);
             }
-            case IN_QUOTED_COLUMN, IN_NORMAL_COLUMN -> stringBuilder.append(character);
+            case IN_QUOTED, IN_NORMAL -> stringBuilder.append(character);
             case ESCAPING -> throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
-            case OUT_QUOTED_COLUMN -> throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
+            case OUT_QUOTED -> throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
     }
 
     public boolean isClosed() {
-        return parsingState == ColumnParsingState.COLUMN_END;
+        return parsingState == ColumnParsingState.END;
     }
 
     public String build() {
-        if (parsingState == ColumnParsingState.IN_QUOTED_COLUMN) {
+        if (parsingState == ColumnParsingState.IN_QUOTED) {
             throw new UnexpectedEndOfColumn("Found an unclosed quoted field.");
         }
 
@@ -101,6 +101,6 @@ public class CSVColumnBuilder {
 
     public void reset() {
         stringBuilder = new StringBuilder();
-        parsingState = ColumnParsingState.COLUMN_START;
+        parsingState = ColumnParsingState.START;
     }
 }
