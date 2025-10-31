@@ -15,6 +15,8 @@ public class CSVRowBuilder {
     public void evaluate(char character) {
         if (columnBuilder.isClosed()) {
             columnValues.add(columnBuilder.build());
+
+            columnBuilder.reset();
         }
 
         columnBuilder.append(character);
@@ -23,9 +25,11 @@ public class CSVRowBuilder {
     public List<String> build() {
         columnValues.add(columnBuilder.build());
 
-        List<String> finalColumnValues = columnValues;
-        columnValues = new ArrayList<>();
+        return columnValues;
+    }
 
-        return finalColumnValues;
+    public void reset() {
+        columnBuilder.reset();
+        columnValues = new ArrayList<>();
     }
 }

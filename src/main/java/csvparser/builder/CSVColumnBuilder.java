@@ -99,10 +99,8 @@ public class CSVColumnBuilder {
         return stringBuilder.toString();
     }
 
-    public CSVColumnBuilder reset() {
+    public void reset() {
         stringBuilder = new StringBuilder();
         parsingState = ParsingState.COLUMN_START;
-
-        return this;
     }
 }
