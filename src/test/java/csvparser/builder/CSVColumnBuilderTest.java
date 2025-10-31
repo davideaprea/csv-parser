@@ -3,7 +3,7 @@ package csvparser.builder;
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 import csvparser.exception.UnexpectedEndOfColumn;
-import dto.ParsingExceptionTest;
+import dto.UnexpectedCharacterTest;
 import dto.ValidColumnParsingTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,25 +34,40 @@ public class CSVColumnBuilderTest {
     }
 
     @Test
-    void testInvalidColumns() {
+    void testUnexpectedCharacterException() {
         List.of(
-                new ParsingExceptionTest("John\nDoe", UnexpectedCharacterException.class),
-                new ParsingExceptionTest("John\rDoe", UnexpectedCharacterException.class),
-                new ParsingExceptionTest("\"John", UnexpectedEndOfColumn.class),
-                new ParsingExceptionTest("John\"Doe", UnexpectedCharacterException.class),
-                new ParsingExceptionTest("\"Double quotes are so written: \" \"\"", UnexpectedCharacterException.class),
-                new ParsingExceptionTest("\"", UnexpectedEndOfColumn.class),
-                new ParsingExceptionTest("\"First\"  \"", UnexpectedCharacterException.class),
-                new ParsingExceptionTest("\"First \"\"", UnexpectedEndOfColumn.class),
-                new ParsingExceptionTest("\"First \"a\"\"", UnexpectedCharacterException.class)
-        ).forEach(test -> Assertions.assertThrows(test.exception(), () -> {
-            final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
+                new UnexpectedCharacterTest("John\nDoe", '\n'),
+                new UnexpectedCharacterTest("John\rDoe", '\r'),
+                new UnexpectedCharacterTest("John\"Doe", '"'),
+                new UnexpectedCharacterTest("\"Double quotes are so written: \" \"\"", '"'),
+                new UnexpectedCharacterTest("\"First\"  \"", '"'),
+                new UnexpectedCharacterTest("\"First \"a\"\"", 'a')
+        ).forEach(test -> {
+            final UnexpectedCharacterException e = Assertions.assertThrows(UnexpectedCharacterException.class, () -> {
+                final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
 
-            for (int i = 0; i < test.input().length(); i++) {
-                columnBuilder.append(test.input().charAt(i));
-            }
+                for (int i = 0; i < test.input().length(); i++) {
+                    columnBuilder.append(test.input().charAt(i));
+                }
 
-            columnBuilder.build();
-        }));
+                columnBuilder.build();
+            });
+
+            Assertions.assertEquals(test.unexpectedCharacter(), e.unexpectedCharacter);
+        });
+    }
+
+    @Test
+    void testInvalidColumns() {
+        List.of("\"John", "\"", "\"First \"\"")
+                .forEach(input -> Assertions.assertThrows(UnexpectedEndOfColumn.class, () -> {
+                    final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
+
+                    for (int i = 0; i < input.length(); i++) {
+                        columnBuilder.append(input.charAt(i));
+                    }
+
+                    columnBuilder.build();
+                }));
     }
 }
