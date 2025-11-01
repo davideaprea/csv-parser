@@ -6,5 +6,7 @@ public enum ColumnParsingState {
     IN_NORMAL,
     START,
     END,
-    OUT_QUOTED
+    OUT_QUOTED,
+    CARRIAGE_RETURN,
+    ROW_END
 }

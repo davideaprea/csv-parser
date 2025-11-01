@@ -37,26 +37,33 @@ public class CSVColumnBuilderTest {
 
     @Test
     void testUnexpectedCharacterException() {
-        List.of(
-                new UnexpectedCharacterTest("John\nDoe", '\n'),
+        List<UnexpectedCharacterTest> tests = List.of(
+                new UnexpectedCharacterTest("John\nDoe", 'D'),
                 new UnexpectedCharacterTest("John\rDoe", '\r'),
                 new UnexpectedCharacterTest("John\"Doe", '"'),
                 new UnexpectedCharacterTest("\"Double quotes are so written: \" \"\"", '"'),
                 new UnexpectedCharacterTest("\"First\"  \"", '"'),
                 new UnexpectedCharacterTest("\"First \"a\"\"", 'a')
-        ).forEach(test -> {
+        );
+
+        for(int i = 0; i < tests.size(); i++) {
+            final UnexpectedCharacterTest test = tests.get(i);
             final UnexpectedCharacterException e = Assertions.assertThrows(UnexpectedCharacterException.class, () -> {
                 final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
 
-                for (int i = 0; i < test.input().length(); i++) {
-                    columnBuilder.append(test.input().charAt(i));
+                for (int j = 0; j < test.input().length(); j++) {
+                    columnBuilder.append(test.input().charAt(j));
                 }
 
                 columnBuilder.build();
             });
 
-            Assertions.assertEquals(test.unexpectedCharacter(), e.unexpectedCharacter);
-        });
+            try {
+                Assertions.assertEquals(test.unexpectedCharacter(), e.unexpectedCharacter);
+            } catch (Throwable testError) {
+                throw new AssertionError("Test n. " + (i + 1) + " failed.");
+            }
+        }
     }
 
     @Test

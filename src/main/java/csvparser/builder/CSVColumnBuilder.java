@@ -16,7 +16,7 @@ public class CSVColumnBuilder {
     }
 
     public CSVColumnBuilder append(char character) {
-        if (parsingState == ColumnParsingState.END) {
+        if (parsingState == ColumnParsingState.END || parsingState == ColumnParsingState.ROW_END) {
             return this;
         }
 
@@ -24,6 +24,10 @@ public class CSVColumnBuilder {
             evalQuotes();
         } else if (character == separator.symbol) {
             evalSeparator();
+        } else if (character == '\n') {
+            evalCarriageReturn();
+        } else if (character == '\r') {
+            evalLineFeed();
         } else if (Character.isWhitespace(character)) {
             evalWhiteSpace(character);
         } else {
@@ -48,7 +52,7 @@ public class CSVColumnBuilder {
                 parsingState = ColumnParsingState.IN_QUOTED;
             }
             case IN_QUOTED -> parsingState = ColumnParsingState.ESCAPING;
-            case IN_NORMAL, OUT_QUOTED -> throw new UnexpectedCharacterException(
+            case IN_NORMAL, OUT_QUOTED, CARRIAGE_RETURN -> throw new UnexpectedCharacterException(
                     '"',
                     "Double quotes can only be be used to wrap a column field or escaping another double quotes character"
             );
@@ -56,18 +60,14 @@ public class CSVColumnBuilder {
     }
 
     private void evalSeparator() {
-        if (parsingState == ColumnParsingState.IN_QUOTED) {
-            stringBuilder.append(separator.symbol);
-        } else {
-            parsingState = ColumnParsingState.END;
+        switch (parsingState) {
+            case IN_QUOTED -> stringBuilder.append(separator.symbol);
+            case CARRIAGE_RETURN -> throw new UnexpectedCharacterException(separator.symbol, "Expected LF character.");
+            default -> parsingState = ColumnParsingState.END;
         }
     }
 
     private void evalWhiteSpace(final char whiteSpaceChar) {
-        if ((whiteSpaceChar == '\n' || whiteSpaceChar == '\r') && parsingState != ColumnParsingState.IN_QUOTED) {
-            throw new UnexpectedCharacterException(whiteSpaceChar, "Found special character in a non quoted field");
-        }
-
         switch (parsingState) {
             case ESCAPING -> parsingState = ColumnParsingState.OUT_QUOTED;
             case IN_NORMAL, START, IN_QUOTED -> stringBuilder.append(whiteSpaceChar);
@@ -84,6 +84,23 @@ public class CSVColumnBuilder {
             case IN_QUOTED, IN_NORMAL -> stringBuilder.append(character);
             case ESCAPING -> throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
             case OUT_QUOTED -> throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
+            case CARRIAGE_RETURN -> throw new UnexpectedCharacterException(character, "Expected LF character.");
+        }
+    }
+
+    private void evalCarriageReturn() {
+        switch (parsingState) {
+            case START, ESCAPING, IN_NORMAL, OUT_QUOTED -> parsingState = ColumnParsingState.CARRIAGE_RETURN;
+            case CARRIAGE_RETURN -> throw new UnexpectedCharacterException('\n', "Expected LF character.");
+            case IN_QUOTED -> stringBuilder.append('\n');
+        }
+    }
+
+    private void evalLineFeed() {
+        switch (parsingState) {
+            case IN_QUOTED -> stringBuilder.append('\r');
+            case CARRIAGE_RETURN -> parsingState = ColumnParsingState.ROW_END;
+            default -> throw new UnexpectedCharacterException('\r', "LF characters should only appear in quoted fields or after a CR character.");
         }
     }
 
