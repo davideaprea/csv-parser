@@ -2,7 +2,7 @@ package csvparser.builder;
 
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.exception.UnexpectedEndOfColumn;
+import csvparser.exception.EndOfColumnException;
 import dto.UnexpectedCharacterTest;
 import dto.ValidColumnParsingTest;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,9 @@ public class CSVColumnBuilderTest {
                 new ValidColumnParsingTest("\",\nJohn Doe, \rNYC,\"", ",\nJohn Doe, \rNYC,"),
                 new ValidColumnParsingTest("\t\"John Doe\"    ", "John Doe"),
                 new ValidColumnParsingTest(",", ""),
-                new ValidColumnParsingTest("    \"John \"\"Doe\"\"\"    ", "John \"Doe\"")
+                new ValidColumnParsingTest("    \"John \"\"Doe\"\"\"    ", "John \"Doe\""),
+                new ValidColumnParsingTest("John\n\r", "John"),
+                new ValidColumnParsingTest("\"\n\rJohn \r Doe \n\"", "\n\rJohn \r Doe \n")
         ).forEach(test -> {
             for (int i = 0; i < test.input().length(); i++) {
                 columnBuilder.append(test.input().charAt(i));
@@ -43,7 +45,8 @@ public class CSVColumnBuilderTest {
                 new UnexpectedCharacterTest("John\"Doe", '"'),
                 new UnexpectedCharacterTest("\"Double quotes are so written: \" \"\"", '"'),
                 new UnexpectedCharacterTest("\"First\"  \"", '"'),
-                new UnexpectedCharacterTest("\"First \"a\"\"", 'a')
+                new UnexpectedCharacterTest("\"First \"a\"\"", 'a'),
+                new UnexpectedCharacterTest("John\n\n", '\n')
         );
 
         for(int i = 0; i < tests.size(); i++) {
@@ -67,9 +70,9 @@ public class CSVColumnBuilderTest {
     }
 
     @Test
-    void testInvalidColumns() {
+    void testUnexpectedEndOfColumns() {
         List.of("\"John", "\"", "\"First \"\"")
-                .forEach(input -> Assertions.assertThrows(UnexpectedEndOfColumn.class, () -> {
+                .forEach(input -> Assertions.assertThrows(EndOfColumnException.class, () -> {
                     final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
 
                     for (int i = 0; i < input.length(); i++) {

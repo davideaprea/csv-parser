@@ -3,7 +3,7 @@ package csvparser.builder;
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.enumeration.ColumnParsingState;
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.exception.UnexpectedEndOfColumn;
+import csvparser.exception.EndOfColumnException;
 
 public class CSVColumnBuilder {
     private ColumnParsingState parsingState = ColumnParsingState.START;
@@ -114,7 +114,7 @@ public class CSVColumnBuilder {
 
     public String build() {
         if (parsingState == ColumnParsingState.IN_QUOTED) {
-            throw new UnexpectedEndOfColumn("Found an unclosed quoted field.");
+            throw new EndOfColumnException("Found an unclosed quoted field.");
         }
 
         return stringBuilder.toString();
