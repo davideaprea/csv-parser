@@ -15,7 +15,7 @@ public class CSVRowBuilder {
     }
 
     public CSVRowBuilder evaluate(char character) {
-        if (columnBuilder.isLastColumn()) return this;
+        if (columnBuilder.isLast()) return this;
 
         if (columnBuilder.isClosed()) {
             columnValues.add(columnBuilder.build());
@@ -35,7 +35,7 @@ public class CSVRowBuilder {
     }
 
     public boolean isRowEnded() {
-        return columnBuilder.isLastColumn();
+        return columnBuilder.isLast();
     }
 
     public void reset() {
