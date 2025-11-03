@@ -2,7 +2,7 @@ package csvparser.builder;
 
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.exception.EndOfColumnException;
+import csvparser.exception.UnexpectedEndOfColumnException;
 import dto.UnexpectedCharacterTest;
 import dto.ValidColumnParsingTest;
 import org.junit.jupiter.api.Assertions;
@@ -72,7 +72,7 @@ public class CSVColumnBuilderTest {
     @Test
     void testUnexpectedEndOfColumns() {
         List.of("\"John", "\"", "\"First \"\"")
-                .forEach(input -> Assertions.assertThrows(EndOfColumnException.class, () -> {
+                .forEach(input -> Assertions.assertThrows(UnexpectedEndOfColumnException.class, () -> {
                     final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
 
                     for (int i = 0; i < input.length(); i++) {
