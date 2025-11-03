@@ -1,5 +1,7 @@
 package csvparser.builder;
 
+import csvparser.enumeration.CSVColumnSeparator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,8 @@ public class CSVRowBuilder {
 
     private final CSVColumnBuilder columnBuilder;
 
-    public CSVRowBuilder(CSVColumnBuilder columnBuilder) {
-        this.columnBuilder = columnBuilder;
+    public CSVRowBuilder(CSVColumnSeparator separator) {
+        this.columnBuilder = new CSVColumnBuilder(separator);
     }
 
     public CSVRowBuilder evaluate(char character) {

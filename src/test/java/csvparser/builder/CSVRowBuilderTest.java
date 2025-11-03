@@ -10,8 +10,7 @@ import java.util.List;
 public class CSVRowBuilderTest {
     @Test
     void testValidRows() {
-        final CSVColumnBuilder columnBuilder = new CSVColumnBuilder(CSVColumnSeparator.COMMA);
-        final CSVRowBuilder rowBuilder = new CSVRowBuilder(columnBuilder);
+        final CSVRowBuilder rowBuilder = new CSVRowBuilder(CSVColumnSeparator.COMMA);
 
         List.of(
                 new ValidRowParsingTest("John,Doe", List.of("John", "Doe")),
