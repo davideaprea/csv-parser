@@ -105,7 +105,11 @@ public class CSVColumnBuilder {
     }
 
     public boolean isClosed() {
-        return parsingState == ColumnParsingState.END;
+        return parsingState == ColumnParsingState.END || parsingState == ColumnParsingState.ROW_END;
+    }
+
+    public boolean isLastColumn() {
+        return parsingState == ColumnParsingState.ROW_END;
     }
 
     public String build() {
