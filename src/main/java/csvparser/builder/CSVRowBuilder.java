@@ -12,8 +12,8 @@ public class CSVRowBuilder {
         this.columnBuilder = columnBuilder;
     }
 
-    public void evaluate(char character) {
-        if (columnBuilder.isLastColumn()) return;
+    public CSVRowBuilder evaluate(char character) {
+        if (columnBuilder.isLastColumn()) return this;
 
         if (columnBuilder.isClosed()) {
             columnValues.add(columnBuilder.build());
@@ -22,6 +22,8 @@ public class CSVRowBuilder {
         }
 
         columnBuilder.append(character);
+
+        return this;
     }
 
     public List<String> build() {
