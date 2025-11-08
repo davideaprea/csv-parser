@@ -1,6 +1,7 @@
 package csvparser.state;
 
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.UnexpectedCharacterException;
 
 public class ColumnStart extends ParsingState {
     protected ColumnStart(CSVColumnSeparator separator, StringBuilder stringBuilder) {
@@ -8,34 +9,38 @@ public class ColumnStart extends ParsingState {
     }
 
     @Override
-    protected void evalNormalCharacter(char character) {
+    protected ParsingState evalNormalCharacter(char character) {
         stringBuilder.append(character);
 
-        return
+        return new InNormal(separator, stringBuilder);
     }
 
     @Override
-    protected void evalWhiteSpace(char character) {
+    protected ParsingState evalWhiteSpace(char character) {
+        stringBuilder.append(character);
 
+        return this;
     }
 
     @Override
-    protected void evalLineFeed() {
-
+    protected ParsingState evalLineFeed() {
+        return new CarriageReturn(separator, stringBuilder);
     }
 
     @Override
-    protected void evalCarriageReturn() {
-
+    protected ParsingState evalCarriageReturn() {
+        throw new UnexpectedCharacterException('\r', "LF characters should only appear in quoted fields or after a CR character.");
     }
 
     @Override
-    protected void evalSeparator() {
-
+    protected ParsingState evalSeparator() {
+        return new ColumnEnd(separator, stringBuilder);
     }
 
     @Override
-    protected void evalQuotes() {
+    protected ParsingState evalQuotes() {
+        stringBuilder.setLength(0);
 
+        return new InQuoted(separator, stringBuilder);
     }
 }

@@ -3,8 +3,7 @@ package csvparser.state;
 import csvparser.enumeration.CSVColumnSeparator;
 
 public abstract class ParsingState {
-    private final CSVColumnSeparator separator;
-
+    protected final CSVColumnSeparator separator;
     protected final StringBuilder stringBuilder;
 
     protected ParsingState(CSVColumnSeparator separator, StringBuilder stringBuilder) {
