@@ -1,6 +1,7 @@
 package csvparser.state;
 
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.UnexpectedCharacterException;
 
 public class CarriageReturn extends ParsingState {
     protected CarriageReturn(CSVColumnSeparator separator, StringBuilder stringBuilder) {
@@ -9,31 +10,31 @@ public class CarriageReturn extends ParsingState {
 
     @Override
     protected ParsingState evalNormalCharacter(char character) {
-        return null;
+        throw new UnexpectedCharacterException(character, "Expected LF character.");
     }
 
     @Override
     protected ParsingState evalWhiteSpace(char character) {
-        return null;
+        throw new UnexpectedCharacterException(character, "Expected LF character.");
     }
 
     @Override
     protected ParsingState evalLineFeed() {
-        return null;
+        return new RowEnd(separator, stringBuilder);
     }
 
     @Override
     protected ParsingState evalCarriageReturn() {
-        return null;
+        throw new UnexpectedCharacterException('\r', "Expected LF character.");
     }
 
     @Override
     protected ParsingState evalSeparator() {
-        return null;
+        throw new UnexpectedCharacterException(separator.symbol, "Expected LF character.");
     }
 
     @Override
     protected ParsingState evalQuotes() {
-        return null;
+        throw new UnexpectedCharacterException('"', "Expected LF character.");
     }
 }
