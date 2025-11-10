@@ -24,12 +24,12 @@ public class ColumnStart extends ParsingState {
 
     @Override
     protected ParsingState evalLineFeed() {
-        return new CarriageReturn(separator, stringBuilder);
+        throw new UnexpectedCharacterException('\n', "LF characters should only appear in quoted fields or after a CR character.");
     }
 
     @Override
     protected ParsingState evalCarriageReturn() {
-        throw new UnexpectedCharacterException('\r', "LF characters should only appear in quoted fields or after a CR character.");
+        return new CarriageReturn(separator, stringBuilder);
     }
 
     @Override
