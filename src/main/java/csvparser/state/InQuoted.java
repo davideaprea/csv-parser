@@ -9,31 +9,41 @@ public class InQuoted extends ParsingState {
 
     @Override
     protected ParsingState evalNormalCharacter(char character) {
-        return null;
+        stringBuilder.append(character);
+
+        return this;
     }
 
     @Override
     protected ParsingState evalWhiteSpace(char character) {
-        return null;
+        stringBuilder.append(character);
+
+        return this;
     }
 
     @Override
     protected ParsingState evalLineFeed() {
-        return null;
+        stringBuilder.append('\n');
+
+        return this;
     }
 
     @Override
     protected ParsingState evalCarriageReturn() {
-        return null;
+        stringBuilder.append('\r');
+
+        return this;
     }
 
     @Override
     protected ParsingState evalSeparator() {
-        return null;
+        stringBuilder.append(separator.symbol);
+
+        return this;
     }
 
     @Override
     protected ParsingState evalQuotes() {
-        return null;
+        return new Escaping(separator, stringBuilder);
     }
 }
