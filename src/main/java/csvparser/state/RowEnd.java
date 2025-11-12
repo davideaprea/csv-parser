@@ -9,31 +9,31 @@ public class RowEnd extends ParsingState {
 
     @Override
     protected ParsingState evalNormalCharacter(char character) {
-        return null;
+        return this;
     }
 
     @Override
     protected ParsingState evalWhiteSpace(char character) {
-        return null;
+        return this;
     }
 
     @Override
     protected ParsingState evalLineFeed() {
-        return null;
+        return this;
     }
 
     @Override
     protected ParsingState evalCarriageReturn() {
-        return null;
+        return this;
     }
 
     @Override
     protected ParsingState evalSeparator() {
-        return null;
+        return this;
     }
 
     @Override
     protected ParsingState evalQuotes() {
-        return null;
+        return this;
     }
 }
