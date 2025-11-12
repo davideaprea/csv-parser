@@ -8,32 +8,7 @@ public class ColumnEnd extends ParsingState {
     }
 
     @Override
-    protected ParsingState evalNormalCharacter(char character) {
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalWhiteSpace(char character) {
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalLineFeed() {
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalCarriageReturn() {
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalSeparator() {
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalQuotes() {
+    public ParsingState evalCharacter(char character) {
         return this;
     }
 }

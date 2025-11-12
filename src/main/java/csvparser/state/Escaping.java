@@ -9,34 +9,25 @@ public class Escaping extends ParsingState {
     }
 
     @Override
-    protected ParsingState evalNormalCharacter(char character) {
+    public ParsingState evalCharacter(char character) {
+        if(character == separator.symbol) {
+            return new ColumnEnd(separator, stringBuilder);
+        }
+
+        if(Character.isWhitespace(character)) {
+            return new OutQuoted(separator, stringBuilder);
+        }
+
+        if(character == '\r') {
+            return new CarriageReturn(separator, stringBuilder);
+        }
+
+        if(character == '"') {
+            stringBuilder.append('"');
+
+            return new InQuoted(separator, stringBuilder);
+        }
+
         throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
-    }
-
-    @Override
-    protected ParsingState evalWhiteSpace(char character) {
-        return new OutQuoted(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalLineFeed() {
-        throw new UnexpectedCharacterException('\n', "Found invalid character for escaping.");
-    }
-
-    @Override
-    protected ParsingState evalCarriageReturn() {
-        return new CarriageReturn(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalSeparator() {
-        return new ColumnEnd(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalQuotes() {
-        stringBuilder.append('"');
-
-        return new InQuoted(separator, stringBuilder);
     }
 }

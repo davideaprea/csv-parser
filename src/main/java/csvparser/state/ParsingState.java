@@ -11,31 +11,5 @@ public abstract class ParsingState {
         this.stringBuilder = stringBuilder;
     }
 
-    public void evalCharacter(char character) {
-        if (character == '"') {
-            evalQuotes();
-        } else if (character == separator.symbol) {
-            evalSeparator();
-        } else if (character == '\r') {
-            evalCarriageReturn();
-        } else if (character == '\n') {
-            evalLineFeed();
-        } else if (Character.isWhitespace(character)) {
-            evalWhiteSpace(character);
-        } else {
-            evalNormalCharacter(character);
-        }
-    }
-
-    protected abstract ParsingState evalNormalCharacter(char character);
-
-    protected abstract ParsingState evalWhiteSpace(char character);
-
-    protected abstract ParsingState evalLineFeed();
-
-    protected abstract ParsingState evalCarriageReturn();
-
-    protected abstract ParsingState evalSeparator();
-
-    protected abstract ParsingState evalQuotes();
+    public abstract ParsingState evalCharacter(final char character);
 }

@@ -9,35 +9,50 @@ public class ColumnStart extends ParsingState {
     }
 
     @Override
+    public ParsingState evalCharacter(char character) {
+        ParsingState parsingState;
+
+        if (character == '"') {
+            parsingState = evalQuotes();
+        } else if (character == separator.symbol) {
+            parsingState = evalSeparator();
+        } else if (character == '\r') {
+            parsingState = evalCarriageReturn();
+        } else if (character == '\n') {
+            parsingState = evalLineFeed();
+        } else if (Character.isWhitespace(character)) {
+            parsingState = evalWhiteSpace(character);
+        } else {
+            parsingState = evalNormalCharacter(character);
+        }
+
+        return parsingState;
+    }
+
     protected ParsingState evalNormalCharacter(char character) {
         stringBuilder.append(character);
 
         return new InNormal(separator, stringBuilder);
     }
 
-    @Override
     protected ParsingState evalWhiteSpace(char character) {
         stringBuilder.append(character);
 
         return this;
     }
 
-    @Override
     protected ParsingState evalLineFeed() {
         throw new UnexpectedCharacterException('\n', "LF characters should only appear in quoted fields or after a CR character.");
     }
 
-    @Override
     protected ParsingState evalCarriageReturn() {
         return new CarriageReturn(separator, stringBuilder);
     }
 
-    @Override
     protected ParsingState evalSeparator() {
         return new ColumnEnd(separator, stringBuilder);
     }
 
-    @Override
     protected ParsingState evalQuotes() {
         stringBuilder.setLength(0);
 

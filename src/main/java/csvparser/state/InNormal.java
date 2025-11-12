@@ -9,39 +9,21 @@ public class InNormal extends ParsingState {
     }
 
     @Override
-    protected ParsingState evalNormalCharacter(char character) {
+    public ParsingState evalCharacter(char character) {
+        if (character == '"' || character == '\n') {
+            throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
+        }
+
+        if (character == separator.symbol) {
+            return new ColumnEnd(separator, stringBuilder);
+        }
+
+        if (character == '\r') {
+            return new CarriageReturn(separator, stringBuilder);
+        }
+
         stringBuilder.append(character);
 
         return this;
-    }
-
-    @Override
-    protected ParsingState evalWhiteSpace(char character) {
-        stringBuilder.append(character);
-
-        return this;
-    }
-
-    @Override
-    protected ParsingState evalLineFeed() {
-        throw new UnexpectedCharacterException('\n', "LF characters should only appear in quoted fields or after a CR character.");
-    }
-
-    @Override
-    protected ParsingState evalCarriageReturn() {
-        return new CarriageReturn(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalSeparator() {
-        return new ColumnEnd(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalQuotes() {
-        throw new UnexpectedCharacterException(
-                '"',
-                "Double quotes can only be be used to wrap a column field or escaping another double quotes character"
-        );
     }
 }

@@ -9,35 +9,19 @@ public class OutQuoted extends ParsingState {
     }
 
     @Override
-    protected ParsingState evalNormalCharacter(char character) {
-        throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
-    }
+    public ParsingState evalCharacter(char character) {
+        if (character == '"' || character == '\n' || !Character.isWhitespace(character)) {
+            throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
+        }
 
-    @Override
-    protected ParsingState evalWhiteSpace(char character) {
+        if (character == separator.symbol) {
+            return new ColumnEnd(separator, stringBuilder);
+        }
+
+        if (character == '\r') {
+            return new CarriageReturn(separator, stringBuilder);
+        }
+
         return this;
-    }
-
-    @Override
-    protected ParsingState evalLineFeed() {
-        throw new UnexpectedCharacterException('\r', "LF characters should only appear in quoted fields or after a CR character.");
-    }
-
-    @Override
-    protected ParsingState evalCarriageReturn() {
-        return new CarriageReturn(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalSeparator() {
-        return new ColumnEnd(separator, stringBuilder);
-    }
-
-    @Override
-    protected ParsingState evalQuotes() {
-        throw new UnexpectedCharacterException(
-                '"',
-                "Double quotes can only be be used to wrap a column field or escaping another double quotes character"
-        );
     }
 }
