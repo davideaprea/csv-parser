@@ -14,7 +14,7 @@ public class OutQuoted extends ParsingState {
             throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
 
-        if (character == separator.symbol) {
+        if (CSVColumnSeparator.isSeparator(character)) {
             return new ColumnEnd(separator, stringBuilder);
         }
 

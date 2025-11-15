@@ -10,7 +10,7 @@ public class Escaping extends ParsingState {
 
     @Override
     public ParsingState evalCharacter(char character) {
-        if(character == separator.symbol) {
+        if(CSVColumnSeparator.isSeparator(character)) {
             return new ColumnEnd(separator, stringBuilder);
         }
 

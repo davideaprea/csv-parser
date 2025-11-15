@@ -14,7 +14,7 @@ public class InNormal extends ParsingState {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         }
 
-        if (character == separator.symbol) {
+        if (CSVColumnSeparator.isSeparator(character)) {
             return new ColumnEnd(separator, stringBuilder);
         }
 

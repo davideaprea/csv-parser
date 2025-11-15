@@ -16,7 +16,7 @@ public class ColumnStart extends ParsingState {
             return new InQuoted(separator, stringBuilder);
         }
 
-        if (character == separator.symbol) {
+        if (CSVColumnSeparator.isSeparator(character)) {
             return new ColumnEnd(separator, stringBuilder);
         }
 
