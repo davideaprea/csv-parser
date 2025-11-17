@@ -4,8 +4,8 @@ import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class OutQuoted extends ParsingState {
-    protected OutQuoted(StringBuilder stringBuilder) {
-        super(stringBuilder);
+    protected OutQuoted(StringBuilder stringBuilder, CSVColumnSeparator separator) {
+        super(stringBuilder, separator);
     }
 
     @Override
@@ -14,12 +14,12 @@ public class OutQuoted extends ParsingState {
             throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
 
-        if (CSVColumnSeparator.isSeparator(character)) {
-            return new ColumnEnd(stringBuilder);
+        if (character == separator.symbol) {
+            return new ColumnEnd(stringBuilder, separator);
         }
 
         if (character == '\r') {
-            return new CarriageReturn(stringBuilder);
+            return new CarriageReturn(stringBuilder, separator);
         }
 
         return this;

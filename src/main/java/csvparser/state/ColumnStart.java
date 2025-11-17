@@ -4,8 +4,8 @@ import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class ColumnStart extends ParsingState {
-    public ColumnStart(StringBuilder stringBuilder) {
-        super(stringBuilder);
+    protected ColumnStart(StringBuilder stringBuilder, CSVColumnSeparator separator) {
+        super(stringBuilder, separator);
     }
 
     @Override
@@ -13,15 +13,15 @@ public class ColumnStart extends ParsingState {
         if (character == '"') {
             stringBuilder.setLength(0);
 
-            return new InQuoted(stringBuilder);
+            return new InQuoted(stringBuilder, separator);
         }
 
-        if (CSVColumnSeparator.isSeparator(character)) {
-            return new ColumnEnd(stringBuilder);
+        if (character == separator.symbol) {
+            return new ColumnEnd(stringBuilder, separator);
         }
 
         if (character == '\r') {
-            return new CarriageReturn(stringBuilder);
+            return new CarriageReturn(stringBuilder, separator);
         }
 
         if (character == '\n') {
@@ -36,6 +36,6 @@ public class ColumnStart extends ParsingState {
 
         stringBuilder.append(character);
 
-        return new InNormal(stringBuilder);
+        return new InNormal(stringBuilder, separator);
     }
 }

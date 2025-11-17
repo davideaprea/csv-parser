@@ -1,8 +1,10 @@
 package csvparser.state;
 
+import csvparser.enumeration.CSVColumnSeparator;
+
 public class ColumnEnd extends ParsingState {
-    protected ColumnEnd(StringBuilder stringBuilder) {
-        super(stringBuilder);
+    protected ColumnEnd(StringBuilder stringBuilder, CSVColumnSeparator separator) {
+        super(stringBuilder, separator);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package csvparser.builder;
 
 import csvparser.enumeration.CSVColumnSeparator;
-import csvparser.enumeration.ColumnParsingState;
-import csvparser.exception.UnexpectedCharacterException;
 import csvparser.exception.UnexpectedEndOfColumnException;
 import csvparser.state.*;
 
