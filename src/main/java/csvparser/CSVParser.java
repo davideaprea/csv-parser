@@ -1,7 +1,5 @@
 package csvparser;
 
-import csvparser.builder.CSVRowBuilder;
-
 import java.util.List;
 
 public class CSVParser {

@@ -1,45 +1,30 @@
 package csvparser.builder;
 
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.state.ColumnEnd;
+import csvparser.state.ColumnStart;
+import csvparser.state.ParsingState;
+import csvparser.state.RowEnd;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSVRowBuilder {
-    private List<String> columnValues = new ArrayList<>();
-
-    private final CSVColumnBuilder columnBuilder;
+    private ParsingState parsingState;
+    private List<String> columnValues;
 
     public CSVRowBuilder(CSVColumnSeparator separator) {
-        this.columnBuilder = new CSVColumnBuilder(separator);
+        this.parsingState = new ColumnStart(separator, new StringBuilder());
+        columnValues = new ArrayList<>();
     }
 
-    public CSVRowBuilder evaluate(char character) {
-        if (columnBuilder.isLast()) return this;
-
-        if (columnBuilder.isClosed()) {
-            columnValues.add(columnBuilder.build());
-
-            columnBuilder.reset();
+    public void append(final char character) {
+        if(parsingState instanceof RowEnd) {
+            return;
         }
 
-        columnBuilder.append(character);
+        if(parsingState instanceof ColumnEnd) {
 
-        return this;
-    }
-
-    public List<String> build() {
-        columnValues.add(columnBuilder.build());
-
-        return columnValues;
-    }
-
-    public boolean isRowEnded() {
-        return columnBuilder.isLast();
-    }
-
-    public void reset() {
-        columnBuilder.reset();
-        columnValues = new ArrayList<>();
+        }
     }
 }
