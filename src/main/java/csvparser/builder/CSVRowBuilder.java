@@ -29,16 +29,8 @@ public class CSVRowBuilder {
         rows.add(new ArrayList<>());
     }
 
-    public void addColumn(String column) {
-        if (column == null) return;
-
-        if(rows.isEmpty()) {
-            addRow();
-        }
-
-        rows.getLast().add(column);
-
-        resetColumn();
+    public void buildColumn() {
+        rows.getLast().add(columnBuilder.toString());
     }
 
     public void addCharacter(char character) {

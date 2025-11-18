@@ -6,6 +6,8 @@ import csvparser.exception.UnexpectedCharacterException;
 public class ColumnStart extends ParsingState {
     public ColumnStart(CSVRowBuilder rowBuilder) {
         super(rowBuilder);
+
+        rowBuilder.resetColumn();
     }
 
     @Override
@@ -17,7 +19,10 @@ public class ColumnStart extends ParsingState {
         }
 
         if (rowBuilder.isSeparator(character)) {
-            return new ColumnEnd(rowBuilder);
+            rowBuilder.buildColumn();
+            rowBuilder.resetColumn();
+
+            return this;
         }
 
         if (character == '\r') {

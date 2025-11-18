@@ -11,7 +11,9 @@ public class Escaping extends ParsingState {
     @Override
     public ParsingState evalCharacter(char character) {
         if(rowBuilder.isSeparator(character)) {
-            return new ColumnEnd(rowBuilder);
+            rowBuilder.buildColumn();
+
+            return new ColumnStart(rowBuilder);
         }
 
         if(Character.isWhitespace(character)) {

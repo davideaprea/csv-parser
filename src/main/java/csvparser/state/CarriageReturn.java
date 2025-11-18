@@ -10,8 +10,11 @@ public class CarriageReturn extends ParsingState {
 
     @Override
     public ParsingState evalCharacter(char character) {
-        if(character == '\n') {
-            return new RowEnd(rowBuilder);
+        if (character == '\n') {
+            rowBuilder.buildColumn();
+            rowBuilder.addRow();
+
+            return new ColumnStart(rowBuilder);
         }
 
         throw new UnexpectedCharacterException(character, "Expected LF character.");

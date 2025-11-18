@@ -15,7 +15,9 @@ public class InNormal extends ParsingState {
         }
 
         if (rowBuilder.isSeparator(character)) {
-            return new ColumnEnd(rowBuilder);
+            rowBuilder.buildColumn();
+
+            return new ColumnStart(rowBuilder);
         }
 
         if (character == '\r') {
