@@ -10,10 +10,6 @@ public class OutQuoted extends ParsingState {
 
     @Override
     public ParsingState evalCharacter(char character) {
-        if (character == '"' || character == '\n' || !Character.isWhitespace(character)) {
-            throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
-        }
-
         if (rowBuilder.isSeparator(character)) {
             rowBuilder.buildColumn();
 
@@ -24,6 +20,10 @@ public class OutQuoted extends ParsingState {
             return new CarriageReturn(rowBuilder);
         }
 
-        return this;
+        if (Character.isWhitespace(character)) {
+            return this;
+        }
+
+        throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
     }
 }
