@@ -1,11 +1,11 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class InNormal extends ParsingState {
-    protected InNormal(StringBuilder stringBuilder, CSVColumnSeparator csvColumnSeparator) {
-        super(stringBuilder, csvColumnSeparator);
+    public InNormal(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override
@@ -14,15 +14,15 @@ public class InNormal extends ParsingState {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         }
 
-        if (character == separator.symbol) {
-            return new ColumnEnd(stringBuilder, separator);
+        if (rowBuilder.isSeparator(character)) {
+            return new ColumnEnd(rowBuilder);
         }
 
         if (character == '\r') {
-            return new CarriageReturn(stringBuilder, separator);
+            return new CarriageReturn(rowBuilder);
         }
 
-        stringBuilder.append(character);
+        rowBuilder.addCharacter(character);
 
         return this;
     }

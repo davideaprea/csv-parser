@@ -1,17 +1,17 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class CarriageReturn extends ParsingState {
-    protected CarriageReturn(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(stringBuilder, separator);
+    public CarriageReturn(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override
     public ParsingState evalCharacter(char character) {
         if(character == '\n') {
-            return new RowEnd(stringBuilder, separator);
+            return new RowEnd(rowBuilder);
         }
 
         throw new UnexpectedCharacterException(character, "Expected LF character.");

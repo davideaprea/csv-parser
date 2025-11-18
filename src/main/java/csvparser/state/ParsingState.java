@@ -1,14 +1,12 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 
 public abstract class ParsingState {
-    protected final StringBuilder stringBuilder;
-    protected final CSVColumnSeparator separator;
+    protected final CSVRowBuilder rowBuilder;
 
-    protected ParsingState(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        this.stringBuilder = stringBuilder;
-        this.separator = separator;
+    protected ParsingState(CSVRowBuilder rowBuilder) {
+        this.rowBuilder = rowBuilder;
     }
 
     public abstract ParsingState evalCharacter(final char character);

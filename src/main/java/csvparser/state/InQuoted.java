@@ -1,19 +1,19 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 
 public class InQuoted extends ParsingState {
-    protected InQuoted(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(stringBuilder, separator);
+    public InQuoted(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override
     public ParsingState evalCharacter(char character) {
         if(character == '"') {
-            return new Escaping(stringBuilder, separator);
+            return new Escaping(rowBuilder);
         }
 
-        stringBuilder.append(character);
+        rowBuilder.addCharacter(character);
 
         return this;
     }

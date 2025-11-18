@@ -1,31 +1,31 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class Escaping extends ParsingState {
-    protected Escaping(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(stringBuilder, separator);
+    public Escaping(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override
     public ParsingState evalCharacter(char character) {
-        if(character == separator.symbol) {
-            return new ColumnEnd(stringBuilder, separator);
+        if(rowBuilder.isSeparator(character)) {
+            return new ColumnEnd(rowBuilder);
         }
 
         if(Character.isWhitespace(character)) {
-            return new OutQuoted(stringBuilder, separator);
+            return new OutQuoted(rowBuilder);
         }
 
         if(character == '\r') {
-            return new CarriageReturn(stringBuilder, separator);
+            return new CarriageReturn(rowBuilder);
         }
 
         if(character == '"') {
-            stringBuilder.append('"');
+            rowBuilder.addCharacter(character);
 
-            return new InQuoted(stringBuilder, separator);
+            return new InQuoted(rowBuilder);
         }
 
         throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");

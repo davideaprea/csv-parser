@@ -1,10 +1,10 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 
 public class RowEnd extends ParsingState {
-    protected RowEnd(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(stringBuilder, separator);
+    protected RowEnd(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override

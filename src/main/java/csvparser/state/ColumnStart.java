@@ -1,41 +1,39 @@
 package csvparser.state;
 
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class ColumnStart extends ParsingState {
-    protected ColumnStart(StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(stringBuilder, separator);
+    public ColumnStart(CSVRowBuilder rowBuilder) {
+        super(rowBuilder);
     }
 
     @Override
     public ParsingState evalCharacter(char character) {
         if (character == '"') {
-            stringBuilder.setLength(0);
+            rowBuilder.resetColumn();
 
-            return new InQuoted(stringBuilder, separator);
+            return new InQuoted(rowBuilder);
         }
 
-        if (character == separator.symbol) {
-            return new ColumnEnd(stringBuilder, separator);
+        if (rowBuilder.isSeparator(character)) {
+            return new ColumnEnd(rowBuilder);
         }
 
         if (character == '\r') {
-            return new CarriageReturn(stringBuilder, separator);
+            return new CarriageReturn(rowBuilder);
         }
 
         if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         }
 
-        if (Character.isWhitespace(character)) {
-            stringBuilder.append(character);
+        rowBuilder.addCharacter(character);
 
+        if (Character.isWhitespace(character)) {
             return this;
         }
 
-        stringBuilder.append(character);
-
-        return new InNormal(stringBuilder, separator);
+        return new InNormal(rowBuilder);
     }
 }
