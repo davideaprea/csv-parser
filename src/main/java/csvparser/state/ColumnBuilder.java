@@ -7,7 +7,7 @@ public class ColumnBuilder {
         stringBuilder.append(character);
     }
 
-    public void resetColumn() {
+    public void reset() {
         stringBuilder.setLength(0);
     }
 

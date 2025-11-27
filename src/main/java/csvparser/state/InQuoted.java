@@ -1,20 +1,12 @@
 package csvparser.state;
 
-import csvparser.builder.CSVRowBuilder;
-
-public class InQuoted extends ParsingState {
-    public InQuoted(CSVRowBuilder rowBuilder) {
-        super(rowBuilder);
-    }
-
+public class InQuoted implements ParsingState {
     @Override
-    public ParsingState evalCharacter(char character) {
-        if(character == '"') {
-            return new Escaping(rowBuilder);
+    public void next(char character, ParsingContext parsingContext) {
+        if (character == '"') {
+            parsingContext.setParsingState(new Escaping());
+        } else {
+            parsingContext.columnBuilder.addCharacter(character);
         }
-
-        rowBuilder.addCharacter(character);
-
-        return this;
     }
 }

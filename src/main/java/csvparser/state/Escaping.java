@@ -1,35 +1,24 @@
 package csvparser.state;
 
-import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
-public class Escaping extends ParsingState {
-    public Escaping(CSVRowBuilder rowBuilder) {
-        super(rowBuilder);
-    }
-
+public class Escaping implements ParsingState {
     @Override
-    public ParsingState evalCharacter(char character) {
-        if(rowBuilder.isSeparator(character)) {
-            rowBuilder.buildColumn();
+    public void next(char character, ParsingContext parsingContext) {
+        if (character == parsingContext.separator.symbol) {
+            parsingContext.columnBuilder.build();
 
-            return new ColumnStart(rowBuilder);
+            parsingContext.setParsingState(new ColumnStart());
+        } else if (Character.isWhitespace(character)) {
+            parsingContext.setParsingState(new OutQuoted());
+        } else if (character == '\r') {
+            parsingContext.setParsingState(new CarriageReturn());
+        } else if (character == '"') {
+            parsingContext.columnBuilder.addCharacter(character);
+
+            parsingContext.setParsingState(new InQuoted());
+        } else {
+            throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
         }
-
-        if(Character.isWhitespace(character)) {
-            return new OutQuoted(rowBuilder);
-        }
-
-        if(character == '\r') {
-            return new CarriageReturn(rowBuilder);
-        }
-
-        if(character == '"') {
-            rowBuilder.addCharacter(character);
-
-            return new InQuoted(rowBuilder);
-        }
-
-        throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
     }
 }

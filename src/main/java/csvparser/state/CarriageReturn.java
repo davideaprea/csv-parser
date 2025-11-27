@@ -1,22 +1,16 @@
 package csvparser.state;
 
-import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
-public class CarriageReturn extends ParsingState {
-    public CarriageReturn(CSVRowBuilder rowBuilder) {
-        super(rowBuilder);
-    }
-
+public class CarriageReturn implements ParsingState {
     @Override
-    public ParsingState evalCharacter(char character) {
+    public void next(char character, ParsingContext parsingContext) {
         if (character == '\n') {
-            rowBuilder.buildColumn();
-            rowBuilder.addRow();
-
-            return new ColumnStart(rowBuilder);
+            parsingContext.columnBuilder.build();
+            parsingContext.gridBuilder.addRow();
+            parsingContext.setParsingState(new ColumnStart());
+        } else {
+            throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
-
-        throw new UnexpectedCharacterException(character, "Expected LF character.");
     }
 }

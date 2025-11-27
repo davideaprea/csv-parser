@@ -1,44 +1,29 @@
 package csvparser.state;
 
-import csvparser.builder.CSVRowBuilder;
 import csvparser.exception.UnexpectedCharacterException;
 
-public class ColumnStart extends ParsingState {
-    public ColumnStart(CSVRowBuilder rowBuilder) {
-        super(rowBuilder);
-
-        rowBuilder.resetColumn();
-    }
-
+public class ColumnStart implements ParsingState {
     @Override
-    public ParsingState evalCharacter(char character) {
+    public void next(final char character, final ParsingContext parsingContext) {
         if (character == '"') {
-            rowBuilder.resetColumn();
+            parsingContext.columnBuilder.reset();
 
-            return new InQuoted(rowBuilder);
-        }
+            parsingContext.setParsingState(new InQuoted());
+        } else if (character == parsingContext.separator.symbol) {
+            parsingContext.columnBuilder.build();
+            parsingContext.columnBuilder.reset();
 
-        if (rowBuilder.isSeparator(character)) {
-            rowBuilder.buildColumn();
-            rowBuilder.resetColumn();
-
-            return this;
-        }
-
-        if (character == '\r') {
-            return new CarriageReturn(rowBuilder);
-        }
-
-        if (character == '\n') {
+            parsingContext.setParsingState(this);
+        } else if (character == '\r') {
+            parsingContext.setParsingState(new CarriageReturn());
+        } else if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
+        } else if (Character.isWhitespace(character)) {
+            parsingContext.setParsingState(this);
+            parsingContext.columnBuilder.addCharacter(character);
+        } else {
+            parsingContext.setParsingState(new InNormal());
+            parsingContext.columnBuilder.addCharacter(character);
         }
-
-        rowBuilder.addCharacter(character);
-
-        if (Character.isWhitespace(character)) {
-            return this;
-        }
-
-        return new InNormal(rowBuilder);
     }
 }
