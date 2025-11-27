@@ -11,6 +11,8 @@ public class CSVGridBuilder {
     }
 
     public void addColumn(final String column) {
+        if(column == null) return;
+
         if(rows.isEmpty()) {
             addRow();
         }
