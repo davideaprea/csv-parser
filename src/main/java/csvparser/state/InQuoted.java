@@ -6,7 +6,7 @@ public class InQuoted implements ParsingState {
         if (character == '"') {
             parsingContext.setParsingState(new Escaping());
         } else {
-            parsingContext.columnBuilder.addCharacter(character);
+            parsingContext.addCharacter(character);
         }
     }
 }
