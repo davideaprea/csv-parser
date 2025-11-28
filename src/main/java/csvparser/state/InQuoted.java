@@ -1,6 +1,6 @@
 package csvparser.state;
 
-class InQuoted extends ParsingState {
+public class InQuoted extends ParsingState {
     public InQuoted(ParsingContext context) {
         super(context);
     }

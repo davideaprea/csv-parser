@@ -1,23 +1,27 @@
 package csvparser.state;
 
-abstract class ParsingState {
+public abstract class ParsingState {
     protected final ParsingContext context;
 
     ParsingState(ParsingContext context) {
         this.context = context;
     }
 
-    abstract ParsingState eval(final char character);
+    public abstract ParsingState eval(final char character);
 
     protected void buildColumn() {
-        final String column = context.stringBuilder().toString();
-
-        context.grid().getLast().add(column);
+        addColumn();
 
         resetColumn();
     }
 
     protected void resetColumn() {
         context.stringBuilder().setLength(0);
+    }
+
+    protected void addColumn() {
+        final String column = context.stringBuilder().toString();
+
+        context.grid().getLast().add(column);
     }
 }

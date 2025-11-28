@@ -4,7 +4,7 @@ import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.ArrayList;
 
-class CarriageReturn extends ParsingState {
+public class CarriageReturn extends ParsingState {
     public CarriageReturn(ParsingContext context) {
         super(context);
     }

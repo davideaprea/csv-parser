@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-class InNormal extends ParsingState {
+public class InNormal extends ParsingState {
     public InNormal(ParsingContext context) {
         super(context);
     }

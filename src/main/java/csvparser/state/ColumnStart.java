@@ -4,7 +4,7 @@ import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.ArrayList;
 
-class ColumnStart extends ParsingState {
+public class ColumnStart extends ParsingState {
     public ColumnStart(ParsingContext context) {
         super(context);
     }
