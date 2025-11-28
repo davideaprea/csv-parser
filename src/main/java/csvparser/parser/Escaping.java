@@ -1,21 +1,39 @@
 package csvparser.parser;
 
+import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 
-class Escaping implements ParsingState {
+import java.util.List;
+
+class Escaping extends ParsingState {
+    public Escaping(List<List<String>> rows, StringBuilder stringBuilder, CSVColumnSeparator separator) {
+        super(rows, stringBuilder, separator);
+    }
+
     @Override
-    public void next(char character, CSVParser csvParser) {
-        if (character == csvParser.separator.symbol) {
-            csvParser.buildColumn();
-        } else if (Character.isWhitespace(character)) {
-            csvParser.setParsingState(new OutQuoted());
-        } else if (character == '\r') {
-            csvParser.setParsingState(new CarriageReturn());
-        } else if (character == '"') {
-            csvParser.addCharacter(character);
-            csvParser.setParsingState(new InQuoted());
-        } else {
-            throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
+    public ParsingState eval(char character) {
+        if (character == separator.symbol) {
+            buildColumn();
+
+            return getNewColumnStart();
         }
+        if (Character.isWhitespace(character)) {
+            return new OutQuoted(rows, stringBuilder);
+        }
+        if (character == '\r') {
+            return new CarriageReturn(rows, stringBuilder, separator);
+        }
+        if (character == '"') {
+            stringBuilder.append(character);
+
+            return new InQuoted(rows, stringBuilder);
+        }
+
+        throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
+    }
+
+    @Override
+    List<List<String>> buildGrid() {
+        return List.of();
     }
 }

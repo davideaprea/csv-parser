@@ -1,12 +1,27 @@
 package csvparser.parser;
 
-class InQuoted implements ParsingState {
+import csvparser.enumeration.CSVColumnSeparator;
+
+import java.util.List;
+
+class InQuoted extends ParsingState {
+    public InQuoted(List<List<String>> rows, StringBuilder stringBuilder, CSVColumnSeparator separator) {
+        super(rows, stringBuilder, separator);
+    }
+
     @Override
-    public void next(char character, CSVParser csvParser) {
+    public ParsingState eval(char character) {
         if (character == '"') {
-            csvParser.setParsingState(new Escaping());
-        } else {
-            csvParser.addCharacter(character);
+            return new Escaping(rows, stringBuilder, separator);
         }
+
+        stringBuilder.append(character);
+
+        return this;
+    }
+
+    @Override
+    List<List<String>> buildGrid() {
+        return List.of();
     }
 }
