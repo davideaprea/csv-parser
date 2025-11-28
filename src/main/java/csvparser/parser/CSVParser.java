@@ -23,6 +23,10 @@ public class CSVParser {
             parsingState.next(string.charAt(i), this);
         }
 
+        if(!stringBuilder.isEmpty()) {
+            buildColumn();
+        }
+
         List<List<String>> result = rows;
 
         initState();
