@@ -10,16 +10,15 @@ public class ColumnStart implements ParsingState {
 
             parsingContext.setParsingState(new InQuoted());
         } else if (character == parsingContext.separator.symbol) {
-            parsingContext.columnBuilder.build();
+            final String column = parsingContext.columnBuilder.build();
             parsingContext.columnBuilder.reset();
 
-            parsingContext.setParsingState(this);
+            parsingContext.gridBuilder.addColumn(column);
         } else if (character == '\r') {
             parsingContext.setParsingState(new CarriageReturn());
         } else if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         } else if (Character.isWhitespace(character)) {
-            parsingContext.setParsingState(this);
             parsingContext.columnBuilder.addCharacter(character);
         } else {
             parsingContext.setParsingState(new InNormal());

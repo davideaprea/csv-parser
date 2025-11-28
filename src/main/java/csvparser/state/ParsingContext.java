@@ -3,7 +3,7 @@ package csvparser.state;
 import csvparser.enumeration.CSVColumnSeparator;
 
 public class ParsingContext {
-    private ParsingState parsingState;
+    private ParsingState parsingState = new ColumnStart();
 
     public final CSVGridBuilder gridBuilder = new CSVGridBuilder();
     public final ColumnBuilder columnBuilder = new ColumnBuilder();

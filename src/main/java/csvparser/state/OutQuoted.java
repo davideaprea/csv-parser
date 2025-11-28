@@ -6,7 +6,11 @@ public class OutQuoted implements ParsingState {
     @Override
     public void next(char character, ParsingContext parsingContext) {
         if (character == parsingContext.separator.symbol) {
-            parsingContext.columnBuilder.build();
+            final String column = parsingContext.columnBuilder.build();
+            parsingContext.columnBuilder.reset();
+
+            parsingContext.gridBuilder.addColumn(column);
+
             parsingContext.setParsingState(new ColumnStart());
         } else if (character == '\r') {
             parsingContext.setParsingState(new CarriageReturn());

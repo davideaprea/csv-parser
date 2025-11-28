@@ -8,15 +8,16 @@ public class InNormal implements ParsingState {
         if (character == '"' || character == '\n') {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         } else if (character == parsingContext.separator.symbol) {
-            parsingContext.columnBuilder.build();
+            final String column = parsingContext.columnBuilder.build();
+            parsingContext.columnBuilder.reset();
+
+            parsingContext.gridBuilder.addColumn(column);
 
             parsingContext.setParsingState(new ColumnStart());
         } else if (character == '\r') {
             parsingContext.setParsingState(new CarriageReturn());
         } else {
             parsingContext.columnBuilder.addCharacter(character);
-
-            parsingContext.setParsingState(this);
         }
     }
 }
