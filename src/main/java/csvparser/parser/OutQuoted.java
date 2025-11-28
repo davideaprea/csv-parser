@@ -1,24 +1,23 @@
 package csvparser.parser;
 
-import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.List;
 
 class OutQuoted extends ParsingState {
-    public OutQuoted(List<List<String>> rows, StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(rows, stringBuilder, separator);
+    public OutQuoted(ParsingContext context) {
+        super(context);
     }
 
     @Override
     public ParsingState eval(char character) {
-        if (character == separator.symbol) {
+        if (character == context.separator().symbol) {
             buildColumn();
 
-            return getNewColumnStart();
+            return new ColumnStart(context);
         }
         if (character == '\r') {
-            return new CarriageReturn(rows, stringBuilder, separator);
+            return new CarriageReturn(context);
         }
         if (Character.isWhitespace(character)) {
             return this;

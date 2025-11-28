@@ -1,18 +1,12 @@
 package csvparser.parser;
 
-import csvparser.enumeration.CSVColumnSeparator;
-
 import java.util.List;
 
 abstract class ParsingState {
-    protected final List<List<String>> rows;
-    protected final StringBuilder stringBuilder;
-    protected final CSVColumnSeparator separator;
+    protected final ParsingContext context;
 
-    public ParsingState(List<List<String>> rows, StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        this.rows = rows;
-        this.stringBuilder = stringBuilder;
-        this.separator = separator;
+    ParsingState(ParsingContext context) {
+        this.context = context;
     }
 
     abstract ParsingState eval(final char character);
@@ -20,10 +14,14 @@ abstract class ParsingState {
     abstract List<List<String>> buildGrid();
 
     protected void buildColumn() {
-        rows.getLast().add(stringBuilder.toString());
+        final String column = context.stringBuilder().toString();
+
+        context.grid().getLast().add(column);
+
+        resetColumn();
     }
 
-    protected ColumnStart getNewColumnStart() {
-        return new ColumnStart(rows, new StringBuilder(), separator);
+    protected void resetColumn() {
+        context.stringBuilder().setLength(0);
     }
 }

@@ -1,14 +1,13 @@
 package csvparser.parser;
 
-import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class CarriageReturn extends ParsingState {
-    public CarriageReturn(List<List<String>> rows, StringBuilder stringBuilder, CSVColumnSeparator separator) {
-        super(rows, stringBuilder, separator);
+    public CarriageReturn(ParsingContext context) {
+        super(context);
     }
 
     @Override
@@ -19,9 +18,9 @@ class CarriageReturn extends ParsingState {
 
         buildColumn();
 
-        rows.add(new ArrayList<>());
+        context.grid().add(new ArrayList<>());
 
-        return getNewColumnStart();
+        return new ColumnStart(context);
     }
 
     @Override
