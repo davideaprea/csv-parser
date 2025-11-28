@@ -2,6 +2,7 @@ package csvparser.parser;
 
 import csvparser.exception.UnexpectedCharacterException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class ColumnStart extends ParsingState {
@@ -11,6 +12,10 @@ class ColumnStart extends ParsingState {
 
     @Override
     public ParsingState eval(final char character) {
+        if(context.grid().isEmpty()) {
+            context.grid().add(new ArrayList<>());
+        }
+
         if (character == '"') {
             resetColumn();
             
