@@ -1,4 +1,4 @@
-package csvparser.state;
+package csvparser.parser;
 
 interface ParsingState {
     void next(final char character, final CSVParser csvParser);

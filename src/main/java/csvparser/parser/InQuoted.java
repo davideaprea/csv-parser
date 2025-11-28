@@ -1,4 +1,4 @@
-package csvparser.state;
+package csvparser.parser;
 
 class InQuoted implements ParsingState {
     @Override
