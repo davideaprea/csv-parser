@@ -1,4 +1,4 @@
 package csvparser.state;
 public interface ParsingState {
-    void next(final char character, final ParsingContext parsingContext);
+    void next(final char character, final CSVParser csvParser);
 }

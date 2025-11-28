@@ -2,11 +2,11 @@ package csvparser.state;
 
 public class InQuoted implements ParsingState {
     @Override
-    public void next(char character, ParsingContext parsingContext) {
+    public void next(char character, CSVParser csvParser) {
         if (character == '"') {
-            parsingContext.setParsingState(new Escaping());
+            csvParser.setParsingState(new Escaping());
         } else {
-            parsingContext.addCharacter(character);
+            csvParser.addCharacter(character);
         }
     }
 }

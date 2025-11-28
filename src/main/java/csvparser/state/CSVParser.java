@@ -5,14 +5,14 @@ import csvparser.enumeration.CSVColumnSeparator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParsingContext {
+public class CSVParser {
     private final List<List<String>> rows = new ArrayList<>();
     private final StringBuilder stringBuilder = new StringBuilder();
     public final CSVColumnSeparator separator;
 
     private ParsingState parsingState = new ColumnStart();
 
-    public ParsingContext(CSVColumnSeparator separator) {
+    public CSVParser(CSVColumnSeparator separator) {
         this.separator = separator;
     }
 
