@@ -1,4 +1,4 @@
-package csvparser.parser;
+package csvparser.state;
 
 import csvparser.enumeration.CSVColumnSeparator;
 

@@ -1,4 +1,4 @@
-package csvparser.parser;
+package csvparser.state;
 
 abstract class ParsingState {
     protected final ParsingContext context;

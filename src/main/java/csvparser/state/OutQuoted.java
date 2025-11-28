@@ -1,8 +1,6 @@
-package csvparser.parser;
+package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
-
-import java.util.List;
 
 class OutQuoted extends ParsingState {
     public OutQuoted(ParsingContext context) {

@@ -1,6 +1,4 @@
-package csvparser.parser;
-
-import java.util.List;
+package csvparser.state;
 
 class InQuoted extends ParsingState {
     public InQuoted(ParsingContext context) {

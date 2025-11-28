@@ -1,9 +1,8 @@
-package csvparser.parser;
+package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 class ColumnStart extends ParsingState {
     public ColumnStart(ParsingContext context) {
