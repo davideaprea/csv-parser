@@ -22,9 +22,4 @@ class CarriageReturn extends ParsingState {
 
         return new ColumnStart(context);
     }
-
-    @Override
-    List<List<String>> buildGrid() {
-        return List.of();
-    }
 }

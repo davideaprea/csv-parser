@@ -1,7 +1,5 @@
 package csvparser.parser;
 
-import java.util.List;
-
 abstract class ParsingState {
     protected final ParsingContext context;
 
@@ -10,8 +8,6 @@ abstract class ParsingState {
     }
 
     abstract ParsingState eval(final char character);
-
-    abstract List<List<String>> buildGrid();
 
     protected void buildColumn() {
         final String column = context.stringBuilder().toString();

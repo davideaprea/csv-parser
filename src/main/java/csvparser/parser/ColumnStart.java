@@ -41,9 +41,4 @@ class ColumnStart extends ParsingState {
 
         return new InNormal(context);
     }
-
-    @Override
-    List<List<String>> buildGrid() {
-        return List.of();
-    }
 }

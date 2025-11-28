@@ -25,9 +25,4 @@ class OutQuoted extends ParsingState {
 
         throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
     }
-
-    @Override
-    List<List<String>> buildGrid() {
-        return List.of();
-    }
 }

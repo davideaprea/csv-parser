@@ -27,9 +27,4 @@ class InNormal extends ParsingState {
 
         return this;
     }
-
-    @Override
-    List<List<String>> buildGrid() {
-        return List.of();
-    }
 }

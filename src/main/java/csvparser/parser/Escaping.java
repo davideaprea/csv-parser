@@ -30,9 +30,4 @@ class Escaping extends ParsingState {
 
         throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
     }
-
-    @Override
-    List<List<String>> buildGrid() {
-        return List.of();
-    }
 }
