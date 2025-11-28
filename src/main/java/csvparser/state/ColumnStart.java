@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-public class ColumnStart implements ParsingState {
+class ColumnStart implements ParsingState {
     @Override
     public void next(final char character, final CSVParser csvParser) {
         if (character == '"') {

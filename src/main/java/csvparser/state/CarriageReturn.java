@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-public class CarriageReturn implements ParsingState {
+class CarriageReturn implements ParsingState {
     @Override
     public void next(char character, CSVParser csvParser) {
         if (character == '\n') {

@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-public class Escaping implements ParsingState {
+class Escaping implements ParsingState {
     @Override
     public void next(char character, CSVParser csvParser) {
         if (character == csvParser.separator.symbol) {

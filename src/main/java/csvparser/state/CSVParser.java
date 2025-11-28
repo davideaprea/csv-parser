@@ -16,21 +16,21 @@ public class CSVParser {
         this.separator = separator;
     }
 
-    public void setParsingState(ParsingState state) {
+    void setParsingState(ParsingState state) {
         if(state != null) {
             parsingState = state;
         }
     }
 
-    public void addCharacter(char character) {
+    void addCharacter(char character) {
         stringBuilder.append(character);
     }
 
-    public void resetColumn() {
+    void resetColumn() {
         stringBuilder.setLength(0);
     }
 
-    public void buildColumn() {
+    void buildColumn() {
         final String column = stringBuilder.toString();
 
         if(rows.isEmpty()) {
@@ -44,7 +44,7 @@ public class CSVParser {
         parsingState = new ColumnStart();
     }
 
-    public void addRow() {
+    void addRow() {
         rows.add(new ArrayList<>());
     }
 }
