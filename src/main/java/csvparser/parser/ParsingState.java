@@ -24,6 +24,6 @@ abstract class ParsingState {
     }
 
     protected ColumnStart getNewColumnStart() {
-        return new ColumnStart(rows, new StringBuilder());
+        return new ColumnStart(rows, new StringBuilder(), separator);
     }
 }
