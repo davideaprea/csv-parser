@@ -10,7 +10,8 @@ public class Escaping extends ParsingState {
     @Override
     public ParsingState eval(char character) {
         if (character == context.separator().symbol) {
-            buildColumn();
+            final String column = endColumn();
+            addColumn(column);
 
             return new ColumnStart(context);
         }

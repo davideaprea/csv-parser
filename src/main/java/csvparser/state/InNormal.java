@@ -13,7 +13,8 @@ public class InNormal extends ParsingState {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         }
         if (character == context.separator().symbol) {
-            buildColumn();
+            final String column = endColumn();
+            addColumn(column);
 
             return new ColumnStart(context);
         }

@@ -17,7 +17,8 @@ public class CarriageReturn extends ParsingState {
             throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
 
-        buildColumn();
+        final String column = endColumn();
+        addColumn(column);
 
         final List<List<String>> grid = context.grid();
         final int gridSize = grid.size();

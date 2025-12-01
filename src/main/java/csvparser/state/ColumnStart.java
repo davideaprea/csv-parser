@@ -21,7 +21,8 @@ public class ColumnStart extends ParsingState {
             return new InQuoted(context);
         }
         if (character == context.separator().symbol) {
-            buildColumn();
+            final String column = endColumn();
+            addColumn(column);
 
             return this;
         }
