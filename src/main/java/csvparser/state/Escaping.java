@@ -12,10 +12,10 @@ public class Escaping extends ParsingState {
         if (context.isSeparator(character)) {
             context.endColumn();
             context.changeState(new ColumnStart(context));
-        } else if (Character.isWhitespace(character)) {
-            context.changeState(new OutQuoted(context));
         } else if (character == '\r') {
             context.changeState(new CarriageReturn(context));
+        } else if (Character.isWhitespace(character)) {
+            context.changeState(new OutQuoted(context));
         } else if (character == '"') {
             context.addCharacter(character);
             context.changeState(new InQuoted(context));

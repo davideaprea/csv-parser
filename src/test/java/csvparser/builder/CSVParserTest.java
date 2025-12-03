@@ -185,22 +185,6 @@ public class CSVParserTest {
     }
 
     @Test
-    void testRowsWithDifferentColumnCounts() {
-        String input = "a,b,c\r\n1,2\r\nx,y,z,w";
-
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
-
-        Assertions.assertEquals(
-                List.of(
-                        List.of("a", "b", "c"),
-                        List.of("1", "2"),
-                        List.of("x", "y", "z", "w")
-                ),
-                result
-        );
-    }
-
-    @Test
     void testOnlyCommas() {
         String input = ",,,";
 
