@@ -8,4 +8,8 @@ public abstract class ParsingState {
     }
 
     public abstract void eval(final char character);
+
+    public boolean isFinalizable() {
+        return true;
+    }
 }

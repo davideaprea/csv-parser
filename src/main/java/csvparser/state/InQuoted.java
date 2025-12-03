@@ -13,4 +13,9 @@ public class InQuoted extends ParsingState {
             context.addCharacter(character);
         }
     }
+
+    @Override
+    public boolean isFinalizable() {
+        return false;
+    }
 }

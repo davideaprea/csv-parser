@@ -62,4 +62,16 @@ public class ParsingContext {
             this.state = state;
         }
     }
+
+    public void evalCharacter(final char character) {
+        state.eval(character);
+    }
+
+    public List<List<String>> end() {
+        if(!state.isFinalizable()) {
+            throw new MalformedFileException("The file ended in an invalid state.");
+        }
+
+        return grid;
+    }
 }

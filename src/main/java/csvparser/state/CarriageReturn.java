@@ -17,4 +17,9 @@ public class CarriageReturn extends ParsingState {
         context.addRow();
         context.changeState(new ColumnStart(context));
     }
+
+    @Override
+    public boolean isFinalizable() {
+        return false;
+    }
 }
