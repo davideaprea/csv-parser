@@ -6,13 +6,11 @@ public class InQuoted extends ParsingState {
     }
 
     @Override
-    public ParsingState eval(char character) {
+    public void eval(char character) {
         if (character == '"') {
-            return new Escaping(context);
+            context.changeState(new Escaping(context));
+        } else {
+            context.addCharacter(character);
         }
-
-        context.addCharacter(character);
-
-        return this;
     }
 }

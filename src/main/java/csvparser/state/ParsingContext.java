@@ -11,10 +11,13 @@ public class ParsingContext {
     private final StringBuilder stringBuilder;
     private final CSVColumnSeparator separator;
 
+    private ParsingState state;
+
     public ParsingContext(CSVColumnSeparator separator) {
         this.separator = separator;
         grid = new ArrayList<>();
         stringBuilder = new StringBuilder();
+        state = new ColumnStart(this);
     }
 
     public void addRow() {
@@ -52,5 +55,11 @@ public class ParsingContext {
 
     public boolean isSeparator(final char character) {
         return separator.symbol == character;
+    }
+
+    public void changeState(final ParsingState state) {
+        if(state != null) {
+            this.state = state;
+        }
     }
 }

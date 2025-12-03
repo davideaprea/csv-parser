@@ -8,19 +8,14 @@ public class OutQuoted extends ParsingState {
     }
 
     @Override
-    public ParsingState eval(char character) {
+    public void eval(char character) {
         if (context.isSeparator(character)) {
             context.endColumn();
-
-            return new ColumnStart(context);
+            context.changeState(new ColumnStart(context));
+        } else if (character == '\r') {
+            context.changeState(new CarriageReturn(context));
+        } else if (!Character.isWhitespace(character)) {
+            throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
-        if (character == '\r') {
-            return new CarriageReturn(context);
-        }
-        if (Character.isWhitespace(character)) {
-            return this;
-        }
-
-        throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
     }
 }

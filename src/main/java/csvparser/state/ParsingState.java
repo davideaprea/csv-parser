@@ -7,5 +7,5 @@ public abstract class ParsingState {
         this.context = context;
     }
 
-    public abstract ParsingState eval(final char character);
+    public abstract void eval(final char character);
 }

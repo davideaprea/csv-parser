@@ -8,14 +8,13 @@ public class CarriageReturn extends ParsingState {
     }
 
     @Override
-    public ParsingState eval(char character) {
+    public void eval(char character) {
         if (character != '\n') {
             throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
 
         context.endColumn();
         context.addRow();
-
-        return new ColumnStart(context);
+        context.changeState(new ColumnStart(context));
     }
 }

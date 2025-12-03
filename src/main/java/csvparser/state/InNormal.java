@@ -8,21 +8,16 @@ public class InNormal extends ParsingState {
     }
 
     @Override
-    public ParsingState eval(char character) {
+    public void eval(char character) {
         if (character == '"' || character == '\n') {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
-        }
-        if (context.isSeparator(character)) {
+        } else if (context.isSeparator(character)) {
             context.endColumn();
-
-            return new ColumnStart(context);
+            context.changeState(new ColumnStart(context));
+        } else if (character == '\r') {
+            context.changeState(new CarriageReturn(context));
+        } else {
+            context.addCharacter(character);
         }
-        if (character == '\r') {
-            return new CarriageReturn(context);
-        }
-
-        context.addCharacter(character);
-
-        return this;
     }
 }
