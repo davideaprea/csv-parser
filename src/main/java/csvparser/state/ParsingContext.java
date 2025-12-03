@@ -72,6 +72,8 @@ public class ParsingContext {
             throw new MalformedFileException("The file ended in an invalid state.");
         }
 
+        endColumn();
+
         return grid;
     }
 }
