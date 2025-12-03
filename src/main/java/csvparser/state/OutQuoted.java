@@ -9,9 +9,8 @@ public class OutQuoted extends ParsingState {
 
     @Override
     public ParsingState eval(char character) {
-        if (character == context.separator().symbol) {
-            final String column = endColumn();
-            addColumn(column);
+        if (context.isSeparator(character)) {
+            context.endColumn();
 
             return new ColumnStart(context);
         }

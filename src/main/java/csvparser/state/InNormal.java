@@ -12,9 +12,8 @@ public class InNormal extends ParsingState {
         if (character == '"' || character == '\n') {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         }
-        if (character == context.separator().symbol) {
-            final String column = endColumn();
-            addColumn(column);
+        if (context.isSeparator(character)) {
+            context.endColumn();
 
             return new ColumnStart(context);
         }
@@ -22,7 +21,7 @@ public class InNormal extends ParsingState {
             return new CarriageReturn(context);
         }
 
-        context.stringBuilder().append(character);
+        context.addCharacter(character);
 
         return this;
     }

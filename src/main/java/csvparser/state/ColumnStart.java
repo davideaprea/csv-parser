@@ -2,8 +2,6 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-import java.util.ArrayList;
-
 public class ColumnStart extends ParsingState {
     public ColumnStart(ParsingContext context) {
         super(context);
@@ -11,18 +9,11 @@ public class ColumnStart extends ParsingState {
 
     @Override
     public ParsingState eval(final char character) {
-        if(context.grid().isEmpty()) {
-            context.grid().add(new ArrayList<>());
-        }
-
         if (character == '"') {
-            resetColumn();
-            
             return new InQuoted(context);
         }
-        if (character == context.separator().symbol) {
-            final String column = endColumn();
-            addColumn(column);
+        if (context.isSeparator(character)) {
+            context.endColumn();
 
             return this;
         }
@@ -33,11 +24,7 @@ public class ColumnStart extends ParsingState {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         }
 
-        context.stringBuilder().append(character);
-
-        if (Character.isWhitespace(character)) {
-            return this;
-        }
+        context.addCharacter(character);
 
         return new InNormal(context);
     }

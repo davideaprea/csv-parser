@@ -11,7 +11,7 @@ public class InQuoted extends ParsingState {
             return new Escaping(context);
         }
 
-        context.stringBuilder().append(character);
+        context.addCharacter(character);
 
         return this;
     }

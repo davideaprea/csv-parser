@@ -9,9 +9,8 @@ public class Escaping extends ParsingState {
 
     @Override
     public ParsingState eval(char character) {
-        if (character == context.separator().symbol) {
-            final String column = endColumn();
-            addColumn(column);
+        if (context.isSeparator(character)) {
+            context.endColumn();
 
             return new ColumnStart(context);
         }
@@ -22,7 +21,7 @@ public class Escaping extends ParsingState {
             return new CarriageReturn(context);
         }
         if (character == '"') {
-            context.stringBuilder().append(character);
+            context.addCharacter(character);
 
             return new InQuoted(context);
         }
