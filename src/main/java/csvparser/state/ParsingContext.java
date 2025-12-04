@@ -34,10 +34,6 @@ public class ParsingContext {
     }
 
     public void addCharacter(final char character) {
-        if (grid.isEmpty()) {
-            grid.add(new ArrayList<>());
-        }
-
         stringBuilder.append(character);
     }
 
