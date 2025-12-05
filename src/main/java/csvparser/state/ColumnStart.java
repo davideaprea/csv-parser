@@ -9,17 +9,21 @@ public class ColumnStart extends ParsingState {
 
     @Override
     public void eval(final char character) {
+        ParsingState nextState = this;
+
         if (character == '"') {
-            context.changeState(new InQuoted(context));
+            nextState = new InQuoted(context);
         } else if (context.isSeparator(character)) {
             context.endColumn();
         } else if (character == '\r') {
-            context.changeState(new CarriageReturn(context));
+            nextState = new CarriageReturn(context);
         } else if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         } else {
             context.addCharacter(character);
-            context.changeState(new InNormal(context));
+            nextState = new InNormal(context);
         }
+
+        context.changeState(nextState);
     }
 }

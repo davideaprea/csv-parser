@@ -9,15 +9,19 @@ public class InNormal extends ParsingState {
 
     @Override
     public void eval(char character) {
+        ParsingState nextState = this;
+
         if (character == '"' || character == '\n') {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
         } else if (context.isSeparator(character)) {
             context.endColumn();
-            context.changeState(new ColumnStart(context));
+            nextState = new ColumnStart(context);
         } else if (character == '\r') {
-            context.changeState(new CarriageReturn(context));
+            nextState = new CarriageReturn(context);
         } else {
             context.addCharacter(character);
         }
+
+        context.changeState(nextState);
     }
 }

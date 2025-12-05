@@ -9,18 +9,22 @@ public class Escaping extends ParsingState {
 
     @Override
     public void eval(char character) {
+        ParsingState nextState = this;
+
         if (context.isSeparator(character)) {
             context.endColumn();
-            context.changeState(new ColumnStart(context));
+            nextState = new ColumnStart(context);
         } else if (character == '\r') {
-            context.changeState(new CarriageReturn(context));
+            nextState = new CarriageReturn(context);
         } else if (Character.isWhitespace(character)) {
-            context.changeState(new OutQuoted(context));
+            nextState = new OutQuoted(context);
         } else if (character == '"') {
             context.addCharacter(character);
-            context.changeState(new InQuoted(context));
+            nextState = new InQuoted(context);
         } else {
             throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
         }
+
+        context.changeState(nextState);
     }
 }

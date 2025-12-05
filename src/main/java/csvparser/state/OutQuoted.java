@@ -9,13 +9,17 @@ public class OutQuoted extends ParsingState {
 
     @Override
     public void eval(char character) {
+        ParsingState nextState = this;
+
         if (context.isSeparator(character)) {
             context.endColumn();
-            context.changeState(new ColumnStart(context));
+            nextState = new ColumnStart(context);
         } else if (character == '\r') {
-            context.changeState(new CarriageReturn(context));
+            nextState = new CarriageReturn(context);
         } else if (!Character.isWhitespace(character)) {
             throw new UnexpectedCharacterException(character, "No values allowed after closed quoted field.");
         }
+
+        context.changeState(nextState);
     }
 }
