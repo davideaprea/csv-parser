@@ -24,4 +24,9 @@ public class InNormal extends ParsingState {
 
         context.changeState(nextState);
     }
+
+    @Override
+    public void end() {
+        context.endColumn();
+    }
 }

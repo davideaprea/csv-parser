@@ -17,7 +17,7 @@ public class ParsingContext {
         this.separator = separator;
         grid = new ArrayList<>();
         stringBuilder = new StringBuilder();
-        state = new ColumnStart(this);
+        state = new Null(this);
     }
 
     public void addRow() {
@@ -64,11 +64,7 @@ public class ParsingContext {
     }
 
     public List<List<String>> end() {
-        if(!state.isFinalizable()) {
-            throw new MalformedFileException("The file ended in an invalid state.");
-        }
-
-        endColumn();
+        state.end();
 
         return grid;
     }

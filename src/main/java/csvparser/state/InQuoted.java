@@ -1,5 +1,7 @@
 package csvparser.state;
 
+import csvparser.exception.MalformedFileException;
+
 public class InQuoted extends ParsingState {
     public InQuoted(ParsingContext context) {
         super(context);
@@ -15,7 +17,7 @@ public class InQuoted extends ParsingState {
     }
 
     @Override
-    public boolean isFinalizable() {
-        return false;
+    public void end() {
+        throw new MalformedFileException("Unclosed quoted field.");
     }
 }
