@@ -80,7 +80,7 @@ public class CSVParserTest {
         List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
-                List.of(List.of(""), List.of("")),
+                List.of(List.of(""), List.of()),
                 result
         );
     }
@@ -226,6 +226,6 @@ public class CSVParserTest {
 
         List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
 
-        Assertions.assertEquals(List.of(List.of("")), result);
+        Assertions.assertEquals(List.of(), result);
     }
 }
