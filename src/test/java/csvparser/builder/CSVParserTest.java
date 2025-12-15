@@ -2,6 +2,8 @@ package csvparser.builder;
 
 import csvparser.CSVParser;
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.MalformedFileException;
+import csvparser.exception.UnexpectedCharacterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -227,5 +229,48 @@ public class CSVParserTest {
         List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(List.of(), result);
+    }
+
+    @Test
+    void testMalformedFileExceptionCases() {
+        String[] cases = {
+                "abc\r\ndef\r",
+                "abc\r\n\"def",
+                "abc,def\r\nghi\r\n,123,456",
+                "\"",
+                "\"abc",
+                "\"a\"\"b"
+        };
+
+        for (String csv : cases) {
+            Assertions.assertThrows(MalformedFileException.class, () -> parser.parse(csv, CSVColumnSeparator.COMMA));
+        }
+    }
+
+    @Test
+    void testUnexpectedCharacterExceptionCases() {
+        String[] cases = {
+                "a\nb",
+                "\"abc\"x",
+                "\"abc\" xyz",
+                "a,b\nc",
+                "a,b\r\nc\nd",
+                "a,\"b\nc\"",
+                "a,\"b\"c",
+                "\"ab\"c",
+                " \"abc\"",
+                "a, \"b\"",
+                "a,\t,b",
+                "a,b,€",
+                "\"abc\";",
+                "a,b\rx",
+                "a,b\r c",
+                "a\"bc",
+                "a,b\r\nc,d\r\n1,2\n3"
+        };
+
+        for (String csv : cases) {
+            Assertions.assertThrows(UnexpectedCharacterException.class, () -> parser.parse(csv, CSVColumnSeparator.COMMA));
+        }
     }
 }
