@@ -3,8 +3,8 @@ package csvparser.state;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class ColumnStart extends ParsingState {
-    protected ColumnStart(GridBuilder gridBuilder) {
-        super(gridBuilder);
+    protected ColumnStart(ParsingContext context) {
+        super(context);
     }
 
     @Override
@@ -12,16 +12,16 @@ public class ColumnStart extends ParsingState {
         ParsingState nextState = this;
 
         if (character == '"') {
-            nextState = new InQuoted(gridBuilder);
-        } else if (gridBuilder.isSeparator(character)) {
-            gridBuilder.endColumn();
+            nextState = new InQuoted(context);
+        } else if (character == context.separator().symbol) {
+            context.gridBuilder().endColumn();
         } else if (character == '\r') {
-            nextState = new CarriageReturn(gridBuilder);
+            nextState = new CarriageReturn(context);
         } else if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         } else {
-            gridBuilder.appendToColumn(character);
-            nextState = new InNormal(gridBuilder);
+            context.gridBuilder().appendToColumn(character);
+            nextState = new InNormal(context);
         }
 
         return nextState;
@@ -29,6 +29,6 @@ public class ColumnStart extends ParsingState {
 
     @Override
     public void end() {
-        gridBuilder.endColumn();
+        context.gridBuilder().endColumn();
     }
 }

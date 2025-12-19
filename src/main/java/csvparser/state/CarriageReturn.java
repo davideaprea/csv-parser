@@ -4,8 +4,8 @@ import csvparser.exception.MalformedFileException;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class CarriageReturn extends ParsingState {
-    protected CarriageReturn(GridBuilder gridBuilder) {
-        super(gridBuilder);
+    protected CarriageReturn(ParsingContext context) {
+        super(context);
     }
 
     @Override
@@ -14,10 +14,10 @@ public class CarriageReturn extends ParsingState {
             throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
 
-        gridBuilder.endColumn();
-        gridBuilder.nextRow();
+        context.gridBuilder().endColumn();
+        context.gridBuilder().nextRow();
 
-        return new RowInit(gridBuilder);
+        return new RowInit(context);
     }
 
     @Override

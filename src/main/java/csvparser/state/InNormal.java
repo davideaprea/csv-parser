@@ -3,8 +3,8 @@ package csvparser.state;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class InNormal extends ParsingState {
-    protected InNormal(GridBuilder gridBuilder) {
-        super(gridBuilder);
+    protected InNormal(ParsingContext context) {
+        super(context);
     }
 
     @Override
@@ -13,13 +13,13 @@ public class InNormal extends ParsingState {
 
         if (character == '"' || character == '\n') {
             throw new UnexpectedCharacterException(character, "This character can't appear in a non-quoted field.");
-        } else if (gridBuilder.isSeparator(character)) {
-            gridBuilder.endColumn();
-            nextState = new ColumnStart(gridBuilder);
+        } else if (character == context.separator().symbol) {
+            context.gridBuilder().endColumn();
+            nextState = new ColumnStart(context);
         } else if (character == '\r') {
-            nextState = new CarriageReturn(gridBuilder);
+            nextState = new CarriageReturn(context);
         } else {
-            gridBuilder.appendToColumn(character);
+            context.gridBuilder().appendToColumn(character);
         }
 
         return nextState;
@@ -27,6 +27,6 @@ public class InNormal extends ParsingState {
 
     @Override
     public void end() {
-        gridBuilder.endColumn();
+        context.gridBuilder().endColumn();
     }
 }

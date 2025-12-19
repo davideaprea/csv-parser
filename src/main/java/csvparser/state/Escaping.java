@@ -3,22 +3,22 @@ package csvparser.state;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class Escaping extends ParsingState {
-    protected Escaping(GridBuilder gridBuilder) {
-        super(gridBuilder);
+    protected Escaping(ParsingContext context) {
+        super(context);
     }
 
     @Override
     public ParsingState eval(char character) {
         ParsingState nextState;
 
-        if (gridBuilder.isSeparator(character)) {
-            gridBuilder.endColumn();
-            nextState = new ColumnStart(gridBuilder);
+        if (character == context.separator().symbol) {
+            context.gridBuilder().endColumn();
+            nextState = new ColumnStart(context);
         } else if (character == '\r') {
-            nextState = new CarriageReturn(gridBuilder);
+            nextState = new CarriageReturn(context);
         } else if (character == '"') {
-            gridBuilder.appendToColumn(character);
-            nextState = new InQuoted(gridBuilder);
+            context.gridBuilder().appendToColumn(character);
+            nextState = new InQuoted(context);
         } else {
             throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");
         }
@@ -28,6 +28,6 @@ public class Escaping extends ParsingState {
 
     @Override
     public void end() {
-        gridBuilder.endColumn();
+        context.gridBuilder().endColumn();
     }
 }

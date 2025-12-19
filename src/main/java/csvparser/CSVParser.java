@@ -10,7 +10,7 @@ public class CSVParser {
             final String value,
             final CSVColumnSeparator separator
     ) {
-        ParsingContext context = new ParsingContext(separator);
+        StateEvaluator context = new StateEvaluator(separator);
 
         for (int i = 0; i < value.length(); i++) {
             context.evalCharacter(value.charAt(i));
