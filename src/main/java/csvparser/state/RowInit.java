@@ -1,6 +1,5 @@
 package csvparser.state;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RowInit extends ParsingState {

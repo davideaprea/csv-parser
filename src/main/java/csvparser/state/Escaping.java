@@ -2,8 +2,6 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-import java.util.List;
-
 public class Escaping extends ParsingState {
     protected Escaping(ParsingContext context) {
         super(context);
