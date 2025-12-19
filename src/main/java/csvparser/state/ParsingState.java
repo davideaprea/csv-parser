@@ -1,5 +1,7 @@
 package csvparser.state;
 
+import java.util.List;
+
 public abstract class ParsingState {
     protected final ParsingContext context;
 
@@ -9,5 +11,9 @@ public abstract class ParsingState {
 
     public abstract ParsingState eval(final char character);
 
-    public abstract void end();
+    public List<List<String>> end() {
+        context.gridBuilder().endColumn();
+
+        return context.gridBuilder().build();
+    }
 }

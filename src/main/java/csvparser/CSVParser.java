@@ -10,12 +10,12 @@ public class CSVParser {
             final String value,
             final CSVColumnSeparator separator
     ) {
-        StateEvaluator context = new StateEvaluator(separator);
+        StateEvaluator stateEvaluator = new StateEvaluator(separator);
 
         for (int i = 0; i < value.length(); i++) {
-            context.evalCharacter(value.charAt(i));
+            stateEvaluator.eval(value.charAt(i));
         }
 
-        return context.end();
+        return stateEvaluator.end();
     }
 }

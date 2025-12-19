@@ -2,6 +2,8 @@ package csvparser.state;
 
 import csvparser.exception.MalformedFileException;
 
+import java.util.List;
+
 public class InQuoted extends ParsingState {
     protected InQuoted(ParsingContext context) {
         super(context);
@@ -19,7 +21,7 @@ public class InQuoted extends ParsingState {
     }
 
     @Override
-    public void end() {
+    public List<List<String>> end() {
         throw new MalformedFileException("Unclosed quoted field.");
     }
 }

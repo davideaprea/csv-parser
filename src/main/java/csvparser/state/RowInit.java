@@ -1,5 +1,8 @@
 package csvparser.state;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RowInit extends ParsingState {
     protected RowInit(ParsingContext context) {
         super(context);
@@ -13,6 +16,7 @@ public class RowInit extends ParsingState {
     }
 
     @Override
-    public void end() {
+    public List<List<String>> end() {
+        return new ArrayList<>();
     }
 }

@@ -2,6 +2,8 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
+import java.util.List;
+
 public class InNormal extends ParsingState {
     protected InNormal(ParsingContext context) {
         super(context);
@@ -23,10 +25,5 @@ public class InNormal extends ParsingState {
         }
 
         return nextState;
-    }
-
-    @Override
-    public void end() {
-        context.gridBuilder().endColumn();
     }
 }
