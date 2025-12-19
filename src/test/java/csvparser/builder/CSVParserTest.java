@@ -10,13 +10,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class CSVParserTest {
-    private final CSVParser parser = new CSVParser();
-
     @Test
     void testSingleField() {
         String input = "abc";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("abc")),
@@ -28,7 +26,7 @@ public class CSVParserTest {
     void testSimpleRow() {
         String input = "a,b,c";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a", "b", "c")),
@@ -40,7 +38,7 @@ public class CSVParserTest {
     void testMultipleRows() {
         String input = "a,b,c\r\n1,2,3";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(
@@ -55,7 +53,7 @@ public class CSVParserTest {
     void testEmptyFieldBetweenCommas() {
         String input = "a,,c";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a", "", "c")),
@@ -67,7 +65,7 @@ public class CSVParserTest {
     void testTrailingComma() {
         String input = "a,b,";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a", "b", "")),
@@ -79,7 +77,7 @@ public class CSVParserTest {
     void testEmptyRow() {
         String input = "\r\n";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of(""), List.of()),
@@ -91,7 +89,7 @@ public class CSVParserTest {
     void testSpacesArePreservedOutsideQuotes() {
         String input = " a , b ";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of(" a ", " b ")),
@@ -103,7 +101,7 @@ public class CSVParserTest {
     void testQuotedFieldWithComma() {
         String input = "\"a,b\",c";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a,b", "c")),
@@ -115,7 +113,7 @@ public class CSVParserTest {
     void testQuotedFieldWithEscapedQuote() {
         String input = "\"a\"\"b\",c";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a\"b", "c")),
@@ -127,7 +125,7 @@ public class CSVParserTest {
     void testQuotedEmptyField() {
         String input = "\"\",x";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("", "x")),
@@ -139,7 +137,7 @@ public class CSVParserTest {
     void testFullyQuotedRow() {
         String input = "\"a\",\"b\",\"c\"";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a", "b", "c")),
@@ -151,7 +149,7 @@ public class CSVParserTest {
     void testQuotedFieldWithLFInside() {
         String input = "\"a\nb\",x";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a\nb", "x")),
@@ -163,7 +161,7 @@ public class CSVParserTest {
     void testQuotedFieldWithCRLFInside() {
         String input = "\"a\r\nb\",x";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("a\r\nb", "x")),
@@ -175,7 +173,7 @@ public class CSVParserTest {
     void testMultipleRowsWithQuotedNewLines() {
         String input = "a,\"b\r\nb\"\r\nc,d";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(
@@ -190,7 +188,7 @@ public class CSVParserTest {
     void testOnlyCommas() {
         String input = ",,,";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("", "", "", "")),
@@ -202,7 +200,7 @@ public class CSVParserTest {
     void testOnlyTwoQuotesMeansEmptyString() {
         String input = "\"\"";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("")),
@@ -214,7 +212,7 @@ public class CSVParserTest {
     void testEOFAfterQuotedField() {
         String input = "\"abc\"";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(
                 List.of(List.of("abc")),
@@ -226,7 +224,7 @@ public class CSVParserTest {
     void testEmptyInputReturnsEmptyList() {
         String input = "";
 
-        List<List<String>> result = parser.parse(input, CSVColumnSeparator.COMMA);
+        List<List<String>> result = CSVParser.parse(input, CSVColumnSeparator.COMMA);
 
         Assertions.assertEquals(List.of(), result);
     }
@@ -243,7 +241,7 @@ public class CSVParserTest {
         };
 
         for (String csv : cases) {
-            Assertions.assertThrows(MalformedFileException.class, () -> parser.parse(csv, CSVColumnSeparator.COMMA));
+            Assertions.assertThrows(MalformedFileException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
         }
     }
 
@@ -269,7 +267,7 @@ public class CSVParserTest {
         for(int i = 0; i < cases.size(); i++) {
             final String csv = cases.get(i);
 
-            Assertions.assertThrows(UnexpectedCharacterException.class, () -> parser.parse(csv, CSVColumnSeparator.COMMA));
+            Assertions.assertThrows(UnexpectedCharacterException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
         }
     }
 }

@@ -6,7 +6,10 @@ import csvparser.state.*;
 import java.util.List;
 
 public class CSVParser {
-    public List<List<String>> parse(
+    private CSVParser() {
+    }
+
+    public static List<List<String>> parse(
             final String value,
             final CSVColumnSeparator separator
     ) {
