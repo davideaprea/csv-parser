@@ -1,4 +1,4 @@
-package csvparser.state;
+package csvparser.builder;
 
 import csvparser.exception.MalformedFileException;
 
@@ -6,13 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridBuilder {
-    private List<List<String>> grid;
-    private StringBuilder stringBuilder;
-
-    public GridBuilder() {
-        grid = new ArrayList<>();
-        stringBuilder = new StringBuilder();
-    }
+    private List<List<String>> grid = new ArrayList<>();
+    private StringBuilder stringBuilder = new StringBuilder();
 
     public void nextRow() {
         final int gridSize = grid.size();
