@@ -4,19 +4,20 @@ import csvparser.exception.MalformedFileException;
 import csvparser.exception.UnexpectedCharacterException;
 
 public class CarriageReturn extends ParsingState {
-    public CarriageReturn(ParsingContext context) {
-        super(context);
+    protected CarriageReturn(GridBuilder gridBuilder) {
+        super(gridBuilder);
     }
 
     @Override
-    public void eval(char character) {
+    public ParsingState eval(char character) {
         if (character != '\n') {
             throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
 
-        context.endColumn();
-        context.addRow();
-        context.changeState(new RowInit(context));
+        gridBuilder.endColumn();
+        gridBuilder.nextRow();
+
+        return new RowInit(gridBuilder);
     }
 
     @Override

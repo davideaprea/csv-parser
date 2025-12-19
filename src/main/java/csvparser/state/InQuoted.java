@@ -3,17 +3,19 @@ package csvparser.state;
 import csvparser.exception.MalformedFileException;
 
 public class InQuoted extends ParsingState {
-    public InQuoted(ParsingContext context) {
-        super(context);
+    protected InQuoted(GridBuilder gridBuilder) {
+        super(gridBuilder);
     }
 
     @Override
-    public void eval(char character) {
+    public ParsingState eval(char character) {
         if (character == '"') {
-            context.changeState(new Escaping(context));
-        } else {
-            context.addCharacter(character);
+            return new Escaping(gridBuilder);
         }
+
+        gridBuilder.appendToColumn(character);
+
+        return this;
     }
 
     @Override

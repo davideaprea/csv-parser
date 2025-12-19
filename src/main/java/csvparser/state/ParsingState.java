@@ -1,13 +1,13 @@
 package csvparser.state;
 
 public abstract class ParsingState {
-    protected final ParsingContext context;
+    protected final GridBuilder gridBuilder;
 
-    ParsingState(ParsingContext context) {
-        this.context = context;
+    protected ParsingState(GridBuilder gridBuilder) {
+        this.gridBuilder = gridBuilder;
     }
 
-    public abstract void eval(final char character);
+    public abstract ParsingState eval(final char character);
 
     public abstract void end();
 }

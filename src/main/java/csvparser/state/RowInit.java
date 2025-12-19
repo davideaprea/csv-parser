@@ -1,19 +1,18 @@
 package csvparser.state;
 
 public class RowInit extends ParsingState {
-    public RowInit(ParsingContext context) {
-        super(context);
+    protected RowInit(GridBuilder gridBuilder) {
+        super(gridBuilder);
     }
 
     @Override
-    public void eval(char character) {
-        context.changeState(new ColumnStart(context));
+    public ParsingState eval(char character) {
+        ParsingState nextState = new ColumnStart(gridBuilder);
 
-        context.evalCharacter(character);
+        return nextState.eval(character);
     }
 
     @Override
     public void end() {
-
     }
 }
