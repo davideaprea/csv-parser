@@ -5,10 +5,10 @@ import csvparser.enumeration.CSVColumnSeparator;
 
 import java.util.List;
 
-public class StateEvaluator {
+public class CharacterEvaluator {
     private ParsingState state;
 
-    public StateEvaluator(CSVColumnSeparator separator) {
+    public CharacterEvaluator(CSVColumnSeparator separator) {
         ParsingContext context = new ParsingContext(new GridBuilder(), separator);
         state = new RowInit(context);
     }
