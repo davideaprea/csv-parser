@@ -2,6 +2,7 @@ package csvparser.builder;
 
 import csvparser.CSVParser;
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.InvalidRowSizeException;
 import csvparser.exception.MalformedFileException;
 import csvparser.exception.UnexpectedCharacterException;
 import org.junit.jupiter.api.Assertions;
@@ -32,11 +33,40 @@ public class CSVParserTest {
     }
 
     @Test
+    void testInvalidRowSizeCases() {
+        List<InvalidCSVTestCase<InvalidRowSizeException>> cases = CSVTestCases.invalidRowSizeCases;
+
+        for (int i = 0; i < cases.size(); i++) {
+            final InvalidCSVTestCase<InvalidRowSizeException> testCase = cases.get(i);
+
+            try {
+                InvalidRowSizeException actualException = Assertions.assertThrows(
+                        InvalidRowSizeException.class,
+                        () -> CSVParser.parse(testCase.input(), CSVColumnSeparator.COMMA)
+                );
+
+                InvalidRowSizeException expectedException = testCase.exception();
+
+                if (
+                    actualException.actualSize != expectedException.actualSize ||
+                    actualException.expectedSize != expectedException.expectedSize ||
+                    actualException.rowNumber != expectedException.rowNumber
+                ) {
+                    throw new AssertionFailedError("Exceptions indexes are different.", expectedException, actualException);
+                }
+            } catch (Throwable e) {
+                System.out.println("Test n. " + (i + 1) + " failed.");
+
+                throw e;
+            }
+        }
+    }
+
+    @Test
     void testMalformedFileExceptionCases() {
         String[] cases = {
                 "abc\r\ndef\r",
                 "abc\r\n\"def",
-                "abc,def\r\nghi\r\n,123,456",
                 "\"",
                 "\"abc",
                 "\"a\"\"b"

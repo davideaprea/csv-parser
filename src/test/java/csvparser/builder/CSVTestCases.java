@@ -1,5 +1,7 @@
 package csvparser.builder;
 
+import csvparser.exception.InvalidRowSizeException;
+
 import java.util.List;
 
 public class CSVTestCases {
@@ -88,5 +90,10 @@ public class CSVTestCases {
                     "",
                     List.of()
             )
+    );
+
+    public static final List<InvalidCSVTestCase<InvalidRowSizeException>> invalidRowSizeCases = List.of(
+            new InvalidCSVTestCase<>("abc,def\r\nghi\r\nlmn,opq", new InvalidRowSizeException(1, 1, 2)),
+            new InvalidCSVTestCase<>("abc,def\r\nghi", new InvalidRowSizeException(1, 1, 2))
     );
 }

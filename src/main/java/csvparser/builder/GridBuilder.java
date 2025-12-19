@@ -1,6 +1,6 @@
 package csvparser.builder;
 
-import csvparser.exception.MalformedFileException;
+import csvparser.exception.InvalidRowSizeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,13 @@ public class GridBuilder {
     public void nextRow() {
         final int gridSize = grid.size();
 
-        if (
-                gridSize > 1 &&
-                grid.get(gridSize - 1).size() != grid.get(gridSize - 2).size()
-        ) {
-            throw new MalformedFileException("Rows should all have the same number of columns.");
+        if (gridSize > 1) {
+            int currRowSize = grid.get(gridSize - 1).size();
+            int prevRowSize = grid.get(gridSize - 2).size();
+
+            if(currRowSize != prevRowSize) {
+                throw new InvalidRowSizeException(gridSize - 1, currRowSize, prevRowSize);
+            }
         }
 
         grid.add(new ArrayList<>());
