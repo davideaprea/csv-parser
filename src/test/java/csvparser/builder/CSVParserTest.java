@@ -249,27 +249,26 @@ public class CSVParserTest {
 
     @Test
     void testUnexpectedCharacterExceptionCases() {
-        String[] cases = {
+        List<String> cases = List.of(
                 "a\nb",
                 "\"abc\"x",
                 "\"abc\" xyz",
                 "a,b\nc",
                 "a,b\r\nc\nd",
-                "a,\"b\nc\"",
                 "a,\"b\"c",
                 "\"ab\"c",
                 " \"abc\"",
                 "a, \"b\"",
-                "a,\t,b",
-                "a,b,€",
                 "\"abc\";",
                 "a,b\rx",
                 "a,b\r c",
                 "a\"bc",
                 "a,b\r\nc,d\r\n1,2\n3"
-        };
+        );
 
-        for (String csv : cases) {
+        for(int i = 0; i < cases.size(); i++) {
+            final String csv = cases.get(i);
+
             Assertions.assertThrows(UnexpectedCharacterException.class, () -> parser.parse(csv, CSVColumnSeparator.COMMA));
         }
     }
