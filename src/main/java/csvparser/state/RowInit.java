@@ -17,6 +17,6 @@ public class RowInit extends ParsingState {
 
     @Override
     public List<List<String>> end() {
-        return new ArrayList<>();
+        return context.gridBuilder().build();
     }
 }
