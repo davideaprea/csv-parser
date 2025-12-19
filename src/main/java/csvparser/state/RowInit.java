@@ -1,7 +1,7 @@
 package csvparser.state;
 
-public class Null extends ParsingState {
-    public Null(ParsingContext context) {
+public class RowInit extends ParsingState {
+    public RowInit(ParsingContext context) {
         super(context);
     }
 

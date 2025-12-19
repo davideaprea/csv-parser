@@ -16,7 +16,7 @@ public class CarriageReturn extends ParsingState {
 
         context.endColumn();
         context.addRow();
-        context.changeState(new Null(context));
+        context.changeState(new RowInit(context));
     }
 
     @Override

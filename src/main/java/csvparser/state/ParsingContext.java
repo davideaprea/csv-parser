@@ -5,19 +5,20 @@ import csvparser.exception.MalformedFileException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ParsingContext {
-    private final List<List<String>> grid;
-    private final StringBuilder stringBuilder;
     private final CSVColumnSeparator separator;
 
     private ParsingState state;
+    private List<List<String>> grid;
+    private StringBuilder stringBuilder;
 
     public ParsingContext(CSVColumnSeparator separator) {
         this.separator = separator;
         grid = new ArrayList<>();
         stringBuilder = new StringBuilder();
-        state = new Null(this);
+        state = new RowInit(this);
     }
 
     public void addRow() {
@@ -40,7 +41,7 @@ public class ParsingContext {
     public void endColumn() {
         final String column = stringBuilder.toString();
 
-        stringBuilder.setLength(0);
+        stringBuilder = new StringBuilder();
 
         if (grid.isEmpty()) {
             grid.add(new ArrayList<>());
@@ -54,9 +55,7 @@ public class ParsingContext {
     }
 
     public void changeState(final ParsingState state) {
-        if(state != null) {
-            this.state = state;
-        }
+        this.state = Objects.requireNonNull(state);
     }
 
     public void evalCharacter(final char character) {
@@ -66,6 +65,10 @@ public class ParsingContext {
     public List<List<String>> end() {
         state.end();
 
-        return grid;
+        final List<List<String>> result = grid;
+        grid = new ArrayList<>();
+        stringBuilder = new StringBuilder();
+
+        return result;
     }
 }
