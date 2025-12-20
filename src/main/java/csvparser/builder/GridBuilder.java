@@ -16,8 +16,6 @@ public class GridBuilder {
             final int prevRowSize = grid.getLast().size();
 
             if(currRowSize != prevRowSize) {
-                System.out.println(currentRow);
-                System.out.println(grid.getLast());
                 throw new InvalidRowSizeException(grid.size(), currRowSize, prevRowSize);
             }
         }
