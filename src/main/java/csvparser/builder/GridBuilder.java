@@ -7,43 +7,41 @@ import java.util.List;
 
 public class GridBuilder {
     private List<List<String>> grid = new ArrayList<>();
-    private StringBuilder stringBuilder = new StringBuilder();
+    private StringBuilder currentColumn = new StringBuilder();
+    private List<String> currentRow = new ArrayList<>();
 
-    public void nextRow() {
-        final int gridSize = grid.size();
-
-        if (gridSize > 1) {
-            int currRowSize = grid.get(gridSize - 1).size();
-            int prevRowSize = grid.get(gridSize - 2).size();
+    public void endRow() {
+        if (!grid.isEmpty()) {
+            final int currRowSize = currentRow.size();
+            final int prevRowSize = grid.getLast().size();
 
             if(currRowSize != prevRowSize) {
-                throw new InvalidRowSizeException(gridSize - 1, currRowSize, prevRowSize);
+                System.out.println(currentRow);
+                System.out.println(grid.getLast());
+                throw new InvalidRowSizeException(grid.size(), currRowSize, prevRowSize);
             }
         }
 
-        grid.add(new ArrayList<>());
+        grid.add(currentRow);
+
+        currentRow = new ArrayList<>();
     }
 
     public void appendToColumn(final char character) {
-        stringBuilder.append(character);
+        currentColumn.append(character);
     }
 
     public void endColumn() {
-        final String column = stringBuilder.toString();
+        currentRow.add(currentColumn.toString());
 
-        stringBuilder = new StringBuilder();
-
-        if (grid.isEmpty()) {
-            grid.add(new ArrayList<>());
-        }
-
-        grid.getLast().add(column);
+        currentColumn = new StringBuilder();
     }
 
     public List<List<String>> build() {
         final List<List<String>> result = grid;
         grid = new ArrayList<>();
-        stringBuilder = new StringBuilder();
+        currentColumn = new StringBuilder();
+        currentRow = new ArrayList<>();
 
         return result;
     }

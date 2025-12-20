@@ -17,7 +17,7 @@ public class CarriageReturn extends ParsingState {
         }
 
         context.gridBuilder().endColumn();
-        context.gridBuilder().nextRow();
+        context.gridBuilder().endRow();
 
         return new RowInit(context);
     }

@@ -34,10 +34,7 @@ public class CSVTestCases {
             ),
             new ValidCSVTestCase(
                     "\r\n",
-                    List.of(
-                            List.of(""),
-                            List.of()
-                    )
+                    List.of(List.of(""))
             ),
             new ValidCSVTestCase(
                     " a , b ",
