@@ -3,7 +3,6 @@ package csvparser.builder;
 import csvparser.CSVParser;
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.exception.InvalidRowSizeException;
-import csvparser.exception.MalformedFileException;
 import csvparser.exception.UnexpectedCharacterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -73,7 +72,7 @@ public class CSVParserTest {
         };
 
         for (String csv : cases) {
-            Assertions.assertThrows(MalformedFileException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
+            Assertions.assertThrows(UnexpectedCharacterException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
         }
     }
 

@@ -1,6 +1,5 @@
 package csvparser.state;
 
-import csvparser.exception.MalformedFileException;
 import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.List;
@@ -24,6 +23,6 @@ public class CarriageReturn extends ParsingState {
 
     @Override
     public List<List<String>> end() {
-        throw new MalformedFileException("Expected LF character");
+        throw new UnexpectedCharacterException('\0', "Expected LF character");
     }
 }
