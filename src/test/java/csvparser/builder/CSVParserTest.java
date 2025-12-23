@@ -47,9 +47,9 @@ public class CSVParserTest {
                 InvalidRowSizeException expectedException = testCase.exception();
 
                 if (
-                    actualException.actualSize != expectedException.actualSize ||
-                    actualException.expectedSize != expectedException.expectedSize ||
-                    actualException.rowNumber != expectedException.rowNumber
+                        actualException.actualSize != expectedException.actualSize ||
+                                actualException.expectedSize != expectedException.expectedSize ||
+                                actualException.rowNumber != expectedException.rowNumber
                 ) {
                     throw new AssertionFailedError("Exceptions indexes are different.", expectedException, actualException);
                 }
@@ -62,43 +62,21 @@ public class CSVParserTest {
     }
 
     @Test
-    void testMalformedFileExceptionCases() {
-        String[] cases = {
-                "abc\r\ndef\r",
-                "abc\r\n\"def",
-                "\"",
-                "\"abc",
-                "\"a\"\"b"
-        };
-
-        for (String csv : cases) {
-            Assertions.assertThrows(UnexpectedCharacterException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
-        }
-    }
-
-    @Test
     void testUnexpectedCharacterExceptionCases() {
-        List<String> cases = List.of(
-                "a\nb",
-                "\"abc\"x",
-                "\"abc\" xyz",
-                "a,b\nc",
-                "a,b\r\nc\nd",
-                "a,\"b\"c",
-                "\"ab\"c",
-                " \"abc\"",
-                "a, \"b\"",
-                "\"abc\";",
-                "a,b\rx",
-                "a,b\r c",
-                "a\"bc",
-                "a,b\r\nc,d\r\n1,2\n3"
-        );
+        List<InvalidCSVTestCase<UnexpectedCharacterException>> cases = CSVTestCases.unexpectedCharacterCases;
 
         for (int i = 0; i < cases.size(); i++) {
-            final String csv = cases.get(i);
+            final InvalidCSVTestCase<UnexpectedCharacterException> testCase = cases.get(i);
 
-            Assertions.assertThrows(UnexpectedCharacterException.class, () -> CSVParser.parse(csv, CSVColumnSeparator.COMMA));
+            try {
+                UnexpectedCharacterException exception = Assertions.assertThrows(UnexpectedCharacterException.class, () -> CSVParser.parse(testCase.input(), CSVColumnSeparator.COMMA));
+
+                Assertions.assertEquals(testCase.exception().unexpectedCharacter, exception.unexpectedCharacter);
+            } catch (Throwable e) {
+                System.out.println("Test n. " + (i + 1) + " with input " + testCase.input() + " failed.");
+
+                throw e;
+            }
         }
     }
 }
