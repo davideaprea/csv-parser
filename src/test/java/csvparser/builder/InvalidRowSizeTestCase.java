@@ -2,12 +2,17 @@ package csvparser.builder;
 
 import csvparser.exception.InvalidRowSizeException;
 
-public class InvalidRowSizeTestCase {
-    private final String input;
-    private final InvalidRowSizeException expected;
+public class InvalidRowSizeTestCase extends InvalidCSVTestCase<InvalidRowSizeException> {
+    protected InvalidRowSizeTestCase(String input, InvalidRowSizeException exceptionInstance, Class<InvalidRowSizeException> exceptionType) {
+        super(input, exceptionInstance, exceptionType);
+    }
 
-    public InvalidRowSizeTestCase(String input, InvalidRowSizeException e) {
-        this.input = input;
-        this.expected = e;
+    @Override
+    public boolean isSameException(Throwable exceptionInstance) {
+        if(!(exceptionInstance instanceof InvalidRowSizeException rowSizeException)) return false;
+
+        return rowSizeException.actualSize == this.exceptionInstance.actualSize &&
+                rowSizeException.expectedSize == this.exceptionInstance.expectedSize &&
+                rowSizeException.rowNumber == this.exceptionInstance.rowNumber;
     }
 }
