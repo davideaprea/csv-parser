@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-public class Escaping extends ParsingState {
+class Escaping extends ParsingState {
     protected Escaping(ParsingContext context) {
         super(context);
     }

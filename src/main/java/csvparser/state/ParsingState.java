@@ -4,7 +4,7 @@ import csvparser.builder.GridBuilder;
 
 import java.util.List;
 
-public abstract class ParsingState {
+abstract class ParsingState {
     protected final ParsingContext context;
 
     protected ParsingState(ParsingContext context) {

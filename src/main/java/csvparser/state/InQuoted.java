@@ -4,7 +4,7 @@ import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.List;
 
-public class InQuoted extends ParsingState {
+class InQuoted extends ParsingState {
     protected InQuoted(ParsingContext context) {
         super(context);
     }

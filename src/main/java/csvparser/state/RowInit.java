@@ -2,7 +2,7 @@ package csvparser.state;
 
 import java.util.List;
 
-public class RowInit extends ParsingState {
+class RowInit extends ParsingState {
     protected RowInit(ParsingContext context) {
         super(context);
     }
