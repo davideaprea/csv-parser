@@ -1,4 +1,4 @@
-package csvparser.builder;
+package csvparser;
 
 public abstract class InvalidCSVTestCase<T extends Throwable> {
     public final String input;

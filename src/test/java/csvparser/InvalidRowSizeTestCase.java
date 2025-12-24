@@ -1,4 +1,4 @@
-package csvparser.builder;
+package csvparser;
 
 import csvparser.exception.InvalidRowSizeException;
 
