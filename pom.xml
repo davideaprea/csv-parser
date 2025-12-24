@@ -4,13 +4,17 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>nome-progetto</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.davideaprea</groupId>
+    <artifactId>csv-parser</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>CSV parser</name>
+    <description>CSV parsing utilities</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
