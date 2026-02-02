@@ -10,14 +10,14 @@ import csvparser.structure.CSVRow;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.util.Iterator;
 
 public class RowIterator implements Iterator<CSVRow> {
     private final Reader reader;
     private final CSVColumnSeparator separator;
 
-    private CSVRow current;
+    private CSVRow currentRow;
+    private int currentCharacter;
 
     public RowIterator(Reader reader, CSVColumnSeparator separator) {
         this.reader = reader;
@@ -28,14 +28,15 @@ public class RowIterator implements Iterator<CSVRow> {
 
     @Override
     public boolean hasNext() {
-        return current != null;
+        return currentRow != null;
     }
 
     @Override
     public CSVRow next() {
         try {
-            final CSVRow current = this.current;
-            this.current = parseNext(reader);
+            final CSVRow current = this.currentRow;
+
+            parseNext();
 
             return current;
         } catch (IOException e) {
@@ -43,24 +44,26 @@ public class RowIterator implements Iterator<CSVRow> {
         }
     }
 
-    private CSVRow parseNext(Reader reader) throws IOException {
+    private void parseNext() throws IOException {
+        if (currentCharacter == -1) {
+            currentRow = null;
+
+            return;
+        }
+
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
         );
         ParsingState parsingState = new RowInit(parsingContext);
-        int currCharacter = reader.read();
-
-        if (currCharacter == -1) return null;
 
         while (
-                !(parsingState instanceof RowEnd) &&
-                currCharacter >= 0
+            !(parsingState instanceof RowEnd) &&
+            (currentCharacter = reader.read()) >= 0
         ) {
-            parsingState = parsingState.eval((char) currCharacter);
-            currCharacter = reader.read();
+            parsingState = parsingState.eval((char) currentCharacter);
         }
 
-        return parsingState.end();
+        currentRow = parsingState.end();
     }
 }
