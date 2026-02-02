@@ -1,10 +1,6 @@
 package csvparser.state;
 
-import csvparser.exception.UnexpectedCharacterException;
-
-import java.util.List;
-
-class InQuoted extends ParsingState {
+public class InQuoted extends ParsingState {
     protected InQuoted(ParsingContext context) {
         super(context);
     }
@@ -15,13 +11,8 @@ class InQuoted extends ParsingState {
             return new Escaping(context);
         }
 
-        context.gridBuilder().appendToColumn(character);
+        context.rowBuilder().appendToColumn(character);
 
         return this;
-    }
-
-    @Override
-    public List<List<String>> end() {
-        throw new UnexpectedCharacterException('\0', "Unclosed quoted field.");
     }
 }

@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-class Escaping extends ParsingState {
+public class Escaping extends ParsingState {
     protected Escaping(ParsingContext context) {
         super(context);
     }
@@ -12,12 +12,12 @@ class Escaping extends ParsingState {
         ParsingState nextState;
 
         if (character == context.separator().symbol) {
-            context.gridBuilder().endColumn();
+            context.rowBuilder().endColumn();
             nextState = new ColumnStart(context);
         } else if (character == '\r') {
             nextState = new CarriageReturn(context);
         } else if (character == '"') {
-            context.gridBuilder().appendToColumn(character);
+            context.rowBuilder().appendToColumn(character);
             nextState = new InQuoted(context);
         } else {
             throw new UnexpectedCharacterException(character, "Found invalid character for escaping.");

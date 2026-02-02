@@ -1,12 +1,16 @@
 package csvparser;
 
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.structure.CSVRow;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.StringReader;
 import java.util.List;
 
 public class CSVParserTest {
+    private final CSVParser parser = new CSVParser(CSVColumnSeparator.COMMA);
+
     @Test
     void testValidCases() {
         List<ValidCSVTestCase> cases = CSVTestCases.validCSVTestCases;
@@ -17,7 +21,10 @@ public class CSVParserTest {
             try {
                 Assertions.assertEquals(
                         testCase.output(),
-                        CSVParser.parse(testCase.input(), CSVColumnSeparator.COMMA)
+                        parser
+                                .from(new StringReader(testCase.input()))
+                                .map(CSVRow::getIterator)
+                                .toList()
                 );
             } catch (Throwable e) {
                 System.out.println("Test n. " + (i + 1) + " failed.");
@@ -37,7 +44,12 @@ public class CSVParserTest {
             try {
                 Throwable actualException = Assertions.assertThrows(
                         testCase.exceptionType,
-                        () -> CSVParser.parse(testCase.input, CSVColumnSeparator.COMMA)
+                        () -> {
+                            parser
+                                    .from(new StringReader(testCase.input))
+                                    .map(CSVRow::getIterator)
+                                    .toList();
+                        }
                 );
 
                 Assertions.assertTrue(testCase.isSameException(actualException));

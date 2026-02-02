@@ -2,7 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-class ColumnStart extends ParsingState {
+public class ColumnStart extends ParsingState {
     protected ColumnStart(ParsingContext context) {
         super(context);
     }
@@ -14,13 +14,13 @@ class ColumnStart extends ParsingState {
         if (character == '"') {
             nextState = new InQuoted(context);
         } else if (character == context.separator().symbol) {
-            context.gridBuilder().endColumn();
+            context.rowBuilder().endColumn();
         } else if (character == '\r') {
             nextState = new CarriageReturn(context);
         } else if (character == '\n') {
             throw new UnexpectedCharacterException(character, "LF characters should only appear in quoted fields or after a CR character.");
         } else {
-            context.gridBuilder().appendToColumn(character);
+            context.rowBuilder().appendToColumn(character);
             nextState = new InNormal(context);
         }
 

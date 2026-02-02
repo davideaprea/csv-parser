@@ -1,9 +1,7 @@
 package csvparser.state;
 
-import java.util.List;
-
-class RowInit extends ParsingState {
-    protected RowInit(ParsingContext context) {
+public class RowInit extends ParsingState {
+    public RowInit(ParsingContext context) {
         super(context);
     }
 
@@ -12,10 +10,5 @@ class RowInit extends ParsingState {
         ParsingState nextState = new ColumnStart(context);
 
         return nextState.eval(character);
-    }
-
-    @Override
-    public List<List<String>> end() {
-        return context.gridBuilder().build();
     }
 }

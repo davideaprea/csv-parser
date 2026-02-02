@@ -2,9 +2,7 @@ package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
 
-import java.util.List;
-
-class CarriageReturn extends ParsingState {
+public class CarriageReturn extends ParsingState {
     protected CarriageReturn(ParsingContext context) {
         super(context);
     }
@@ -15,14 +13,8 @@ class CarriageReturn extends ParsingState {
             throw new UnexpectedCharacterException(character, "Expected LF character.");
         }
 
-        context.gridBuilder().endColumn();
-        context.gridBuilder().endRow();
+        context.rowBuilder().endColumn();
 
-        return new RowInit(context);
-    }
-
-    @Override
-    public List<List<String>> end() {
-        throw new UnexpectedCharacterException('\0', "Expected LF character");
+        return new RowEnd(context);
     }
 }

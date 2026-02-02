@@ -1,24 +1,28 @@
 package csvparser;
 
 import csvparser.enumeration.CSVColumnSeparator;
-import csvparser.state.*;
+import csvparser.iterator.RowIterator;
+import csvparser.structure.CSVRow;
 
-import java.util.List;
+import java.io.Reader;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class CSVParser {
-    private CSVParser() {
+    private final CSVColumnSeparator separator;
+
+    public CSVParser(CSVColumnSeparator separator) {
+        this.separator = separator;
     }
 
-    public static List<List<String>> parse(
-            final String value,
-            final CSVColumnSeparator separator
-    ) {
-        CharacterEvaluator characterEvaluator = new CharacterEvaluator(separator);
+    public Stream<CSVRow> from(Reader reader) {
+        final RowIterator rowIterator = new RowIterator(reader, separator);
 
-        for (int i = 0; i < value.length(); i++) {
-            characterEvaluator.eval(value.charAt(i));
-        }
-
-        return characterEvaluator.end();
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(rowIterator, Spliterator.ORDERED),
+                false
+        );
     }
 }
