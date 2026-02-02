@@ -1,5 +1,7 @@
 package csvparser.state;
 
+import csvparser.structure.CSVRow;
+
 public abstract class ParsingState {
     protected final ParsingContext context;
 
@@ -8,4 +10,10 @@ public abstract class ParsingState {
     }
 
     public abstract ParsingState eval(final char character);
+
+    public CSVRow end() {
+        context.rowBuilder().endColumn();
+
+        return context.rowBuilder().build();
+    }
 }

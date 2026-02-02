@@ -2,7 +2,6 @@ package csvparser.iterator;
 
 import csvparser.builder.RowBuilder;
 import csvparser.enumeration.CSVColumnSeparator;
-import csvparser.exception.InvalidRowSizeException;
 import csvparser.state.ParsingContext;
 import csvparser.state.ParsingState;
 import csvparser.state.RowEnd;
@@ -19,12 +18,10 @@ public class RowIterator implements Iterator<CSVRow> {
     private final CSVColumnSeparator separator;
 
     private CSVRow current;
-    private int rowsNumber;
 
     public RowIterator(Reader reader, CSVColumnSeparator separator) {
         this.reader = reader;
         this.separator = separator;
-        rowsNumber = 0;
 
         next();
     }
@@ -36,38 +33,34 @@ public class RowIterator implements Iterator<CSVRow> {
 
     @Override
     public CSVRow next() {
+        try {
+            final CSVRow current = this.current;
+            this.current = parseNext(reader);
+
+            return current;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private CSVRow parseNext(Reader reader) throws IOException {
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
         );
         ParsingState parsingState = new RowInit(parsingContext);
-        int currCharacter;
+        int currCharacter = reader.read();
 
-        try {
-            while (
-                    !(parsingState instanceof RowEnd) &&
-                    (currCharacter = reader.read()) >= 0
-            ) {
-                parsingState = parsingState.eval((char) currCharacter);
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        if (currCharacter == -1) return null;
+
+        while (
+                !(parsingState instanceof RowEnd) &&
+                currCharacter >= 0
+        ) {
+            parsingState = parsingState.eval((char) currCharacter);
+            currCharacter = reader.read();
         }
 
-        CSVRow next = parsingContext.rowBuilder().build();
-
-        rowsNumber++;
-
-        if (current != null && current.columnsNumber() != next.columnsNumber()) {
-            throw new InvalidRowSizeException(
-                    rowsNumber,
-                    next.columnsNumber(),
-                    current.columnsNumber()
-            );
-        }
-
-        current = next;
-
-        return current;
+        return parsingState.end();
     }
 }

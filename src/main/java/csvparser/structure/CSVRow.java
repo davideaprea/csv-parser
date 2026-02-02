@@ -1,24 +1,23 @@
 package csvparser.structure;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class CSVRow {
-    private final List<String> value;
+    private final List<String> columns;
 
-    public CSVRow(List<String> value) {
-        this.value = value;
+    public CSVRow(List<String> columns) {
+        this.columns = columns;
     }
 
     public String get(int columnIndex) {
-        return value.get(columnIndex);
+        return columns.get(columnIndex);
     }
 
     public int columnsNumber() {
-        return value.size();
+        return columns.size();
     }
 
-    public Iterator<String> getIterator() {
-        return value.iterator();
+    public List<String> getColumns() {
+        return List.copyOf(columns);
     }
 }

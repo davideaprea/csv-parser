@@ -23,7 +23,7 @@ public class CSVParserTest {
                         testCase.output(),
                         parser
                                 .from(new StringReader(testCase.input()))
-                                .map(CSVRow::getIterator)
+                                .map(CSVRow::getColumns)
                                 .toList()
                 );
             } catch (Throwable e) {
@@ -47,7 +47,7 @@ public class CSVParserTest {
                         () -> {
                             parser
                                     .from(new StringReader(testCase.input))
-                                    .map(CSVRow::getIterator)
+                                    .map(CSVRow::getColumns)
                                     .toList();
                         }
                 );
