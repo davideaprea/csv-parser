@@ -2,6 +2,7 @@ package csvparser.iterator;
 
 import csvparser.builder.RowBuilder;
 import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.exception.InvalidRowSizeException;
 import csvparser.state.ParsingContext;
 import csvparser.state.ParsingState;
 import csvparser.state.RowEnd;
@@ -18,6 +19,7 @@ public class RowIterator implements Iterator<CSVRow> {
 
     private CSVRow currentRow;
     private int currentCharacter;
+    private int processedRowsCounter = -1;
 
     public RowIterator(Reader reader, CSVColumnSeparator separator) {
         this.reader = reader;
@@ -37,6 +39,16 @@ public class RowIterator implements Iterator<CSVRow> {
             final CSVRow current = this.currentRow;
 
             parseNext();
+
+            processedRowsCounter++;
+
+            if (areRowsDifferent(current, currentRow)) {
+                throw new InvalidRowSizeException(
+                        processedRowsCounter,
+                        currentRow.columnsNumber(),
+                        current.columnsNumber()
+                );
+            }
 
             return current;
         } catch (IOException e) {
@@ -65,5 +77,9 @@ public class RowIterator implements Iterator<CSVRow> {
         }
 
         currentRow = parsingState.end();
+    }
+
+    private boolean areRowsDifferent(CSVRow a, CSVRow b) {
+        return a != null && b != null && a.columnsNumber() != b.columnsNumber();
     }
 }
