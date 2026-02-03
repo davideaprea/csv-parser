@@ -13,7 +13,7 @@ public class Row {
         return columns.get(columnIndex);
     }
 
-    public int columnsNumber() {
+    public int size() {
         return columns.size();
     }
 

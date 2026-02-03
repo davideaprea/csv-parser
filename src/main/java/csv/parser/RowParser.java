@@ -38,7 +38,7 @@ public class RowParser {
 
         final Row parsedRow = parsingState.end();
 
-        if (currentCharacter == -1 && parsedRow.columnsNumber() == 0) {
+        if (currentCharacter == -1 && parsedRow.size() == 0) {
             return null;
         }
 

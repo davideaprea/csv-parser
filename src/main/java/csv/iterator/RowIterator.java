@@ -39,13 +39,13 @@ public class RowIterator implements Iterator<Row> {
         final boolean areRowSizesDifferent =
                 row != null &&
                 nextRow != null &&
-                row.columnsNumber() != nextRow.columnsNumber();
+                row.size() != nextRow.size();
 
         if (areRowSizesDifferent) {
             throw new InvalidRowSizeException(
                     currentRowIndex,
-                    nextRow.columnsNumber(),
-                    row.columnsNumber()
+                    nextRow.size(),
+                    row.size()
             );
         }
     }
