@@ -25,27 +25,27 @@ public class RowIterator implements Iterator<CSVRow> {
 
     @Override
     public CSVRow next() {
-        final CSVRow previous = this.nextRow;
+        final CSVRow result = this.nextRow;
         nextRow = csvRowParser.next();
 
         currentRowIndex++;
 
-        checkNewRowSize(previous);
+        checkNewRowSize(result);
 
-        return previous;
+        return result;
     }
 
-    private void checkNewRowSize(CSVRow newRow) {
+    private void checkNewRowSize(CSVRow row) {
         final boolean areRowSizesDifferent =
-                newRow != null &&
+                row != null &&
                 nextRow != null &&
-                newRow.columnsNumber() != nextRow.columnsNumber();
+                row.columnsNumber() != nextRow.columnsNumber();
 
         if (areRowSizesDifferent) {
             throw new InvalidRowSizeException(
                     currentRowIndex,
                     nextRow.columnsNumber(),
-                    newRow.columnsNumber()
+                    row.columnsNumber()
             );
         }
     }
