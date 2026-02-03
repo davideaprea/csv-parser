@@ -18,7 +18,6 @@ public class RowIterator implements Iterator<CSVRow> {
     private final CSVColumnSeparator separator;
 
     private CSVRow currentRow;
-    private int currentCharacter;
     private int processedRowsCounter = -1;
 
     public RowIterator(Reader reader, CSVColumnSeparator separator) {
@@ -62,6 +61,7 @@ public class RowIterator implements Iterator<CSVRow> {
                 separator
         );
         ParsingState parsingState = new RowInit(parsingContext);
+        int currentCharacter = -1;
 
         while (
                 !(parsingState instanceof RowEnd) &&
