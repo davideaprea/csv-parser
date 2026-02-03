@@ -2,7 +2,7 @@ package csvparser;
 
 import java.util.List;
 
-public record ValidCSVTestCase(
+public record ValidTestCase(
         String input,
         List<List<String>> output
 ) {

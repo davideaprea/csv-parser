@@ -1,7 +1,7 @@
 package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 public class RowEnd extends ParsingState {
     protected RowEnd(ParsingContext context) {
@@ -14,7 +14,7 @@ public class RowEnd extends ParsingState {
     }
 
     @Override
-    public CSVRow end() {
+    public Row end() {
         return context.rowBuilder().build();
     }
 }

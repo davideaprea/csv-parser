@@ -1,29 +1,30 @@
 package csvparser;
 
-import csvparser.enumeration.CSVColumnSeparator;
-import csvparser.structure.CSVRow;
+import csvparser.enumeration.ColumnSeparator;
+import csvparser.parser.Parser;
+import csvparser.structure.Row;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
 import java.util.List;
 
-public class CSVParserTest {
-    private final CSVParser parser = new CSVParser(CSVColumnSeparator.COMMA);
+public class ParserTest {
+    private final Parser parser = new Parser(ColumnSeparator.COMMA);
 
     @Test
     void testValidCases() {
-        List<ValidCSVTestCase> cases = CSVTestCases.validCSVTestCases;
+        List<ValidTestCase> cases = TestCases.VALID_TEST_CASES;
 
         for (int i = 0; i < cases.size(); i++) {
-            final ValidCSVTestCase testCase = cases.get(i);
+            final ValidTestCase testCase = cases.get(i);
 
             try {
                 Assertions.assertEquals(
                         testCase.output(),
                         parser
                                 .from(new StringReader(testCase.input()))
-                                .map(CSVRow::getColumns)
+                                .map(Row::getColumns)
                                 .toList()
                 );
             } catch (Throwable e) {
@@ -36,10 +37,10 @@ public class CSVParserTest {
 
     @Test
     void testInvalidRowSizeCases() {
-        List<InvalidCSVTestCase<?>> cases = CSVTestCases.invalidCSVTestCases;
+        List<InvalidTestCase<?>> cases = TestCases.invalidTestCases;
 
         for (int i = 0; i < cases.size(); i++) {
-            final InvalidCSVTestCase<?> testCase = cases.get(i);
+            final InvalidTestCase<?> testCase = cases.get(i);
 
             try {
                 Throwable actualException = Assertions.assertThrows(
@@ -47,7 +48,7 @@ public class CSVParserTest {
                         () -> {
                             parser
                                     .from(new StringReader(testCase.input))
-                                    .map(CSVRow::getColumns)
+                                    .map(Row::getColumns)
                                     .toList();
                         }
                 );

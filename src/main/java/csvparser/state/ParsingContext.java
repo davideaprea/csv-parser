@@ -1,10 +1,10 @@
 package csvparser.state;
 
 import csvparser.builder.RowBuilder;
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.enumeration.ColumnSeparator;
 
 public record ParsingContext(
         RowBuilder rowBuilder,
-        CSVColumnSeparator separator
+        ColumnSeparator separator
 ) {
 }

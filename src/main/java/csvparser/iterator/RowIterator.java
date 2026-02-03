@@ -1,19 +1,19 @@
 package csvparser.iterator;
 
 import csvparser.exception.InvalidRowSizeException;
-import csvparser.parser.CSVRowParser;
-import csvparser.structure.CSVRow;
+import csvparser.parser.RowParser;
+import csvparser.structure.Row;
 
 import java.util.Iterator;
 
-public class RowIterator implements Iterator<CSVRow> {
-    private final CSVRowParser csvRowParser;
+public class RowIterator implements Iterator<Row> {
+    private final RowParser rowParser;
 
-    private CSVRow nextRow;
+    private Row nextRow;
     private int currentRowIndex = -1;
 
-    public RowIterator(CSVRowParser csvRowParser) {
-        this.csvRowParser = csvRowParser;
+    public RowIterator(RowParser rowParser) {
+        this.rowParser = rowParser;
 
         next();
     }
@@ -24,9 +24,9 @@ public class RowIterator implements Iterator<CSVRow> {
     }
 
     @Override
-    public CSVRow next() {
-        final CSVRow result = this.nextRow;
-        nextRow = csvRowParser.next();
+    public Row next() {
+        final Row result = this.nextRow;
+        nextRow = rowParser.next();
 
         currentRowIndex++;
 
@@ -35,7 +35,7 @@ public class RowIterator implements Iterator<CSVRow> {
         return result;
     }
 
-    private void checkNewRowSize(CSVRow row) {
+    private void checkNewRowSize(Row row) {
         final boolean areRowSizesDifferent =
                 row != null &&
                 nextRow != null &&

@@ -1,27 +1,27 @@
 package csvparser.parser;
 
 import csvparser.builder.RowBuilder;
-import csvparser.enumeration.CSVColumnSeparator;
+import csvparser.enumeration.ColumnSeparator;
 import csvparser.state.ParsingContext;
 import csvparser.state.ParsingState;
 import csvparser.state.RowEnd;
 import csvparser.state.RowInit;
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 
-public class CSVRowParser {
+public class RowParser {
     private final Reader input;
-    private final CSVColumnSeparator separator;
+    private final ColumnSeparator separator;
 
-    public CSVRowParser(Reader input, CSVColumnSeparator separator) {
+    public RowParser(Reader input, ColumnSeparator separator) {
         this.input = input;
         this.separator = separator;
     }
 
-    public CSVRow next() {
+    public Row next() {
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
@@ -36,7 +36,7 @@ public class CSVRowParser {
             parsingState = parsingState.eval((char) currentCharacter);
         }
 
-        final CSVRow parsedRow = parsingState.end();
+        final Row parsedRow = parsingState.end();
 
         if (currentCharacter == -1 && parsedRow.columnsNumber() == 0) {
             return null;

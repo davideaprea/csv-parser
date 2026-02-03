@@ -1,6 +1,6 @@
 package csvparser.builder;
 
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ public class RowBuilder {
         currentColumn = new StringBuilder();
     }
 
-    public CSVRow build() {
-        CSVRow csvRow = new CSVRow(row);
+    public Row build() {
+        Row row = new Row(this.row);
         currentColumn = new StringBuilder();
         this.row = new ArrayList<>();
 
-        return csvRow;
+        return row;
     }
 }

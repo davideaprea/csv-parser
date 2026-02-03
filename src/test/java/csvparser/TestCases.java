@@ -5,92 +5,92 @@ import csvparser.exception.UnexpectedCharacterException;
 
 import java.util.List;
 
-public class CSVTestCases {
-    private CSVTestCases() {
+public class TestCases {
+    private TestCases() {
     }
 
-    public static final List<ValidCSVTestCase> validCSVTestCases = List.of(
-            new ValidCSVTestCase(
+    public static final List<ValidTestCase> VALID_TEST_CASES = List.of(
+            new ValidTestCase(
                     "abc",
                     List.of(List.of("abc"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "a,b,c",
                     List.of(List.of("a", "b", "c"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "a,b,c\r\n1,2,3",
                     List.of(
                             List.of("a", "b", "c"),
                             List.of("1", "2", "3")
                     )
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "a,,c",
                     List.of(List.of("a", "", "c"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "a,b,",
                     List.of(List.of("a", "b", ""))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\r\n",
                     List.of(List.of(""))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     " a , b ",
                     List.of(List.of(" a ", " b "))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"a,b\",c",
                     List.of(List.of("a,b", "c"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"a\"\"b\",c",
                     List.of(List.of("a\"b", "c"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"\",x",
                     List.of(List.of("", "x"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"a\",\"b\",\"c\"",
                     List.of(List.of("a", "b", "c"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"a\nb\",x",
                     List.of(List.of("a\nb", "x"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"a\r\nb\",x",
                     List.of(List.of("a\r\nb", "x"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "a,\"b\r\nb\"\r\nc,d",
                     List.of(
                             List.of("a", "b\r\nb"),
                             List.of("c", "d")
                     )
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     ",,,",
                     List.of(List.of("", "", "", ""))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"\"",
                     List.of(List.of(""))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "\"abc\"",
                     List.of(List.of("abc"))
             ),
-            new ValidCSVTestCase(
+            new ValidTestCase(
                     "",
                     List.of()
             )
     );
 
-    public static List<InvalidCSVTestCase<?>> invalidCSVTestCases = List.of(
+    public static List<InvalidTestCase<?>> invalidTestCases = List.of(
             new InvalidRowSizeTestCase(
                     "abc,def\r\nghi\r\nlmn,opq",
                     new InvalidRowSizeException(1, 1, 2),

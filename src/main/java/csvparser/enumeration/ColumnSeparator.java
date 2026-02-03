@@ -1,6 +1,6 @@
 package csvparser.enumeration;
 
-public enum CSVColumnSeparator {
+public enum ColumnSeparator {
     COMMA(','),
     SEMICOLON(';'),
     TAB('\t'),
@@ -8,7 +8,7 @@ public enum CSVColumnSeparator {
 
     public final char symbol;
 
-    CSVColumnSeparator(final char symbol) {
+    ColumnSeparator(final char symbol) {
         this.symbol = symbol;
     }
 }

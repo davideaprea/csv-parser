@@ -1,6 +1,6 @@
 package csvparser.state;
 
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 public class RowInit extends ParsingState {
     public RowInit(ParsingContext context) {
@@ -15,7 +15,7 @@ public class RowInit extends ParsingState {
     }
 
     @Override
-    public CSVRow end() {
+    public Row end() {
         return context.rowBuilder().build();
     }
 }

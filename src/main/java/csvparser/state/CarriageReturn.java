@@ -1,7 +1,7 @@
 package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 public class CarriageReturn extends ParsingState {
     protected CarriageReturn(ParsingContext context) {
@@ -20,7 +20,7 @@ public class CarriageReturn extends ParsingState {
     }
 
     @Override
-    public CSVRow end() {
+    public Row end() {
         throw new UnexpectedCharacterException('\0', "Expected LF character");
     }
 }

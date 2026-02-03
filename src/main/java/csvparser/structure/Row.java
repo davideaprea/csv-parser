@@ -2,10 +2,10 @@ package csvparser.structure;
 
 import java.util.List;
 
-public class CSVRow {
+public class Row {
     private final List<String> columns;
 
-    public CSVRow(List<String> columns) {
+    public Row(List<String> columns) {
         this.columns = columns;
     }
 

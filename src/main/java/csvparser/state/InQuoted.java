@@ -1,7 +1,7 @@
 package csvparser.state;
 
 import csvparser.exception.UnexpectedCharacterException;
-import csvparser.structure.CSVRow;
+import csvparser.structure.Row;
 
 public class InQuoted extends ParsingState {
     protected InQuoted(ParsingContext context) {
@@ -20,7 +20,7 @@ public class InQuoted extends ParsingState {
     }
 
     @Override
-    public CSVRow end() {
+    public Row end() {
         throw new UnexpectedCharacterException('\0', "Unclosed quoted field.");
     }
 }

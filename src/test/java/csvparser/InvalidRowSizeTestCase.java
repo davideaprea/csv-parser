@@ -2,7 +2,7 @@ package csvparser;
 
 import csvparser.exception.InvalidRowSizeException;
 
-public class InvalidRowSizeTestCase extends InvalidCSVTestCase<InvalidRowSizeException> {
+public class InvalidRowSizeTestCase extends InvalidTestCase<InvalidRowSizeException> {
     protected InvalidRowSizeTestCase(String input, InvalidRowSizeException exceptionInstance, Class<InvalidRowSizeException> exceptionType) {
         super(input, exceptionInstance, exceptionType);
     }
