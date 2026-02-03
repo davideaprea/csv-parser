@@ -10,7 +10,6 @@ import csvparser.structure.CSVRow;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Optional;
 
 public class CSVRowParser {
     private final Reader input;
@@ -21,7 +20,7 @@ public class CSVRowParser {
         this.separator = separator;
     }
 
-    private Optional<CSVRow> next() throws IOException {
+    public CSVRow next() throws IOException {
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
@@ -36,12 +35,12 @@ public class CSVRowParser {
             parsingState = parsingState.eval((char) currentCharacter);
         }
 
-        final CSVRow newRow = parsingState.end();
+        final CSVRow parsedRow = parsingState.end();
 
-        if (currentCharacter == -1 && newRow.columnsNumber() == 0) {
-            return Optional.empty();
+        if (currentCharacter == -1 && parsedRow.columnsNumber() == 0) {
+            return null;
         }
 
-        return Optional.of(newRow);
+        return parsedRow;
     }
 }

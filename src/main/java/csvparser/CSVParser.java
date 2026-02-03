@@ -2,6 +2,7 @@ package csvparser;
 
 import csvparser.enumeration.CSVColumnSeparator;
 import csvparser.iterator.RowIterator;
+import csvparser.parser.CSVRowParser;
 import csvparser.structure.CSVRow;
 
 import java.io.Reader;
@@ -18,7 +19,8 @@ public class CSVParser {
     }
 
     public Stream<CSVRow> from(Reader reader) {
-        final RowIterator rowIterator = new RowIterator(reader, separator);
+        final CSVRowParser csvRowParser = new CSVRowParser(reader, separator);
+        final RowIterator rowIterator = new RowIterator(csvRowParser);
 
         return StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(rowIterator, Spliterator.ORDERED),
