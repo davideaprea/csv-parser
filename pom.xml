@@ -6,14 +6,15 @@
 
     <groupId>com.davideaprea</groupId>
     <artifactId>csv-parser</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>CSV parser</name>
-    <description>CSV parsing utilities</description>
+    <description>CSV parsing utilities with streaming support</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
