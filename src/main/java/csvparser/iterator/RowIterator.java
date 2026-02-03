@@ -57,12 +57,6 @@ public class RowIterator implements Iterator<CSVRow> {
     }
 
     private void parseNext() throws IOException {
-        if (currentCharacter == -1) {
-            currentRow = null;
-
-            return;
-        }
-
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
@@ -70,13 +64,17 @@ public class RowIterator implements Iterator<CSVRow> {
         ParsingState parsingState = new RowInit(parsingContext);
 
         while (
-            !(parsingState instanceof RowEnd) &&
-            (currentCharacter = reader.read()) >= 0
+                !(parsingState instanceof RowEnd) &&
+                (currentCharacter = reader.read()) >= 0
         ) {
             parsingState = parsingState.eval((char) currentCharacter);
         }
 
         currentRow = parsingState.end();
+
+        if (currentCharacter == -1 && currentRow.columnsNumber() == 0) {
+            currentRow = null;
+        }
     }
 
     private boolean areRowsDifferent(CSVRow a, CSVRow b) {
