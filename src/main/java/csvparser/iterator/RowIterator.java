@@ -4,14 +4,13 @@ import csvparser.exception.InvalidRowSizeException;
 import csvparser.parser.CSVRowParser;
 import csvparser.structure.CSVRow;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 public class RowIterator implements Iterator<CSVRow> {
     private final CSVRowParser csvRowParser;
 
-    private CSVRow currentRow;
-    private int processedRowsCounter = -1;
+    private CSVRow nextRow;
+    private int currentRowIndex = -1;
 
     public RowIterator(CSVRowParser csvRowParser) {
         this.csvRowParser = csvRowParser;
@@ -21,33 +20,33 @@ public class RowIterator implements Iterator<CSVRow> {
 
     @Override
     public boolean hasNext() {
-        return currentRow != null;
+        return nextRow != null;
     }
 
     @Override
     public CSVRow next() {
-        try {
-            final CSVRow current = this.currentRow;
+        final CSVRow previous = this.nextRow;
+        nextRow = csvRowParser.next();
 
-            currentRow = csvRowParser.next();
+        currentRowIndex++;
 
-            processedRowsCounter++;
+        checkNewRowSize(previous);
 
-            if (areRowsDifferent(current, currentRow)) {
-                throw new InvalidRowSizeException(
-                        processedRowsCounter,
-                        currentRow.columnsNumber(),
-                        current.columnsNumber()
-                );
-            }
-
-            return current;
-        } catch (IOException e) {
-            return null;
-        }
+        return previous;
     }
 
-    private boolean areRowsDifferent(CSVRow a, CSVRow b) {
-        return a != null && b != null && a.columnsNumber() != b.columnsNumber();
+    private void checkNewRowSize(CSVRow newRow) {
+        final boolean areRowSizesDifferent =
+                newRow != null &&
+                nextRow != null &&
+                newRow.columnsNumber() != nextRow.columnsNumber();
+
+        if (areRowSizesDifferent) {
+            throw new InvalidRowSizeException(
+                    currentRowIndex,
+                    nextRow.columnsNumber(),
+                    newRow.columnsNumber()
+            );
+        }
     }
 }

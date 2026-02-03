@@ -10,6 +10,7 @@ import csvparser.structure.CSVRow;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 
 public class CSVRowParser {
     private final Reader input;
@@ -20,7 +21,7 @@ public class CSVRowParser {
         this.separator = separator;
     }
 
-    public CSVRow next() throws IOException {
+    public CSVRow next() {
         ParsingContext parsingContext = new ParsingContext(
                 new RowBuilder(),
                 separator
@@ -30,7 +31,7 @@ public class CSVRowParser {
 
         while (
                 !(parsingState instanceof RowEnd) &&
-                (currentCharacter = input.read()) >= 0
+                (currentCharacter = getNextFromInput()) >= 0
         ) {
             parsingState = parsingState.eval((char) currentCharacter);
         }
@@ -42,5 +43,13 @@ public class CSVRowParser {
         }
 
         return parsedRow;
+    }
+
+    private int getNextFromInput() {
+        try {
+            return input.read();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
