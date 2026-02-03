@@ -1,5 +1,6 @@
 package csv.structure;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Row {
@@ -17,7 +18,7 @@ public class Row {
         return columns.size();
     }
 
-    public List<String> getColumns() {
-        return List.copyOf(columns);
+    public Iterator<String> iterator() {
+        return columns.iterator();
     }
 }

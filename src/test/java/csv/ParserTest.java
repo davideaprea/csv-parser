@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParserTest {
@@ -24,7 +25,7 @@ public class ParserTest {
                         testCase.output(),
                         parser
                                 .from(new StringReader(testCase.input()))
-                                .map(Row::getColumns)
+                                .map(this::rowToList)
                                 .toList()
                 );
             } catch (Throwable e) {
@@ -48,7 +49,7 @@ public class ParserTest {
                         () -> {
                             parser
                                     .from(new StringReader(testCase.input))
-                                    .map(Row::getColumns)
+                                    .map(this::rowToList)
                                     .toList();
                         }
                 );
@@ -60,5 +61,13 @@ public class ParserTest {
                 throw e;
             }
         }
+    }
+
+    private List<String> rowToList(Row row) {
+        List<String> columns = new ArrayList<>();
+
+        row.iterator().forEachRemaining(columns::add);
+
+        return columns;
     }
 }
