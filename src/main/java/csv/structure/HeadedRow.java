@@ -12,9 +12,9 @@ public class HeadedRow {
         this.headers = headers;
     }
 
-    public String getByHeaderName(String headerName) {
-        return Optional.ofNullable(headers.get(headerName))
-                .map(row::get)
-                .orElse("");
+    public Optional<String> getByHeaderName(String headerName) {
+        return Optional
+                .ofNullable(headers.get(headerName))
+                .map(row::get);
     }
 }
