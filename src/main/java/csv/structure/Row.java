@@ -2,6 +2,7 @@ package csv.structure;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Row {
     private final List<String> columns;
@@ -20,5 +21,9 @@ public class Row {
 
     public Iterator<String> iterator() {
         return columns.iterator();
+    }
+
+    public HeadedRow toHeadedRow(Map<String, Integer> headers) {
+        return new HeadedRow(columns, headers);
     }
 }

@@ -5,15 +5,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public class HeadedRow extends Row {
-    private final Map<String, Integer> columnIndexes;
+    private final Map<String, Integer> headers;
 
-    public HeadedRow(List<String> columns, Map<String, Integer> columnIndexes) {
+    public HeadedRow(List<String> columns, Map<String, Integer> headers) {
         super(columns);
-        this.columnIndexes = columnIndexes;
+        this.headers = headers;
     }
 
     public String getByHeaderName(String headerName) {
-        return Optional.ofNullable(columnIndexes.get(headerName))
+        return Optional.ofNullable(headers.get(headerName))
                 .map(this::get)
                 .orElse("");
     }
