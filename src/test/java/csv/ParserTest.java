@@ -43,7 +43,7 @@ public class ParserTest {
     }
 
     @Test
-    void testInvalidRowSizeCases() {
+    void testInvalidRowsCases() {
         List<InvalidTestCase<?>> cases = TestCases.invalidTestCases;
 
         for (int i = 0; i < cases.size(); i++) {
