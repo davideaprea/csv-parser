@@ -5,7 +5,7 @@ import csv.parser.Parser;
 import csv.structure.Row;
 import csv.testcase.invalid.InvalidTestCase;
 import csv.testcase.TestCases;
-import csv.testcase.valid.ValidTestCase;
+import csv.testcase.valid.ValidRowsTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,16 +18,19 @@ public class ParserTest {
 
     @Test
     void testValidCases() {
-        List<ValidTestCase> cases = TestCases.VALID_TEST_CASES;
+        List<ValidRowsTestCase> cases = TestCases.VALID_TEST_CASES;
 
         for (int i = 0; i < cases.size(); i++) {
-            final ValidTestCase testCase = cases.get(i);
+            final ValidRowsTestCase testCase = cases.get(i);
 
             try {
                 Assertions.assertEquals(
-                        testCase.output(),
+                        testCase
+                                .output().stream()
+                                .map(this::rowToList)
+                                .toList(),
                         parser
-                                .from(new StringReader(testCase.input()))
+                                .from(testCase.input())
                                 .map(this::rowToList)
                                 .toList()
                 );

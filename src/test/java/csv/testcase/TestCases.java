@@ -2,94 +2,113 @@ package csv.testcase;
 
 import csv.exception.InvalidRowSizeException;
 import csv.exception.UnexpectedCharacterException;
+import csv.structure.Row;
 import csv.testcase.invalid.InvalidRowSizeTestCase;
 import csv.testcase.invalid.InvalidTestCase;
 import csv.testcase.invalid.UnexpectedCharacterTestCase;
-import csv.testcase.valid.ValidTestCase;
+import csv.testcase.valid.ValidRowsTestCase;
 
+import java.io.StringReader;
 import java.util.List;
 
 public class TestCases {
     private TestCases() {
     }
 
-    public static final List<ValidTestCase> VALID_TEST_CASES = List.of(
-            new ValidTestCase(
-                    "abc",
-                    List.of(List.of("abc"))
+    public static final List<ValidRowsTestCase> VALID_TEST_CASES = List.of(
+            new ValidRowsTestCase(
+                    new StringReader("abc"),
+                    List.of(new Row(List.of("abc")))
             ),
-            new ValidTestCase(
-                    "a,b,c",
-                    List.of(List.of("a", "b", "c"))
+
+            new ValidRowsTestCase(
+                    new StringReader("a,b,c"),
+                    List.of(new Row(List.of("a", "b", "c")))
             ),
-            new ValidTestCase(
-                    "a,b,c\r\n1,2,3",
+
+            new ValidRowsTestCase(
+                    new StringReader("a,b,c\r\n1,2,3"),
                     List.of(
-                            List.of("a", "b", "c"),
-                            List.of("1", "2", "3")
+                            new Row(List.of("a", "b", "c")),
+                            new Row(List.of("1", "2", "3"))
                     )
             ),
-            new ValidTestCase(
-                    "a,,c",
-                    List.of(List.of("a", "", "c"))
+
+            new ValidRowsTestCase(
+                    new StringReader("a,,c"),
+                    List.of(new Row(List.of("a", "", "c")))
             ),
-            new ValidTestCase(
-                    "a,b,",
-                    List.of(List.of("a", "b", ""))
+
+            new ValidRowsTestCase(
+                    new StringReader("a,b,"),
+                    List.of(new Row(List.of("a", "b", "")))
             ),
-            new ValidTestCase(
-                    "\r\n",
-                    List.of(List.of(""))
+
+            new ValidRowsTestCase(
+                    new StringReader("\r\n"),
+                    List.of(new Row(List.of("")))
             ),
-            new ValidTestCase(
-                    " a , b ",
-                    List.of(List.of(" a ", " b "))
+
+            new ValidRowsTestCase(
+                    new StringReader(" a , b "),
+                    List.of(new Row(List.of(" a ", " b ")))
             ),
-            new ValidTestCase(
-                    "\"a,b\",c",
-                    List.of(List.of("a,b", "c"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"a,b\",c"),
+                    List.of(new Row(List.of("a,b", "c")))
             ),
-            new ValidTestCase(
-                    "\"a\"\"b\",c",
-                    List.of(List.of("a\"b", "c"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"a\"\"b\",c"),
+                    List.of(new Row(List.of("a\"b", "c")))
             ),
-            new ValidTestCase(
-                    "\"\",x",
-                    List.of(List.of("", "x"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"\",x"),
+                    List.of(new Row(List.of("", "x")))
             ),
-            new ValidTestCase(
-                    "\"a\",\"b\",\"c\"",
-                    List.of(List.of("a", "b", "c"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"a\",\"b\",\"c\""),
+                    List.of(new Row(List.of("a", "b", "c")))
             ),
-            new ValidTestCase(
-                    "\"a\nb\",x",
-                    List.of(List.of("a\nb", "x"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"a\nb\",x"),
+                    List.of(new Row(List.of("a\nb", "x")))
             ),
-            new ValidTestCase(
-                    "\"a\r\nb\",x",
-                    List.of(List.of("a\r\nb", "x"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"a\r\nb\",x"),
+                    List.of(new Row(List.of("a\r\nb", "x")))
             ),
-            new ValidTestCase(
-                    "a,\"b\r\nb\"\r\nc,d",
+
+            new ValidRowsTestCase(
+                    new StringReader("a,\"b\r\nb\"\r\nc,d"),
                     List.of(
-                            List.of("a", "b\r\nb"),
-                            List.of("c", "d")
+                            new Row(List.of("a", "b\r\nb")),
+                            new Row(List.of("c", "d"))
                     )
             ),
-            new ValidTestCase(
-                    ",,,",
-                    List.of(List.of("", "", "", ""))
+
+            new ValidRowsTestCase(
+                    new StringReader(",,,"),
+                    List.of(new Row(List.of("", "", "", "")))
             ),
-            new ValidTestCase(
-                    "\"\"",
-                    List.of(List.of(""))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"\""),
+                    List.of(new Row(List.of("")))
             ),
-            new ValidTestCase(
-                    "\"abc\"",
-                    List.of(List.of("abc"))
+
+            new ValidRowsTestCase(
+                    new StringReader("\"abc\""),
+                    List.of(new Row(List.of("abc")))
             ),
-            new ValidTestCase(
-                    "",
+
+            new ValidRowsTestCase(
+                    new StringReader(""),
                     List.of()
             )
     );
