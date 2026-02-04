@@ -5,6 +5,7 @@ import csv.parser.Parser;
 import csv.structure.Row;
 import csv.testcase.invalid.InvalidTestCase;
 import csv.testcase.TestCases;
+import csv.testcase.valid.ValidHeadedRowsTestCase;
 import csv.testcase.valid.ValidRowsTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,14 +26,28 @@ public class ParserTest {
 
             try {
                 Assertions.assertEquals(
-                        testCase
-                                .output().stream()
-                                .map(this::rowToList)
-                                .toList(),
-                        parser
-                                .from(testCase.input())
-                                .map(this::rowToList)
-                                .toList()
+                        testCase.output(),
+                        parser.from(testCase.input()).toList()
+                );
+            } catch (Throwable e) {
+                System.out.println("Test n. " + (i + 1) + " failed.");
+
+                throw e;
+            }
+        }
+    }
+
+    @Test
+    void testValidHeadedRowsCases() {
+        List<ValidHeadedRowsTestCase> cases = TestCases.VALID_HEADED_ROWS_TEST_CASES;
+
+        for (int i = 0; i < cases.size(); i++) {
+            final ValidHeadedRowsTestCase testCase = cases.get(i);
+
+            try {
+                Assertions.assertEquals(
+                        testCase.output(),
+                        parser.withHeadersFrom(testCase.input()).toList()
                 );
             } catch (Throwable e) {
                 System.out.println("Test n. " + (i + 1) + " failed.");
@@ -55,7 +70,6 @@ public class ParserTest {
                         () -> {
                             parser
                                     .from(new StringReader(testCase.input))
-                                    .map(this::rowToList)
                                     .toList();
                         }
                 );
@@ -67,13 +81,5 @@ public class ParserTest {
                 throw e;
             }
         }
-    }
-
-    private List<String> rowToList(Row row) {
-        List<String> columns = new ArrayList<>();
-
-        row.iterator().forEachRemaining(columns::add);
-
-        return columns;
     }
 }
