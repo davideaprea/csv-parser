@@ -20,7 +20,6 @@ public class UnexpectedCharacterException extends RuntimeException {
             return false;
         }
 
-        return exception.unexpectedCharacter == unexpectedCharacter &&
-                Objects.equals(exception.cause, cause);
+        return exception.unexpectedCharacter == unexpectedCharacter;
     }
 }

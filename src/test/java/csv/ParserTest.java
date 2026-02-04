@@ -71,6 +71,8 @@ public class ParserTest {
                                     .toList();
                         }
                 );
+
+                Assertions.assertEquals(testCase.exceptionInstance(), actualException);
             } catch (Throwable e) {
                 System.out.println("Test n. " + (i + 1) + " failed.");
 
