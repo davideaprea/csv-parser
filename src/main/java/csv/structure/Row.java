@@ -22,8 +22,4 @@ public class Row {
     public Iterator<String> iterator() {
         return columns.iterator();
     }
-
-    public HeadedRow toHeadedRow(Map<String, Integer> headers) {
-        return new HeadedRow(columns, headers);
-    }
 }

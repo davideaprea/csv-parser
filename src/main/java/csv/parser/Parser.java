@@ -46,6 +46,6 @@ public class Parser {
         return StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(rowIterator, Spliterator.ORDERED),
                 false
-        ).map(row -> row.toHeadedRow(headers));
+        ).map(row -> new HeadedRow(row, headers));
     }
 }
