@@ -30,15 +30,14 @@ public class HeadedRow {
 
         if (!row.equals(headedRow.getRow())) return false;
 
-        for (Map.Entry<String, Integer> header : headers.entrySet()) {
-            Optional<String> parameterRowValue = headedRow.getByHeaderName(header.getKey());
-            Optional<String> thisRowValue = getByHeaderName(header.getKey());
+        return headers
+                .entrySet()
+                .stream()
+                .allMatch(header -> {
+                    Optional<String> parameterRowValue = headedRow.getByHeaderName(header.getKey());
+                    Optional<String> thisRowValue = getByHeaderName(header.getKey());
 
-            if (!parameterRowValue.equals(thisRowValue)) {
-                return false;
-            }
-        }
-
-        return true;
+                    return parameterRowValue.equals(thisRowValue);
+                });
     }
 }

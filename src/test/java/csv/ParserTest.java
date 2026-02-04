@@ -2,7 +2,6 @@ package csv;
 
 import csv.enumeration.ColumnSeparator;
 import csv.parser.Parser;
-import csv.structure.Row;
 import csv.testcase.invalid.InvalidTestCase;
 import csv.testcase.TestCases;
 import csv.testcase.valid.ValidHeadedRowsTestCase;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ParserTest {
