@@ -12,6 +12,10 @@ public class HeadedRow {
         this.headers = headers;
     }
 
+    public int size() {
+        return headers.size();
+    }
+
     public Optional<String> getByHeaderName(String headerName) {
         return Optional
                 .ofNullable(headers.get(headerName))
