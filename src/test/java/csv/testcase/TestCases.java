@@ -2,20 +2,23 @@ package csv.testcase;
 
 import csv.exception.InvalidRowSizeException;
 import csv.exception.UnexpectedCharacterException;
+import csv.structure.HeadedRow;
 import csv.structure.Row;
 import csv.testcase.invalid.InvalidRowSizeTestCase;
 import csv.testcase.invalid.InvalidTestCase;
 import csv.testcase.invalid.UnexpectedCharacterTestCase;
+import csv.testcase.valid.ValidHeadedRowsTestCase;
 import csv.testcase.valid.ValidRowsTestCase;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 
 public class TestCases {
     private TestCases() {
     }
 
-    public static final List<ValidRowsTestCase> VALID_TEST_CASES = List.of(
+    public static final List<ValidRowsTestCase> VALID_ROWS_TEST_CASES = List.of(
             new ValidRowsTestCase(
                     new StringReader("abc"),
                     List.of(new Row(List.of("abc")))
@@ -235,6 +238,39 @@ public class TestCases {
                             "Unclosed quoted field."
                     ),
                     UnexpectedCharacterException.class
+            )
+    );
+
+    public static final List<ValidHeadedRowsTestCase> VALID_HEADED_ROWS_TEST_CASES = List.of(
+            new ValidHeadedRowsTestCase(
+                    new StringReader("a,b\r\n1,2\r\n3,4"),
+                    List.of(
+                            new HeadedRow(
+                                    new Row(List.of("1", "2")),
+                                    Map.of("a", 0, "b", 1)
+                            ),
+                            new HeadedRow(
+                                    new Row(List.of("3", "4")),
+                                    Map.of("a", 0, "b", 1)
+                            )
+                    )
+            ),
+            new ValidHeadedRowsTestCase(
+                    new StringReader("a,,c\r\n1,2,3"),
+                    List.of(
+                            new HeadedRow(
+                                    new Row(List.of("1", "2", "3")),
+                                    Map.of("a", 0, "", 1, "c", 2)
+                            )
+                    )
+            ),
+            new ValidHeadedRowsTestCase(
+                    new StringReader("a,b,c"),
+                    List.of()
+            ),
+            new ValidHeadedRowsTestCase(
+                    new StringReader(""),
+                    List.of()
             )
     );
 }
