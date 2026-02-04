@@ -4,9 +4,7 @@ import csv.exception.InvalidRowSizeException;
 import csv.exception.UnexpectedCharacterException;
 import csv.structure.HeadedRow;
 import csv.structure.Row;
-import csv.testcase.invalid.InvalidRowSizeTestCase;
 import csv.testcase.invalid.InvalidTestCase;
-import csv.testcase.invalid.UnexpectedCharacterTestCase;
 import csv.testcase.valid.ValidHeadedRowsTestCase;
 import csv.testcase.valid.ValidRowsTestCase;
 
@@ -116,128 +114,112 @@ public class TestCases {
             )
     );
 
-    public static List<InvalidTestCase<?>> invalidTestCases = List.of(
-            new InvalidRowSizeTestCase(
+    public static List<InvalidTestCase> invalidTestCases = List.of(
+            new InvalidTestCase(
                     "abc,def\r\nghi\r\nlmn,opq",
-                    new InvalidRowSizeException(1, 1, 2),
-                    InvalidRowSizeException.class
+                    new InvalidRowSizeException(1, 1, 2)
             ),
-            new InvalidRowSizeTestCase(
+            new InvalidTestCase(
                     "abc,def\r\nghi",
-                    new InvalidRowSizeException(1, 1, 2),
-                    InvalidRowSizeException.class
+                    new InvalidRowSizeException(1, 1, 2)
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a\nb",
                     new UnexpectedCharacterException(
                             '\n',
                             "This character can't appear in a non-quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "\"abc\"x",
                     new UnexpectedCharacterException(
                             'x',
                             "Found invalid character for escaping."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a,b\r\nc\nd",
                     new UnexpectedCharacterException(
                             '\n',
                             "LF characters should only appear in quoted fields or after a CR character."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a,\"b\"c",
                     new UnexpectedCharacterException(
                             'c',
                             "Found invalid character for escaping."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     " \"abc\"",
                     new UnexpectedCharacterException(
                             '"',
                             "This character can't appear in a non-quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a, \"b\"",
                     new UnexpectedCharacterException(
                             '"',
                             "This character can't appear in a non-quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a,b\rx",
                     new UnexpectedCharacterException(
                             'x',
                             "Expected LF character."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a\"bc",
                     new UnexpectedCharacterException(
                             '"',
                             "This character can't appear in a non-quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "a,b\r\nc,d\r\n1,2\n3",
                     new UnexpectedCharacterException(
                             '\n',
                             "LF characters should only appear in quoted fields or after a CR character."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "abc\r\ndef\r",
                     new UnexpectedCharacterException(
                             '\0',
                             "Expected LF character"
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "abc\r\n\"def",
                     new UnexpectedCharacterException(
                             '\0',
                             "Unclosed quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "\"",
                     new UnexpectedCharacterException(
                             '\0',
                             "Unclosed quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "\"abc",
                     new UnexpectedCharacterException(
                             '\0',
                             "Unclosed quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             ),
-            new UnexpectedCharacterTestCase(
+            new InvalidTestCase(
                     "\"a\"\"b",
                     new UnexpectedCharacterException(
                             '\0',
                             "Unclosed quoted field."
-                    ),
-                    UnexpectedCharacterException.class
+                    )
             )
     );
 

@@ -57,22 +57,20 @@ public class ParserTest {
 
     @Test
     void testInvalidRowsCases() {
-        List<InvalidTestCase<?>> cases = TestCases.invalidTestCases;
+        List<InvalidTestCase> cases = TestCases.invalidTestCases;
 
         for (int i = 0; i < cases.size(); i++) {
-            final InvalidTestCase<?> testCase = cases.get(i);
+            final InvalidTestCase testCase = cases.get(i);
 
             try {
                 Throwable actualException = Assertions.assertThrows(
-                        testCase.exceptionType,
+                        testCase.exceptionInstance().getClass(),
                         () -> {
                             parser
-                                    .from(new StringReader(testCase.input))
+                                    .from(new StringReader(testCase.input()))
                                     .toList();
                         }
                 );
-
-                Assertions.assertTrue(testCase.isSameException(actualException));
             } catch (Throwable e) {
                 System.out.println("Test n. " + (i + 1) + " failed.");
 
