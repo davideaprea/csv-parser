@@ -11,4 +11,17 @@ public class InvalidRowSizeException extends RuntimeException {
         this.actualSize = actualSize;
         this.expectedSize = expectedSize;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if (!(obj instanceof InvalidRowSizeException exception)) {
+            return false;
+        }
+
+        return exception.rowNumber == rowNumber &&
+                exception.actualSize == actualSize &&
+                exception.expectedSize == expectedSize;
+    }
 }
