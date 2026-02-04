@@ -1,9 +1,9 @@
-package csv;
+package csv.testcase.invalid;
 
 import csv.exception.InvalidRowSizeException;
 
 public class InvalidRowSizeTestCase extends InvalidTestCase<InvalidRowSizeException> {
-    protected InvalidRowSizeTestCase(String input, InvalidRowSizeException exceptionInstance, Class<InvalidRowSizeException> exceptionType) {
+    public InvalidRowSizeTestCase(String input, InvalidRowSizeException exceptionInstance, Class<InvalidRowSizeException> exceptionType) {
         super(input, exceptionInstance, exceptionType);
     }
 

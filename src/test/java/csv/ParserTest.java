@@ -3,6 +3,9 @@ package csv;
 import csv.enumeration.ColumnSeparator;
 import csv.parser.Parser;
 import csv.structure.Row;
+import csv.testcase.invalid.InvalidTestCase;
+import csv.testcase.TestCases;
+import csv.testcase.valid.ValidTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

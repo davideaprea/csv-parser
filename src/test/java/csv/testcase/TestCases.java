@@ -1,7 +1,11 @@
-package csv;
+package csv.testcase;
 
 import csv.exception.InvalidRowSizeException;
 import csv.exception.UnexpectedCharacterException;
+import csv.testcase.invalid.InvalidRowSizeTestCase;
+import csv.testcase.invalid.InvalidTestCase;
+import csv.testcase.invalid.UnexpectedCharacterTestCase;
+import csv.testcase.valid.ValidTestCase;
 
 import java.util.List;
 
