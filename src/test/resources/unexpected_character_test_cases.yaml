@@ -1,0 +1,85 @@
+- name: LF in non quoted field
+  input: |
+    a
+    b
+  exception:
+    character: "\n"
+    message: "This character can't appear in a non-quoted field."
+
+- name: invalid char after quoted field
+  input: "\"abc\"x"
+  exception:
+    character: "x"
+    message: "Found invalid character for escaping."
+
+- name: LF without preceding CR
+  input: "a,b\r\nc\nd"
+  exception:
+    character: "\n"
+    message: "LF characters should only appear in quoted fields or after a CR character."
+
+- name: invalid escape after quoted
+  input: "a,\"b\"c"
+  exception:
+    character: "c"
+    message: "Found invalid character for escaping."
+
+- name: leading space before quoted
+  input: " \"abc\""
+  exception:
+    character: "\""
+    message: "This character can't appear in a non-quoted field."
+
+- name: space before quoted in second column
+  input: "a, \"b\""
+  exception:
+    character: "\""
+    message: "This character can't appear in a non-quoted field."
+
+- name: CR not followed by LF
+  input: "a,b\rx"
+  exception:
+    character: "x"
+    message: "Expected LF character."
+
+- name: quote inside non quoted field
+  input: "a\"bc"
+  exception:
+    character: "\""
+    message: "This character can't appear in a non-quoted field."
+
+- name: LF after full row
+  input: "a,b\r\nc,d\r\n1,2\n3"
+  exception:
+    character: "\n"
+    message: "LF characters should only appear in quoted fields or after a CR character."
+
+- name: dangling CR at end
+  input: "abc\r\ndef\r"
+  exception:
+    character: "\0"
+    message: "Expected LF character"
+
+- name: unclosed quoted after CRLF
+  input: "abc\r\n\"def"
+  exception:
+    character: "\0"
+    message: "Unclosed quoted field."
+
+- name: single quote only
+  input: "\""
+  exception:
+    character: "\0"
+    message: "Unclosed quoted field."
+
+- name: unclosed quoted abc
+  input: "\"abc"
+  exception:
+    character: "\0"
+    message: "Unclosed quoted field."
+
+- name: unclosed escaped quotes
+  input: "\"a\"\"b"
+  exception:
+    character: "\0"
+    message: "Unclosed quoted field."

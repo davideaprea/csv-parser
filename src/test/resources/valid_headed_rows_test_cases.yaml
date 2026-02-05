@@ -1,0 +1,29 @@
+- name: headers a,b with two data rows
+  input: "a,b\r\n1,2\r\n3,4"
+  expected:
+    - row: [ "1", "2" ]
+      headers:
+        a: 0
+        b: 1
+    - row: [ "3", "4" ]
+      headers:
+        a: 0
+        b: 1
+
+- name: headers a,empty,c with one data row
+  input: "a,,c\r\n1,2,3"
+  expected:
+    - row: [ "1", "2", "3" ]
+      headers:
+        a: 0
+        "": 1
+        c: 2
+
+- name: only header row no data
+  input: |
+    a,b,c
+  expected: [ ]
+
+- name: empty input
+  input: ""
+  expected: [ ]

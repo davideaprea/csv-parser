@@ -1,4 +1,4 @@
-package csv.testcase.valid;
+package integration.testcase;
 
 import csv.structure.Row;
 
