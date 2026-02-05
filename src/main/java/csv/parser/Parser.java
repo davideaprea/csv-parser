@@ -21,18 +21,13 @@ public class Parser {
     }
 
     public Stream<Row> from(Reader reader) {
-        final RowParser rowParser = new RowParser(reader, separator);
-        final RowIterator rowIterator = new RowIterator(rowParser);
+        final RowIterator rowIterator = configIterator(reader);
 
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(rowIterator, Spliterator.ORDERED),
-                false
-        );
+        return toStream(rowIterator);
     }
 
     public Stream<HeadedRow> withHeadersFrom(Reader reader) {
-        final RowParser rowParser = new RowParser(reader, separator);
-        final RowIterator rowIterator = new RowIterator(rowParser);
+        final RowIterator rowIterator = configIterator(reader);
         Map<String, Integer> headers = new HashMap<>();
 
         if (rowIterator.hasNext()) {
@@ -43,9 +38,19 @@ public class Parser {
             }
         }
 
+        return toStream(rowIterator).map(row -> new HeadedRow(row, headers));
+    }
+
+    private RowIterator configIterator(Reader reader) {
+        final RowParser rowParser = new RowParser(reader, separator);
+
+        return new RowIterator(rowParser);
+    }
+
+    private Stream<Row> toStream(RowIterator iterator) {
         return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(rowIterator, Spliterator.ORDERED),
+                Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
                 false
-        ).map(row -> new HeadedRow(row, headers));
+        );
     }
 }
