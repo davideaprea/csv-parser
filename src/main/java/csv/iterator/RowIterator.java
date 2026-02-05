@@ -30,23 +30,14 @@ public class RowIterator implements Iterator<Row> {
 
         currentRowIndex++;
 
-        checkNewRowSize(result);
-
-        return result;
-    }
-
-    private void checkNewRowSize(Row row) {
-        final boolean areRowSizesDifferent =
-                row != null &&
-                nextRow != null &&
-                row.size() != nextRow.size();
-
-        if (areRowSizesDifferent) {
+        if (result != null && nextRow != null && nextRow.size() != result.size()) {
             throw new InvalidRowSizeException(
                     currentRowIndex,
                     nextRow.size(),
-                    row.size()
+                    result.size()
             );
         }
+
+        return result;
     }
 }
