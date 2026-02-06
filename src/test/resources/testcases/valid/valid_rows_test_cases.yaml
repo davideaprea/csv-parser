@@ -1,104 +1,104 @@
 - name: single value
   input: |
     abc
-  expected:
+  output:
     - [ "abc" ]
 
 - name: three columns
   input: |
     a,b,c
-  expected:
+  output:
     - [ "a", "b", "c" ]
 
 - name: two rows CRLF
   input: "a,b,c\r\n1,2,3"
-  expected:
+  output:
     - [ "a", "b", "c" ]
     - [ "1", "2", "3" ]
 
 - name: empty middle column
   input: |
     a,,c
-  expected:
+  output:
     - [ "a", "", "c" ]
 
 - name: trailing empty column
   input: |
     a,b,
-  expected:
+  output:
     - [ "a", "b", "" ]
 
 - name: only CRLF
   input: "\r\n"
-  expected:
+  output:
     - [ "" ]
 
 - name: spaces preserved
   input: |
     a , b
-  expected:
+  output:
     - [ " a ", " b " ]
 
 - name: quoted comma
   input: |
     "a,b",c
-  expected:
+  output:
     - [ "a,b", "c" ]
 
 - name: escaped quotes
   input: |
     "a""b",c
-  expected:
+  output:
     - [ 'a"b', "c" ]
 
 - name: empty quoted field
   input: |
     "",x
-  expected:
+  output:
     - [ "", "x" ]
 
 - name: all quoted
   input: |
     "a","b","c"
-  expected:
+  output:
     - [ "a", "b", "c" ]
 
 - name: multiline quoted LF
   input: |
     "a
     b",x
-  expected:
+  output:
     - [ "a\nb", "x" ]
 
 - name: multiline quoted CRLF
   input: "\"a\r\nb\",x"
-  expected:
+  output:
     - [ "a\r\nb", "x" ]
 
 - name: multiline row with CRLF inside field
   input: "a,\"b\r\nb\"\r\nc,d"
-  expected:
+  output:
     - [ "a", "b\r\nb" ]
     - [ "c", "d" ]
 
 - name: four empty columns
   input: |
     ,,,
-  expected:
+  output:
     - [ "", "", "", "" ]
 
 - name: single empty quoted
   input: |
     ""
-  expected:
+  output:
     - [ "" ]
 
 - name: single quoted value
   input: |
     "abc"
-  expected:
+  output:
     - [ "abc" ]
 
 - name: empty input
   input: ""
-  expected: [ ]
+  output: [ ]
