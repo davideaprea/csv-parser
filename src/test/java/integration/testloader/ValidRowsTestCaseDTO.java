@@ -2,9 +2,32 @@ package integration.testloader;
 
 import java.util.List;
 
-public record ValidRowsTestCaseDTO(
-        String name,
-        String input,
-        List<List<String>> output
-) {
+public final class ValidRowsTestCaseDTO {
+    private String name;
+    private String input;
+    private List<List<String>> output;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public List<List<String>> getOutput() {
+        return output;
+    }
+
+    public void setOutput(List<List<String>> output) {
+        this.output = output;
+    }
 }
