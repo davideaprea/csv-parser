@@ -1,18 +1,20 @@
-package integration.testloader;
+package integration.loader;
 
 import csv.exception.UnexpectedCharacterException;
 import csv.structure.HeadedRow;
 import csv.structure.Row;
-import integration.parsertest.ExceptionTestCase;
-import integration.parsertest.ValidHeadedRowTestCase;
-import integration.parsertest.ValidRowTestCase;
+import integration.loader.source.UnexpectedCharacterTestCaseSource;
+import integration.loader.source.ValidHeadedRowsTestCaseSource;
+import integration.loader.source.ValidRowsTestCaseSource;
+import integration.parser.testcase.ExceptionTestCase;
+import integration.parser.testcase.ValidHeadedRowTestCase;
+import integration.parser.testcase.ValidRowTestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -22,7 +24,7 @@ public class TestCaseLoader {
 
     public static Stream<ValidRowTestCase> validRows() {
         return fromPath(
-                ValidRowsTestCaseDTO.class,
+                ValidRowsTestCaseSource.class,
                 BASE_PATH.formatted("valid/valid_rows_test_cases.yaml")
         ).map(testCase -> new ValidRowTestCase(
                 new StringReader(testCase.getInput()),
@@ -32,7 +34,7 @@ public class TestCaseLoader {
 
     public static Stream<ValidHeadedRowTestCase> validHeadedRows() {
         return fromPath(
-                ValidHeadedRowsTestCaseDTO.class,
+                ValidHeadedRowsTestCaseSource.class,
                 BASE_PATH.formatted("valid/valid_headed_rows_test_cases.yaml")
         ).map(testCase -> new ValidHeadedRowTestCase(
                 new StringReader(testCase.getInput()),
@@ -48,7 +50,7 @@ public class TestCaseLoader {
 
     public static Stream<ExceptionTestCase> unexpectedCharacterTestCase() {
         return fromPath(
-                UnexpectedCharacterTestCaseDTO.class,
+                UnexpectedCharacterTestCaseSource.class,
                 BASE_PATH.formatted("invalid/unexpected_character_test_cases.yaml")
         ).map(testCase -> new ExceptionTestCase(
                 new StringReader(testCase.getInput()),
@@ -65,14 +67,12 @@ public class TestCaseLoader {
         try (InputStream is = Thread.currentThread()
                 .getContextClassLoader()
                 .getResourceAsStream(path)) {
-
             Objects.requireNonNull(is, "Resource not found in test resources: " + path);
 
-            List<T> list = StreamSupport.stream(yaml.loadAll(is).spliterator(), false)
+            return StreamSupport.stream(yaml.loadAll(is).spliterator(), false)
                     .map(testCaseClass::cast)
-                    .toList();
-
-            return list.stream();
+                    .toList()
+                    .stream();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

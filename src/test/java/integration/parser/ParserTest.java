@@ -1,8 +1,11 @@
-package integration.parsertest;
+package integration.parser;
 
 import csv.enumeration.ColumnSeparator;
 import csv.exception.UnexpectedCharacterException;
 import csv.parser.Parser;
+import integration.parser.testcase.ExceptionTestCase;
+import integration.parser.testcase.ValidHeadedRowTestCase;
+import integration.parser.testcase.ValidRowTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +14,7 @@ public class ParserTest {
     private final Parser parser = new Parser(ColumnSeparator.COMMA);
 
     @ParameterizedTest
-    @MethodSource("integration.testloader.TestCaseLoader#validRows")
+    @MethodSource("integration.loader.TestCaseLoader#validRows")
     void testValidRowsCases(ValidRowTestCase testCase) {
         Assertions.assertEquals(
                 testCase.output(),
@@ -20,7 +23,7 @@ public class ParserTest {
     }
 
     @ParameterizedTest
-    @MethodSource("integration.testloader.TestCaseLoader#validHeadedRows")
+    @MethodSource("integration.loader.TestCaseLoader#validHeadedRows")
     void testValidHeadedRowsCases(ValidHeadedRowTestCase testCase) {
         Assertions.assertEquals(
                 testCase.output(),
@@ -29,7 +32,7 @@ public class ParserTest {
     }
 
     @ParameterizedTest
-    @MethodSource("integration.testloader.TestCaseLoader#unexpectedCharacterTestCase")
+    @MethodSource("integration.loader.TestCaseLoader#unexpectedCharacterTestCase")
     void testUnexpectedCharacterCases(ExceptionTestCase testCase) {
         Throwable actualException = Assertions.assertThrows(
                 UnexpectedCharacterException.class,

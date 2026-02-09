@@ -1,6 +1,6 @@
-package integration.testloader;
+package integration.loader.source;
 
-public final class UnexpectedCharacterTestCaseDTO {
+public final class UnexpectedCharacterTestCaseSource {
     private String name;
     private String input;
     private Output exception;

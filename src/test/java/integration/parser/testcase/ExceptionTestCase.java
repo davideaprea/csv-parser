@@ -1,4 +1,4 @@
-package integration.parsertest;
+package integration.parser.testcase;
 
 import java.io.Reader;
 

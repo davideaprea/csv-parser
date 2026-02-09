@@ -1,4 +1,4 @@
-package integration.parsertest;
+package integration.parser.testcase;
 
 import csv.structure.Row;
 

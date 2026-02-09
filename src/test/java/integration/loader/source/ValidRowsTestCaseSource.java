@@ -1,8 +1,8 @@
-package integration.testloader;
+package integration.loader.source;
 
 import java.util.List;
 
-public final class ValidRowsTestCaseDTO {
+public final class ValidRowsTestCaseSource {
     private String name;
     private String input;
     private List<List<String>> output;

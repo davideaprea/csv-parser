@@ -1,9 +1,9 @@
-package integration.testloader;
+package integration.loader.source;
 
 import java.util.List;
 import java.util.Map;
 
-public final class ValidHeadedRowsTestCaseDTO {
+public final class ValidHeadedRowsTestCaseSource {
     private String name;
     private String input;
     private Output output;
