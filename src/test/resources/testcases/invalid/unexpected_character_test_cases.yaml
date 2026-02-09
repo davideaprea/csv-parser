@@ -1,10 +1,10 @@
----name: LF in non quoted field
-  input: |
+name: LF in non quoted field
+input: |
   a
   b
 exception:
   character: "\n"
-    message: "This character can't appear in a non-quoted field."
+  message: "This character can't appear in a non-quoted field."
 ---
 name: invalid char after quoted field
 input: "\"abc\"x"

@@ -1,11 +1,11 @@
 name: single value
-input: |
+input: |-
   abc
 output:
   - [ "abc" ]
 ---
 name: three columns
-input: |
+input: |-
   a,b,c
 output:
   - [ "a", "b", "c" ]
@@ -17,13 +17,13 @@ output:
   - [ "1", "2", "3" ]
 ---
 name: empty middle column
-input: |
+input: |-
   a,,c
 output:
   - [ "a", "", "c" ]
 ---
 name: trailing empty column
-input: |
+input: |-
   a,b,
 output:
   - [ "a", "b", "" ]
@@ -34,37 +34,36 @@ output:
   - [ "" ]
 ---
 name: spaces preserved
-input: |
-  a , b
+input: " a , b "
 output:
   - [ " a ", " b " ]
 ---
 name: quoted comma
-input: |
+input: |-
   "a,b",c
 output:
   - [ "a,b", "c" ]
 ---
 name: escaped quotes
-input: |
+input: |-
   "a""b",c
 output:
   - [ 'a"b', "c" ]
 ---
 name: empty quoted field
-input: |
+input: |-
   "",x
 output:
   - [ "", "x" ]
 ---
 name: all quoted
-input: |
+input: |-
   "a","b","c"
 output:
   - [ "a", "b", "c" ]
 ---
 name: multiline quoted LF
-input: |
+input: |-
   "a
   b",x
 output:
@@ -82,19 +81,19 @@ output:
   - [ "c", "d" ]
 ---
 name: four empty columns
-input: |
+input: |-
   ,,,
 output:
   - [ "", "", "", "" ]
 ---
 name: single empty quoted
-input: |
+input: |-
   ""
 output:
   - [ "" ]
 ---
 name: single quoted value
-input: |
+input: |-
   "abc"
 output:
   - [ "abc" ]
