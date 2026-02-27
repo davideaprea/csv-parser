@@ -29,6 +29,11 @@ public class CarriageReturn extends ParsingState {
         return new RowEnd(context);
     }
 
+    /**
+     * This method will always throw an {@link UnexpectedCharacterException}, since all rows must end with the CRLF character sequence.
+     * @throws UnexpectedCharacterException everytime this method is called, since the LF character is needed
+     * @see <a href="https://datatracker.ietf.org/doc/html/rfc4180#section-2">RFC 4180 standard</a> docs about row format
+     */
     @Override
     public Row end() {
         throw new UnexpectedCharacterException('\0', "Expected LF character");
