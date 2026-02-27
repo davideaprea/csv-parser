@@ -2,11 +2,18 @@ package csv.state;
 
 import csv.exception.UnexpectedCharacterException;
 
+/**
+ * Parsing state representing the encounter of a double quote character
+ * when the current parsing state is {@link InQuoted}.
+ */
 public class Escaping extends ParsingState {
     protected Escaping(ParsingContext context) {
         super(context);
     }
 
+    /**
+     * @throws UnexpectedCharacterException if the given character isn't one of the following: {@code "}, {@code \r}, the configured {@link csv.enumeration.ColumnSeparator}
+     */
     @Override
     public ParsingState eval(char character) {
         ParsingState nextState;

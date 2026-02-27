@@ -2,11 +2,18 @@ package csv.state;
 
 import csv.exception.UnexpectedCharacterException;
 
+/**
+ * Parsing state representing the encounter
+ * of a character in a non-quoted column.
+ */
 public class InNormal extends ParsingState {
     protected InNormal(ParsingContext context) {
         super(context);
     }
 
+    /**
+     * @throws UnexpectedCharacterException if the input parameter is either a {@code "} or a {@code \n} character.
+     */
     @Override
     public ParsingState eval(char character) {
         ParsingState nextState = this;

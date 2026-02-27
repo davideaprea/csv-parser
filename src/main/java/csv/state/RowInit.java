@@ -2,6 +2,9 @@ package csv.state;
 
 import csv.structure.Row;
 
+/**
+ * Parsing state representing the beginning of the current row.
+ */
 public class RowInit extends ParsingState {
     public RowInit(ParsingContext context) {
         super(context);

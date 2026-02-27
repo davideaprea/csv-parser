@@ -3,6 +3,9 @@ package csv.state;
 import csv.exception.UnexpectedCharacterException;
 import csv.structure.Row;
 
+/**
+ * Parsing state representing the end of the current row.
+ */
 public class RowEnd extends ParsingState {
     protected RowEnd(ParsingContext context) {
         super(context);

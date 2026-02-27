@@ -2,11 +2,17 @@ package csv.state;
 
 import csv.exception.UnexpectedCharacterException;
 
+/**
+ * Parsing state representing the initialization of a new column.
+ */
 public class ColumnStart extends ParsingState {
     protected ColumnStart(ParsingContext context) {
         super(context);
     }
 
+    /**
+     * @throws UnexpectedCharacterException if the given parameter is the line feed character (LF).
+     */
     @Override
     public ParsingState eval(final char character) {
         ParsingState nextState = this;
