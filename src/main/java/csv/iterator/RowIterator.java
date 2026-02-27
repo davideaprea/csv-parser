@@ -6,12 +6,21 @@ import csv.structure.Row;
 
 import java.util.Iterator;
 
+/**
+ * An {@link Iterator} implementation that iterates over {@link Row} objects
+ * produced by a {@link RowParser}.
+ */
 public class RowIterator implements Iterator<Row> {
     private final RowParser rowParser;
 
     private Row nextRow;
     private int currentRowIndex = -1;
 
+    /**
+     * Constructs a new instance, preloading the first row.
+     *
+     * @param rowParser the parser used to retrieve rows
+     */
     public RowIterator(RowParser rowParser) {
         this.rowParser = rowParser;
 
@@ -23,6 +32,11 @@ public class RowIterator implements Iterator<Row> {
         return nextRow != null;
     }
 
+    /**
+     * @return the next {@code Row}, or {@code null} if no more rows are available
+     * @throws InvalidRowSizeException if the next row has a different number
+     *                                 of columns than the previous one
+     */
     @Override
     public Row next() {
         final Row result = this.nextRow;
