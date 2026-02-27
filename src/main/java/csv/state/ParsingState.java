@@ -24,16 +24,9 @@ public abstract class ParsingState {
 
     /**
      * Evaluates the given character according to the current state.
-     * <p>
-     * Implementations may:
-     * <ul>
-     *     <li>Append the character to the current column</li>
-     *     <li>Trigger a state transition</li>
-     *     <li>Throw a parsing-related exception</li>
-     * </ul>
      *
      * @param character the character to evaluate
-     * @return the next {@code ParsingState} (which may be {@code this})
+     * @return the next evaluated {@code ParsingState} (which may be {@code this})
      */
     public abstract ParsingState eval(final char character);
 
