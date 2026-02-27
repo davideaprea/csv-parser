@@ -3,7 +3,6 @@ package csv.exception;
 /**
  * Exception thrown when a row does not match the expected number of columns,
  * as every row in a CSV file must have the same size.
- *
  * @see <a href="https://datatracker.ietf.org/doc/html/rfc4180#page-3">RFC 4180 standard</a>
  */
 public class InvalidRowSizeException extends RuntimeException {
