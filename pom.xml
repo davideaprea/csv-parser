@@ -26,6 +26,12 @@
         </repository>
     </distributionManagement>
 
+    <scm>
+        <connection>scm:git:git://github.com/davideaprea/csv-parser</connection>
+        <developerConnection>scm:git:ssh://github.com:davideaprea/csv-parser</developerConnection>
+        <url>https://github.com/davideaprea/csv-parser</url>
+    </scm>
+
     <licenses>
         <license>
             <name>The MIT License</name>
