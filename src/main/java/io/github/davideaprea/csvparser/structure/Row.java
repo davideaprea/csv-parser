@@ -1,4 +1,4 @@
-package csv.structure;
+package io.github.davideaprea.csvparser.structure;
 
 import java.util.Iterator;
 import java.util.List;

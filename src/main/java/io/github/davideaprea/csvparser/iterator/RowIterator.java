@@ -1,8 +1,8 @@
-package csv.iterator;
+package io.github.davideaprea.csvparser.iterator;
 
-import csv.exception.InvalidRowSizeException;
-import csv.parser.RowParser;
-import csv.structure.Row;
+import io.github.davideaprea.csvparser.exception.InvalidRowSizeException;
+import io.github.davideaprea.csvparser.parser.RowParser;
+import io.github.davideaprea.csvparser.structure.Row;
 
 import java.util.Iterator;
 

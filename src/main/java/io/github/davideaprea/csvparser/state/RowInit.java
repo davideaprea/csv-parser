@@ -1,6 +1,6 @@
-package csv.state;
+package io.github.davideaprea.csvparser.state;
 
-import csv.structure.Row;
+import io.github.davideaprea.csvparser.structure.Row;
 
 /**
  * Parsing state representing the beginning of the current row.

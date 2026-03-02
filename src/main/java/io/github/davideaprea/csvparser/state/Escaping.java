@@ -1,6 +1,7 @@
-package csv.state;
+package io.github.davideaprea.csvparser.state;
 
-import csv.exception.UnexpectedCharacterException;
+import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
+import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
 
 /**
  * Parsing state representing the encounter of a double quote character
@@ -12,7 +13,7 @@ public class Escaping extends ParsingState {
     }
 
     /**
-     * @throws UnexpectedCharacterException if the given character isn't one of the following: {@code "}, {@code \r}, the configured {@link csv.enumeration.ColumnSeparator}
+     * @throws UnexpectedCharacterException if the given character isn't one of the following: {@code "}, {@code \r}, the configured {@link ColumnSeparator}
      */
     @Override
     public ParsingState eval(char character) {

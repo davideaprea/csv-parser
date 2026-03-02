@@ -1,4 +1,4 @@
-package csv.exception;
+package io.github.davideaprea.csvparser.exception;
 
 /**
  * Exception thrown when a row does not match the expected number of columns,

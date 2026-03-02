@@ -1,8 +1,8 @@
 package integration.parser;
 
-import csv.enumeration.ColumnSeparator;
-import csv.exception.UnexpectedCharacterException;
-import csv.parser.Parser;
+import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
+import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
+import io.github.davideaprea.csvparser.parser.Parser;
 import integration.parser.testcase.ExceptionTestCase;
 import integration.parser.testcase.ValidHeadedRowTestCase;
 import integration.parser.testcase.ValidRowTestCase;

@@ -1,6 +1,6 @@
-package csv.state;
+package io.github.davideaprea.csvparser.state;
 
-import csv.exception.UnexpectedCharacterException;
+import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
 
 /**
  * Parsing state representing the encounter

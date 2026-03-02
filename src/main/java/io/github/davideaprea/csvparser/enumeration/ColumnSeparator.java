@@ -1,4 +1,4 @@
-package csv.enumeration;
+package io.github.davideaprea.csvparser.enumeration;
 
 /**
  * Enumeration representing the supported column separator characters.

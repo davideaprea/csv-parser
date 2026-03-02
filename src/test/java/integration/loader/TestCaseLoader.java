@@ -1,8 +1,8 @@
 package integration.loader;
 
-import csv.exception.UnexpectedCharacterException;
-import csv.structure.HeadedRow;
-import csv.structure.Row;
+import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
+import io.github.davideaprea.csvparser.structure.HeadedRow;
+import io.github.davideaprea.csvparser.structure.Row;
 import integration.loader.source.UnexpectedCharacterTestCaseSource;
 import integration.loader.source.ValidHeadedRowsTestCaseSource;
 import integration.loader.source.ValidRowsTestCaseSource;

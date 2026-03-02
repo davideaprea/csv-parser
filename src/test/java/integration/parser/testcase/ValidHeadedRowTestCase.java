@@ -1,6 +1,6 @@
 package integration.parser.testcase;
 
-import csv.structure.HeadedRow;
+import io.github.davideaprea.csvparser.structure.HeadedRow;
 
 import java.io.Reader;
 import java.util.List;

@@ -1,6 +1,6 @@
-package csv.builder;
+package io.github.davideaprea.csvparser.builder;
 
-import csv.structure.Row;
+import io.github.davideaprea.csvparser.structure.Row;
 
 import java.util.ArrayList;
 import java.util.List;

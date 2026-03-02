@@ -1,7 +1,7 @@
-package csv.state;
+package io.github.davideaprea.csvparser.state;
 
-import csv.builder.RowBuilder;
-import csv.enumeration.ColumnSeparator;
+import io.github.davideaprea.csvparser.builder.RowBuilder;
+import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
 
 /**
  * Holds the context configuration of the current parsing session.

@@ -1,12 +1,12 @@
-package csv.parser;
+package io.github.davideaprea.csvparser.parser;
 
-import csv.builder.RowBuilder;
-import csv.enumeration.ColumnSeparator;
-import csv.state.ParsingContext;
-import csv.state.ParsingState;
-import csv.state.RowEnd;
-import csv.state.RowInit;
-import csv.structure.Row;
+import io.github.davideaprea.csvparser.builder.RowBuilder;
+import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
+import io.github.davideaprea.csvparser.state.ParsingContext;
+import io.github.davideaprea.csvparser.state.ParsingState;
+import io.github.davideaprea.csvparser.state.RowEnd;
+import io.github.davideaprea.csvparser.state.RowInit;
+import io.github.davideaprea.csvparser.structure.Row;
 
 import java.io.IOException;
 import java.io.Reader;

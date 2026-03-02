@@ -1,4 +1,4 @@
-package csv.exception;
+package io.github.davideaprea.csvparser.exception;
 
 /**
  * Exception thrown when the parser found a character
