@@ -1,14 +1,14 @@
-package integration.loader;
+package loader;
 
 import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
 import io.github.davideaprea.csvparser.structure.HeadedRow;
 import io.github.davideaprea.csvparser.structure.Row;
-import integration.loader.source.UnexpectedCharacterTestCaseSource;
-import integration.loader.source.ValidHeadedRowsTestCaseSource;
-import integration.loader.source.ValidRowsTestCaseSource;
-import integration.parser.testcase.ExceptionTestCase;
-import integration.parser.testcase.ValidHeadedRowTestCase;
-import integration.parser.testcase.ValidRowTestCase;
+import loader.source.UnexpectedCharacterTestCaseSource;
+import loader.source.ValidHeadedRowsTestCaseSource;
+import loader.source.ValidRowsTestCaseSource;
+import parser.testcase.ExceptionTestCase;
+import parser.testcase.ValidHeadedRowTestCase;
+import parser.testcase.ValidRowTestCase;
 import org.junit.jupiter.api.Named;
 import org.junit.jupiter.params.provider.Arguments;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -22,12 +22,10 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class TestCaseLoader {
-    private final static String BASE_PATH = "testcases/%s";
-
     public static Stream<Arguments> validRows() {
         return fromPath(
                 ValidRowsTestCaseSource.class,
-                BASE_PATH.formatted("valid/valid_rows_test_cases.yaml")
+                "valid/valid_rows_test_cases.yaml"
         ).map(source -> {
                     var testCase = new ValidRowTestCase(
                             new StringReader(source.getInput()),
@@ -42,7 +40,7 @@ public class TestCaseLoader {
     public static Stream<Arguments> validHeadedRows() {
         return fromPath(
                 ValidHeadedRowsTestCaseSource.class,
-                BASE_PATH.formatted("valid/valid_headed_rows_test_cases.yaml")
+                "valid/valid_headed_rows_test_cases.yaml"
         ).map(source -> {
                     var testCase = new ValidHeadedRowTestCase(
                             new StringReader(source.getInput()),
@@ -63,7 +61,7 @@ public class TestCaseLoader {
     public static Stream<Arguments> unexpectedCharacterTestCase() {
         return fromPath(
                 UnexpectedCharacterTestCaseSource.class,
-                BASE_PATH.formatted("invalid/unexpected_character_test_cases.yaml")
+                "invalid/unexpected_character_test_cases.yaml"
         ).map(source -> {
                     var testCase = new ExceptionTestCase(
                             new StringReader(source.getInput()),
@@ -80,9 +78,9 @@ public class TestCaseLoader {
     private static <T> Stream<T> fromPath(Class<T> testCaseClass, String path) {
         Yaml yaml = new Yaml(new Constructor(testCaseClass, new LoaderOptions()));
 
-        try (InputStream is = Thread.currentThread()
-                .getContextClassLoader()
-                .getResourceAsStream(path)) {
+        try (InputStream is = TestCaseLoader
+                .class.getClassLoader()
+                .getResourceAsStream("testcases/%s".formatted(path))) {
             Objects.requireNonNull(is, "Resource not found in test resources: " + path);
 
             return StreamSupport.stream(yaml.loadAll(is).spliterator(), false)

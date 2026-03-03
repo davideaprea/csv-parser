@@ -1,4 +1,4 @@
-package integration.parser.testcase;
+package parser.testcase;
 
 import io.github.davideaprea.csvparser.structure.HeadedRow;
 

@@ -1,4 +1,4 @@
-package integration.loader.source;
+package loader.source;
 
 import java.util.List;
 import java.util.Map;

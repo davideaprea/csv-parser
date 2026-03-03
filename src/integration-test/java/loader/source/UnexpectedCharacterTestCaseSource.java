@@ -1,4 +1,4 @@
-package integration.loader.source;
+package loader.source;
 
 public final class UnexpectedCharacterTestCaseSource {
     private String name;
