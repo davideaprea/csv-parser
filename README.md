@@ -1,10 +1,8 @@
 # CSV parser
 
-Utility library for parsing CSV files according to the [RFC 4180](https://datatracker.ietf.org/doc/html/rfc4180) standard.
+Lightweight Java library for parsing CSV files strictly compliant with the [RFC 4180](https://datatracker.ietf.org/doc/html/rfc4180) standard, designed for streaming processing of large datasets.
 
-The library supports streaming parsing, allowing efficient processing of large CSV files without loading the entire data into memory.
-
-## Download using:
+## Installation
 
 ### Maven
 
@@ -18,7 +16,7 @@ The library supports streaming parsing, allowing efficient processing of large C
 
 ## Usage examples
 
-Simple row parsing:
+The library provides both row-based and header-based parsing APIs:
 
 ```java
 import io.github.davideaprea.csvparser.parser.Parser;
@@ -38,8 +36,6 @@ public class SimpleRowParsing {
     }
 }
 ```
-
-With headers:
 
 ```java
 import io.github.davideaprea.csvparser.parser.Parser;
