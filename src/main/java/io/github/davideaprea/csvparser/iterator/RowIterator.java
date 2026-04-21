@@ -5,6 +5,7 @@ import io.github.davideaprea.csvparser.parser.RowParser;
 import io.github.davideaprea.csvparser.structure.Row;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * An {@link Iterator} implementation that iterates over {@link Row} objects
@@ -13,7 +14,7 @@ import java.util.Iterator;
 public class RowIterator implements Iterator<Row> {
     private final RowParser rowParser;
 
-    private Row nextRow;
+    private Row currentRow;
     private int currentRowIndex = -1;
 
     /**
@@ -24,12 +25,12 @@ public class RowIterator implements Iterator<Row> {
     public RowIterator(RowParser rowParser) {
         this.rowParser = rowParser;
 
-        next();
+        advance();
     }
 
     @Override
     public boolean hasNext() {
-        return nextRow != null;
+        return currentRow != null;
     }
 
     /**
@@ -39,19 +40,28 @@ public class RowIterator implements Iterator<Row> {
      */
     @Override
     public Row next() {
-        final Row result = this.nextRow;
-        nextRow = rowParser.next();
+        if (currentRow == null) {
+            throw new NoSuchElementException();
+        }
 
-        currentRowIndex++;
+        final Row result = currentRow;
 
-        if (result != null && nextRow != null && nextRow.size() != result.size()) {
+        advance();
+
+        if (currentRow != null && currentRow.size() != result.size()) {
             throw new InvalidRowSizeException(
                     currentRowIndex,
-                    nextRow.size(),
+                    currentRow.size(),
                     result.size()
             );
         }
 
         return result;
+    }
+
+    private void advance() {
+        currentRow = rowParser.next();
+
+        if (currentRow != null) currentRowIndex++;
     }
 }
