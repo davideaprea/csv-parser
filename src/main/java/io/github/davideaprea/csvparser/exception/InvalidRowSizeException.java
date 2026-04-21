@@ -6,29 +6,29 @@ package io.github.davideaprea.csvparser.exception;
  * @see <a href="https://datatracker.ietf.org/doc/html/rfc4180#page-3">RFC 4180 standard</a>
  */
 public class InvalidRowSizeException extends RuntimeException {
-    private final long rowNumber;
+    private final long rowIndex;
     private final long actualSize;
     private final long expectedSize;
 
     /**
      * Constructs a new {@code InvalidRowSizeException}.
      *
-     * @param rowNumber    the number of the row where the mismatch occurred
+     * @param rowIndex    the row index where the mismatch occurred
      * @param actualSize   the number of columns actually found
      * @param expectedSize the expected number of columns
      */
-    public InvalidRowSizeException(long rowNumber, long actualSize, long expectedSize) {
-        super("Every row should have the same number of columns. Invalid row number: " + rowNumber + "; Actual size: " + actualSize + ". Expected size: " + expectedSize + ".");
-        this.rowNumber = rowNumber;
+    public InvalidRowSizeException(long rowIndex, long actualSize, long expectedSize) {
+        super("Every row should have the same number of columns. Invalid row index: " + rowIndex + "; Actual size: " + actualSize + ". Expected size: " + expectedSize + ".");
+        this.rowIndex = rowIndex;
         this.actualSize = actualSize;
         this.expectedSize = expectedSize;
     }
 
     /**
-     * @return the invalid row number
+     * @return the invalid row index, 0-based
      */
-    public long getRowNumber() {
-        return rowNumber;
+    public long getRowIndex() {
+        return rowIndex;
     }
 
     /**
@@ -62,7 +62,7 @@ public class InvalidRowSizeException extends RuntimeException {
             return false;
         }
 
-        return exception.rowNumber == rowNumber &&
+        return exception.rowIndex == rowIndex &&
                 exception.actualSize == actualSize &&
                 exception.expectedSize == expectedSize;
     }

@@ -62,7 +62,6 @@ import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
 import io.github.davideaprea.csvparser.parser.Parser;
 
 import java.io.Reader;
-import java.io.StringReader;
 
 public class InvalidRowParsing {
     public static void main(String[] args) {
@@ -81,7 +80,7 @@ public class InvalidRowParsing {
             System.out.println("Invalid character found while parsing: " + e.getUnexpectedCharacter());
         } catch (InvalidRowSizeException e) {
             // Every row in a file must have the same number of columns
-            System.out.println("Error parsing row number " + e.getRowNumber());
+            System.out.println("Error parsing row number " + e.getRowIndex());
             System.out.println("Expected row size: " + e.getExpectedSize());
             System.out.println("Actual row size: " + e.getActualSize());
         }
