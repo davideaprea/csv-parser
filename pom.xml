@@ -6,7 +6,7 @@
 
     <groupId>io.github.davideaprea</groupId>
     <artifactId>csv-parser</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>CSV parser</name>
     <description>CSV parsing utilities with streaming support</description>
