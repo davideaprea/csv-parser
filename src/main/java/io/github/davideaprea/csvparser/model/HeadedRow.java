@@ -12,9 +12,9 @@ import java.util.Optional;
  * <p>
  * This enables retrieving column values using semantic names.
  */
-@Getter
 @EqualsAndHashCode
 public class HeadedRow {
+    @Getter
     private final Row row;
     private final Map<String, Integer> headers;
 
