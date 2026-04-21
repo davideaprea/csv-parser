@@ -1,7 +1,7 @@
 package io.github.davideaprea.csvparser.state;
 
 import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.Row;
 
 /**
  * Parsing state representing the end of the current row.

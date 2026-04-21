@@ -2,7 +2,7 @@ package io.github.davideaprea.csvparser.iterator;
 
 import io.github.davideaprea.csvparser.exception.InvalidRowSizeException;
 import io.github.davideaprea.csvparser.parser.RowParser;
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.Row;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

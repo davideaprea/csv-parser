@@ -1,4 +1,4 @@
-package io.github.davideaprea.csvparser.structure;
+package io.github.davideaprea.csvparser.model;
 
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class HeadedRow {
      */
     public HeadedRow(Row row, Map<String, Integer> headers) {
         this.row = row;
-        this.headers = headers;
+        this.headers = Map.copyOf(headers);
     }
 
     /**

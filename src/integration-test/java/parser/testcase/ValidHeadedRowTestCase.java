@@ -1,6 +1,6 @@
 package parser.testcase;
 
-import io.github.davideaprea.csvparser.structure.HeadedRow;
+import io.github.davideaprea.csvparser.model.HeadedRow;
 
 import java.io.Reader;
 import java.util.List;

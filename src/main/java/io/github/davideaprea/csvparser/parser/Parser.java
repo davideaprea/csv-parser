@@ -2,8 +2,8 @@ package io.github.davideaprea.csvparser.parser;
 
 import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
 import io.github.davideaprea.csvparser.iterator.RowIterator;
-import io.github.davideaprea.csvparser.structure.HeadedRow;
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.HeadedRow;
+import io.github.davideaprea.csvparser.model.Row;
 
 import java.io.Reader;
 import java.util.HashMap;

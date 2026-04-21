@@ -1,6 +1,6 @@
 package io.github.davideaprea.csvparser.state;
 
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.Row;
 
 /**
  * Base class for all parsing states used in the row parsing state machine.

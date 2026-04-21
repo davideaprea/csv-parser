@@ -1,8 +1,8 @@
 package loader;
 
 import io.github.davideaprea.csvparser.exception.UnexpectedCharacterException;
-import io.github.davideaprea.csvparser.structure.HeadedRow;
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.HeadedRow;
+import io.github.davideaprea.csvparser.model.Row;
 import loader.source.UnexpectedCharacterTestCaseSource;
 import loader.source.ValidHeadedRowsTestCaseSource;
 import loader.source.ValidRowsTestCaseSource;

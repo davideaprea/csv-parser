@@ -6,7 +6,7 @@ import io.github.davideaprea.csvparser.state.ParsingContext;
 import io.github.davideaprea.csvparser.state.ParsingState;
 import io.github.davideaprea.csvparser.state.RowEnd;
 import io.github.davideaprea.csvparser.state.RowInit;
-import io.github.davideaprea.csvparser.structure.Row;
+import io.github.davideaprea.csvparser.model.Row;
 
 import java.io.IOException;
 import java.io.Reader;

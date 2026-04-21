@@ -1,4 +1,4 @@
-package io.github.davideaprea.csvparser.structure;
+package io.github.davideaprea.csvparser.model;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Row implements Iterable<String> {
      * @param columns the ordered list of column values
      */
     public Row(List<String> columns) {
-        this.columns = columns;
+        this.columns = List.copyOf(columns);
     }
 
     /**
