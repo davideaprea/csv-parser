@@ -1,6 +1,7 @@
 package io.github.davideaprea.csvparser.parser;
 
 import io.github.davideaprea.csvparser.enumeration.ColumnSeparator;
+import io.github.davideaprea.csvparser.exception.DuplicateColumnNameException;
 import io.github.davideaprea.csvparser.iterator.RowIterator;
 import io.github.davideaprea.csvparser.model.HeadedRow;
 import io.github.davideaprea.csvparser.model.Row;
@@ -65,7 +66,12 @@ public class Parser {
             Row headersRow = rowIterator.next();
 
             for (int i = 0; i < headersRow.size(); i++) {
-                headers.put(headersRow.get(i), i);
+                String columnName = headersRow.get(i);
+                Integer previousIndex = headers.putIfAbsent(columnName, i);
+
+                if (previousIndex != null) {
+                    throw new DuplicateColumnNameException(columnName, previousIndex, i);
+                }
             }
         }
 
