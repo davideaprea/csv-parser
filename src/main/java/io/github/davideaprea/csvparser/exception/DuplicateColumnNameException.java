@@ -1,5 +1,8 @@
 package io.github.davideaprea.csvparser.exception;
 
+import lombok.Getter;
+
+@Getter
 public class DuplicateColumnNameException extends RuntimeException {
     private final String name;
     private final int firstOccurrenceIndex;
@@ -13,17 +16,5 @@ public class DuplicateColumnNameException extends RuntimeException {
         this.name = name;
         this.firstOccurrenceIndex = firstOccurrenceIndex;
         this.conflictingOccurrenceIndex = conflictingOccurrenceIndex;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getFirstOccurrenceIndex() {
-        return firstOccurrenceIndex;
-    }
-
-    public int getConflictingOccurrenceIndex() {
-        return conflictingOccurrenceIndex;
     }
 }

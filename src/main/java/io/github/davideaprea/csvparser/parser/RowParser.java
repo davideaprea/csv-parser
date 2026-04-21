@@ -7,6 +7,7 @@ import io.github.davideaprea.csvparser.state.ParsingState;
 import io.github.davideaprea.csvparser.state.RowEnd;
 import io.github.davideaprea.csvparser.state.RowInit;
 import io.github.davideaprea.csvparser.model.Row;
+import lombok.AllArgsConstructor;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -21,20 +22,10 @@ import java.io.UncheckedIOException;
  * input is not loaded into memory at once, making the parser suitable
  * for processing large files.
  */
+@AllArgsConstructor
 public class RowParser {
     private final Reader input;
     private final ColumnSeparator separator;
-
-    /**
-     * Constructs a new instance of this class.
-     *
-     * @param input     the character input source
-     * @param separator the column separator used to split fields
-     */
-    public RowParser(Reader input, ColumnSeparator separator) {
-        this.input = input;
-        this.separator = separator;
-    }
 
     /**
      * Parses and returns the next {@link Row} from the input,

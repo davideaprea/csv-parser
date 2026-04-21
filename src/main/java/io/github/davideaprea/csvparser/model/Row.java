@@ -1,5 +1,7 @@
 package io.github.davideaprea.csvparser.model;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * }
  * }</pre>
  */
+@EqualsAndHashCode
 public class Row implements Iterable<String> {
     private final List<String> columns;
 
@@ -54,30 +57,5 @@ public class Row implements Iterable<String> {
     @Override
     public Iterator<String> iterator() {
         return columns.iterator();
-    }
-
-    /**
-     * Compares this row with another object for equality.
-     * <p>
-     * Two {@code Row} instances are considered equal if they contain
-     * the same number of columns and all corresponding column values
-     * are equal in the same order.
-     *
-     * @param obj the object to compare with
-     * @return {@code true} if the rows are equal; {@code false} otherwise
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-
-        if (!(obj instanceof Row row)) return false;
-
-        if (size() != row.size()) return false;
-
-        for (int i = 0; i < size(); i++) {
-            if (!get(i).equals(row.get(i))) return false;
-        }
-
-        return true;
     }
 }

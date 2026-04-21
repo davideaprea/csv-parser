@@ -19,7 +19,7 @@ public class Escaping extends ParsingState {
     public ParsingState eval(char character) {
         ParsingState nextState;
 
-        if (character == context.separator().symbol) {
+        if (character == context.separator().getSymbol()) {
             context.rowBuilder().endColumn();
             nextState = new ColumnStart(context);
         } else if (character == '\r') {

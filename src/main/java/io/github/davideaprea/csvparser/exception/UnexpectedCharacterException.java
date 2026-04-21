@@ -1,5 +1,7 @@
 package io.github.davideaprea.csvparser.exception;
 
+import lombok.Getter;
+
 /**
  * Exception thrown when the parser found a character
  * that violates the expected format or syntax rules.
@@ -13,6 +15,7 @@ package io.github.davideaprea.csvparser.exception;
  *
  * @see <a href="https://datatracker.ietf.org/doc/html/rfc4180#page-3">RFC 4180 standard</a>
  */
+@Getter
 public class UnexpectedCharacterException extends RuntimeException {
     private final char unexpectedCharacter;
 
@@ -25,32 +28,5 @@ public class UnexpectedCharacterException extends RuntimeException {
     public UnexpectedCharacterException(char unexpectedCharacter, String cause) {
         super("Unexpected character " + unexpectedCharacter + "; Cause: " + cause);
         this.unexpectedCharacter = unexpectedCharacter;
-    }
-
-    /**
-     * @return the character that was not expected in the current parsing context.
-     */
-    public char getUnexpectedCharacter() {
-        return unexpectedCharacter;
-    }
-
-    /**
-     * Compares this exception with another object for equality.
-     * <p>
-     * Two {@code UnexpectedCharacterException} instances are considered equal
-     * if they contain the same unexpected character.
-     *
-     * @param obj the object to compare with
-     * @return {@code true} if the objects are equal; {@code false} otherwise
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-
-        if (!(obj instanceof UnexpectedCharacterException exception)) {
-            return false;
-        }
-
-        return exception.unexpectedCharacter == unexpectedCharacter;
     }
 }

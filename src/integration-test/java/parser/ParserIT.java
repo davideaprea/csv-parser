@@ -34,11 +34,12 @@ public class ParserIT {
     @ParameterizedTest
     @MethodSource("loader.TestCaseLoader#unexpectedCharacterTestCase")
     void testUnexpectedCharacterCases(ExceptionTestCase testCase) {
-        Throwable actualException = Assertions.assertThrows(
+        UnexpectedCharacterException actual = Assertions.assertThrows(
                 UnexpectedCharacterException.class,
                 () -> parser.from(testCase.input()).toList()
         );
+        UnexpectedCharacterException expected = (UnexpectedCharacterException) testCase.output();
 
-        Assertions.assertEquals(testCase.output(), actualException);
+        Assertions.assertEquals(expected.getUnexpectedCharacter(), actual.getUnexpectedCharacter());
     }
 }

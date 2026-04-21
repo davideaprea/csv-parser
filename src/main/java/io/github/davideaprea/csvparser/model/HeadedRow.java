@@ -1,5 +1,8 @@
 package io.github.davideaprea.csvparser.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,6 +12,8 @@ import java.util.Optional;
  * <p>
  * This enables retrieving column values using semantic names.
  */
+@Getter
+@EqualsAndHashCode
 public class HeadedRow {
     private final Row row;
     private final Map<String, Integer> headers;
@@ -25,13 +30,6 @@ public class HeadedRow {
     }
 
     /**
-     * @return the wrapped row
-     */
-    public Row getRow() {
-        return row;
-    }
-
-    /**
      * Returns the value associated with the given header name.
      * <p>
      * If the header name exists, the corresponding column value is returned.
@@ -45,37 +43,5 @@ public class HeadedRow {
         return Optional
                 .ofNullable(headers.get(headerName))
                 .map(row::get);
-    }
-
-    /**
-     * Compares this {@code HeadedRow} with another object for equality.
-     * <p>
-     * Two {@code HeadedRow} instances are considered equal if:
-     * <ul>
-     *     <li>Their underlying {@link Row} instances are equal</li>
-     *     <li>All header names in this instance map to equal values
-     *         in the compared instance</li>
-     * </ul>
-     *
-     * @param obj the object to compare with
-     * @return {@code true} if the objects are equal; {@code false} otherwise
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-
-        if (!(obj instanceof HeadedRow headedRow)) return false;
-
-        if (!row.equals(headedRow.getRow())) return false;
-
-        return headers
-                .entrySet()
-                .stream()
-                .allMatch(header -> {
-                    Optional<String> parameterRowValue = headedRow.getByHeaderName(header.getKey());
-                    Optional<String> thisRowValue = getByHeaderName(header.getKey());
-
-                    return parameterRowValue.equals(thisRowValue);
-                });
     }
 }

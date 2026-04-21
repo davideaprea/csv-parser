@@ -19,7 +19,7 @@ public class ColumnStart extends ParsingState {
 
         if (character == '"') {
             nextState = new InQuoted(context);
-        } else if (character == context.separator().symbol) {
+        } else if (character == context.separator().getSymbol()) {
             context.rowBuilder().endColumn();
         } else if (character == '\r') {
             nextState = new CarriageReturn(context);

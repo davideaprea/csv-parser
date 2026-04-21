@@ -1,8 +1,13 @@
 package io.github.davideaprea.csvparser.enumeration;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Enumeration representing the supported column separator characters.
  */
+@AllArgsConstructor
+@Getter
 public enum ColumnSeparator {
     COMMA(','),
     SEMICOLON(';'),
@@ -12,9 +17,5 @@ public enum ColumnSeparator {
     /**
      * The character symbol representing the column separator.
      */
-    public final char symbol;
-
-    ColumnSeparator(final char symbol) {
-        this.symbol = symbol;
-    }
+    private final char symbol;
 }
